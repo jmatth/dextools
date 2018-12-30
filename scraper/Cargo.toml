@@ -1,7 +1,12 @@
 [package]
 name = "dexposure-scraper"
 version = "0.1.0"
+
 authors = ["Joshua Matthews <josh@jmatth.com>"]
 edition = "2018"
 
 [dependencies]
+select = "0.4.2"
+reqwest = "0.9.5"
+regex = "1"
+lazy_static = "1.2.0"
