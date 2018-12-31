@@ -14,14 +14,12 @@ const FULL_EVENT_REGEX: &str = "\
                            ( by (?P<authors>[a-zA-Z ]+))?\
                            (( written and|;)? presented by (?P<presenters>[a-zA-Z ]+))?. \
                            (?P<description>.*)";
-const REFERENCE_EVENT_REGEX: &str = "\
-    ^(?P<code>[A-Z][0-9]+): \
-    ((?P<system>.*); )?\
-    \"(?P<title>.*)\"\
-    \\(.*\\)\\. \
-    (?P<parent>See .*)\\.
-    (?P<description>.*)";
 const CODE_REGEX: &str = "^[A-Z][0-9]+$";
+
+const MATCHERS: [fn(&String) -> Option<Event>; 2] = [
+    matchers::rpg::parse_event,
+    matchers::game::parse_event,
+];
 
 #[derive(Default, Debug)]
 pub struct Event {
@@ -69,16 +67,15 @@ where
 
         if node.is(Name("p")) {
             let body = node.text().replace('\n', "").trim().to_string();
-            match matchers::rpg::parse_event(&body)
-                .or_else(||matchers::game::parse_event(&body)) {
-                    None => {
-                        println!("<{}>", body);
-                    },
-                    Some(event) => {
-                        println!("{:?}", event);
-                        events.push(event);
-                    }
+            match MATCHERS.into_iter().find_map(|f| f(&body)) {
+                None => {
+                    println!("<{}>", body);
+                },
+                Some(event) => {
+                    println!("{:?}", event);
+                    events.push(event);
                 }
+            }
             nodes.next();
             continue;
         }
@@ -119,20 +116,6 @@ where
         return Some(captures_to_event(&captures));
     }
     None
-}
-
-fn match_full_event(body: &String) -> Option<Event> {
-    lazy_static! {
-        static ref RE: Regex = Regex::new(FULL_EVENT_REGEX).unwrap();
-    }
-    RE.captures(&body.as_str()).map(|c| captures_to_event(&c))
-}
-
-fn match_reference_event(body: &String) -> Option<Event> {
-    lazy_static! {
-        static ref RE: Regex = Regex::new(FULL_EVENT_REGEX).unwrap();
-    }
-    RE.captures(&body.as_str()).map(|c| captures_to_event(&c))
 }
 
 fn captures_to_event(captures: &Captures) -> Event {
