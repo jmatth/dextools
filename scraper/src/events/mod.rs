@@ -5,7 +5,22 @@ use select::node::Node;
 use select::predicate::*;
 use std::iter::Peekable;
 
-const BODY_REGEX: &str = "^(?P<code>[A-Z][0-9]+)(: )?((?P<system>.*); )?\"(?P<title>.*)\"( by (?P<authors>[a-zA-Z ]+))?(( written and)? presented by (?P<presenters>[a-zA-Z ]+))?. (?P<description>.*)";
+mod matchers;
+
+const FULL_EVENT_REGEX: &str = "\
+                           ^(?P<code>[A-Z][0-9]+): \
+                           ((?P<system>.*); )?\
+                           \"(?P<title>.*)\"\
+                           ( by (?P<authors>[a-zA-Z ]+))?\
+                           (( written and|;)? presented by (?P<presenters>[a-zA-Z ]+))?. \
+                           (?P<description>.*)";
+const REFERENCE_EVENT_REGEX: &str = "\
+    ^(?P<code>[A-Z][0-9]+): \
+    ((?P<system>.*); )?\
+    \"(?P<title>.*)\"\
+    \\(.*\\)\\. \
+    (?P<parent>See .*)\\.
+    (?P<description>.*)";
 const CODE_REGEX: &str = "^[A-Z][0-9]+$";
 
 #[derive(Default, Debug)]
@@ -30,7 +45,7 @@ where
     let mut events = Vec::new();
     loop {
         let node = match nodes.peek() {
-            None => return events,
+            None => break,
             Some(node) => node,
         };
         match node.as_text() {
@@ -46,7 +61,6 @@ where
             match extract_flat_event(nodes) {
                 None => (),
                 Some(event) => {
-                    println!("{:?}", event);
                     events.push(event);
                 }
             };
@@ -54,13 +68,17 @@ where
         }
 
         if node.is(Name("p")) {
-            match extract_tag_event(node) {
-                None => (),
-                Some(event) => {
-                    println!("{:?}", event);
-                    events.push(event);
+            let body = node.text().replace('\n', "").trim().to_string();
+            match matchers::rpg::parse_event(&body)
+                .or_else(||matchers::game::parse_event(&body)) {
+                    None => {
+                        println!("<{}>", body);
+                    },
+                    Some(event) => {
+                        println!("{:?}", event);
+                        events.push(event);
+                    }
                 }
-            };
             nodes.next();
             continue;
         }
@@ -72,6 +90,8 @@ where
         );
         nodes.next();
     }
+    println!("{}", events.len());
+    events
 }
 
 fn extract_flat_event<'a, I>(nodes: &mut I) -> Option<Event>
@@ -79,7 +99,7 @@ where
     I: Iterator<Item = Node<'a>>,
 {
     lazy_static! {
-        static ref RE: Regex = Regex::new(BODY_REGEX).unwrap();
+        static ref RE: Regex = Regex::new(FULL_EVENT_REGEX).unwrap();
     }
     let iter_limit = 8;
     let mut event_block = String::new();
@@ -101,14 +121,16 @@ where
     None
 }
 
-fn extract_tag_event(node: &Node) -> Option<Event> {
-    let body = node.text().replace('\n', "");
-    match_full_event(body)
+fn match_full_event(body: &String) -> Option<Event> {
+    lazy_static! {
+        static ref RE: Regex = Regex::new(FULL_EVENT_REGEX).unwrap();
+    }
+    RE.captures(&body.as_str()).map(|c| captures_to_event(&c))
 }
 
-fn match_full_event(body: String) -> Option<Event> {
+fn match_reference_event(body: &String) -> Option<Event> {
     lazy_static! {
-        static ref RE: Regex = Regex::new(BODY_REGEX).unwrap();
+        static ref RE: Regex = Regex::new(FULL_EVENT_REGEX).unwrap();
     }
     RE.captures(&body.as_str()).map(|c| captures_to_event(&c))
 }
@@ -140,54 +162,12 @@ fn captures_to_event(captures: &Captures) -> Event {
         .map(as_string)
         .unwrap_or("".to_string());
     Event {
-        code: code,
-        title: title,
-        system: system,
-        authors: authors,
-        presenters: presenters,
-        description: description,
-        ..Default::default()
-    }
-}
-
-fn parse_main_body<'a>(body: String) -> Event {
-    lazy_static! {
-        static ref RE: Regex = Regex::new(BODY_REGEX).unwrap();
-    }
-    let oneline_body = &body.replace('\n', "");
-    let captures = match RE.captures(oneline_body) {
-        Some(cap) => cap,
-        None => {
-            panic!("<{}>", oneline_body);
-        }
-    };
-    let as_string = |m: Match| m.as_str().to_string();
-    let system = captures
-        .name("system")
-        .map(as_string)
-        .unwrap_or("".to_string());
-    let title = captures
-        .name("title")
-        .map(as_string)
-        .unwrap_or("".to_string());
-    let authors = captures
-        .name("authors")
-        .map(as_string)
-        .unwrap_or("".to_string());
-    let presenters = captures
-        .name("presenters")
-        .map(as_string)
-        .unwrap_or("".to_string());
-    let description = captures
-        .name("description")
-        .map(as_string)
-        .unwrap_or("".to_string());
-    Event {
-        title: title,
-        system: system,
-        authors: authors,
-        presenters: presenters,
-        description: description,
+        code,
+        title,
+        system,
+        authors,
+        presenters,
+        description,
         ..Default::default()
     }
 }
