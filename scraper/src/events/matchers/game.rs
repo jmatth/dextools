@@ -5,7 +5,8 @@ use super::Event;
 
 const EVENT_REGEX: &str = "^(?P<code>[A-Z][0-9]+): \
                            (?P<system>[^.]+)\\. \
-                           (?P<description>.*)";
+                           (?P<description>.*) \
+                           (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))";
 
 pub fn parse_event(input: &String) -> Option<Event> {
     lazy_static! {
@@ -27,10 +28,15 @@ pub fn parse_event(input: &String) -> Option<Event> {
                 .name("description")
                 .map(as_string)
                 .unwrap_or("".to_string());
+            let time = captures
+                .name("time")
+                .map(as_string)
+                .unwrap_or("".to_string());
             Some(Event {
                 code,
                 system,
                 description,
+                time,
                 ..Default::default()
             })
         }
