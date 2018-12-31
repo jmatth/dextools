@@ -21,7 +21,7 @@ const MATCHERS: [fn(&String) -> Option<Event>; 2] = [
     matchers::game::parse_event,
 ];
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Serialize)]
 pub struct Event {
     code: String,
     title: String,
@@ -72,7 +72,6 @@ where
                     println!("<{}>", body);
                 },
                 Some(event) => {
-                    println!("{:?}", event);
                     events.push(event);
                 }
             }

@@ -1,5 +1,10 @@
 extern crate reqwest;
 extern crate select;
+extern crate serde_json;
+
+#[macro_use]
+extern crate serde_derive;
+
 #[macro_use]
 extern crate lazy_static;
 
@@ -41,7 +46,9 @@ fn scrape_dexposure() {
         .iter()
         .map(|n| *n)
         .peekable();
-    let _events = events::parse_events(&mut iter);
+    let events = events::parse_events(&mut iter);
+    let output = File::create("./con.json").unwrap();
+    serde_json::to_writer_pretty(output, &events);
 }
 
 fn filter_event_nodes<'a>(container: &'a Node) -> Vec<Node<'a>> {
