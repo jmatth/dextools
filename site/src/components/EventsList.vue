@@ -1,52 +1,50 @@
 <template>
-  <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
-      <v-card>
-        <v-toolbar color="cyan" dark>
-          <v-toolbar-side-icon></v-toolbar-side-icon>
+  <v-card>
+    <v-toolbar color="cyan" dark>
+      <v-toolbar-side-icon></v-toolbar-side-icon>
 
-          <v-toolbar-title>Inbox</v-toolbar-title>
+      <v-toolbar-title>Inbox</v-toolbar-title>
 
-          <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
 
-          <v-btn icon>
-            <v-icon>search</v-icon>
-          </v-btn>
-        </v-toolbar>
+      <v-btn icon>
+        <v-icon>search</v-icon>
+      </v-btn>
+    </v-toolbar>
 
-        <template v-for="(item, index) in items">
-          <v-card>
-            <v-card-title>
-              <v-avatar color="red">
-                <span class="white--text headline">{{ item.code[0] }}</span>
-              </v-avatar>
-              &nbsp;&nbsp;
-              <span class="headline">{{ item.code }}: {{ item.title }}</span>
-            </v-card-title>
+    <div style="max-height: 900px; overflow-y: scroll;">
+      <template v-for="(item, index) in items">
+        <v-card>
+          <v-card-title>
+            <v-avatar color="red">
+              <span class="white--text headline">{{ item.code[0] }}</span>
+            </v-avatar>
+            &nbsp;&nbsp;
+            <span class="headline">{{ item.code }}: {{ item.title }}</span>
+          </v-card-title>
 
-            <v-card-text class="">
-              {{ item.description }}
-            </v-card-text>
+          <v-card-text class="">
+            {{ item.description }}
+          </v-card-text>
 
-            <v-card-actions>
-              <v-list-tile class="grow">
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ item.presenters || item.authors }}</v-list-tile-title>
-                </v-list-tile-content>
+          <v-card-actions>
+            <v-list-tile class="grow">
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.presenters || item.authors }}</v-list-tile-title>
+              </v-list-tile-content>
 
-                <v-layout
-                  align-center
-                  justify-end
-                  >
-                  <v-btn flat>Add</v-btn>
-                </v-layout>
-              </v-list-tile>
-            </v-card-actions>
-          </v-card>
-        </template>
-      </v-card>
-    </v-flex>
-  </v-layout>
+              <v-layout
+                align-center
+                justify-end
+                >
+                <v-btn flat>Add</v-btn>
+              </v-layout>
+            </v-list-tile>
+          </v-card-actions>
+        </v-card>
+      </template>
+    </div>
+  </v-card>
 </template>
 
 <script lang="ts">
