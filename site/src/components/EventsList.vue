@@ -28,7 +28,7 @@
             <span class="headline">{{ item.code }}: {{ item.title }}</span>
           </v-card-title>
 
-          <v-card-text class="">
+          <v-card-text>
             {{ item.description }}
           </v-card-text>
 

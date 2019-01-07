@@ -4,12 +4,12 @@
       <v-toolbar-title>Dextools</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid grid-list-md text-md-center>
+      <v-container fluid grid-list-md>
         <v-layout row>
-          <v-flex md6>
+          <v-flex md8>
             <EventsList />
           </v-flex>
-          <v-flex md6>
+          <v-flex md4>
           </v-flex>
         </v-layout>
       </v-container>
