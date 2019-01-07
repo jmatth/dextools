@@ -1,15 +1,20 @@
 <template>
   <v-card>
-    <v-toolbar color="cyan" dark>
-      <v-toolbar-side-icon></v-toolbar-side-icon>
-
-      <v-toolbar-title>Inbox</v-toolbar-title>
+    <v-toolbar dark>
+      <v-text-field
+        v-model="filter"
+        label="Filter"
+        single-line
+        single
+        dark
+        ></v-text-field>
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>search</v-icon>
-      </v-btn>
+    <v-checkbox v-model="categories" label="L" value="L"></v-checkbox>
+    <v-checkbox v-model="categories" label="R" value="R"></v-checkbox>
+    <v-checkbox v-model="categories" label="B" value="B"></v-checkbox>
+    <v-checkbox v-model="categories" label="G" value="G"></v-checkbox>
     </v-toolbar>
 
     <div style="max-height: 900px; overflow-y: scroll;">
@@ -52,7 +57,20 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class EventsList extends Vue {
-  public items = [
+  public categories: string[] = ['L', 'R'];
+  public filter: string = '';
+
+  get items() {
+    return this.fullItems
+      .filter(e => this.categories.includes(e.code[0]))
+      .filter(e => {
+        if (!this.filter) {
+          return true;
+        }
+        return ['title', 'system', 'description', 'presenters', 'authors'].some(field => e[field].toLowerCase().includes(this.filter.toLowerCase()));
+      });
+  }
+  public fullItems = [
     {
       "code": "L002",
       "title": "Long Time Listener, Last Time Caller",
