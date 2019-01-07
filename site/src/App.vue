@@ -34,7 +34,7 @@
           justify-center
           align-center
         >
-          <HelloWorld />
+          <EventsList />
         </v-layout>
       </v-container>
     </v-content>
@@ -44,20 +44,21 @@
   </v-app>
 </template>
 
-<script>
-  import HelloWorld from './components/HelloWorld';
-  export default {
-    components: {
-      HelloWorld,
-    },
+<script lang="ts">
+import HelloWorld from './components/HelloWorld.vue';
+import EventsList from './components/EventsList.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
-    data: () => ({
-      drawer: null,
-    }),
+@Component({
+  components: {
+    HelloWorld,
+    EventsList,
+  },
+})
+export default class App extends Vue {
+  @Prop() private source!: string;
 
-    props: {
-      source: String,
-    },
-  };
+  public drawer?: Vue;
+};
 </script>
 
