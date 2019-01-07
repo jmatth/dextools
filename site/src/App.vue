@@ -7,7 +7,7 @@
       <v-container fluid grid-list-md>
         <v-layout row>
           <v-flex md8>
-            <EventsList />
+            <EventsList :schedule="schedule" />
           </v-flex>
           <v-flex md4>
           </v-flex>
@@ -23,6 +23,7 @@
 <script lang="ts">
 import HelloWorld from './components/HelloWorld.vue';
 import EventsList from './components/EventsList.vue';
+import schedule from './schedule';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
@@ -33,6 +34,10 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class App extends Vue {
   @Prop() private source!: string;
+
+  get schedule(){
+    return schedule;
+  }
 };
 </script>
 
