@@ -29,7 +29,8 @@ pub struct Event {
     description: String,
     presenters: String,
     authors: String,
-    time: String,
+    start_time: String,
+    end_time: String,
     tags: String,
 }
 

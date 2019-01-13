@@ -2,6 +2,7 @@ use regex::Regex;
 use regex::Match;
 
 use super::Event;
+use super::dateparse;
 
 const EVENT_REGEX: &str = "^(?P<code>[A-Z][0-9]+): \
                            (?P<system>[^.]+)\\. \
@@ -28,15 +29,17 @@ pub fn parse_event(input: &String) -> Option<Event> {
                 .name("description")
                 .map(as_string)
                 .unwrap_or("".to_string());
-            let time = captures
+            let raw_time = captures
                 .name("time")
                 .map(as_string)
                 .unwrap_or("".to_string());
+            let (start_time, end_time) = dateparse::parse_time_slot(&raw_time)?;
             Some(Event {
                 code,
                 system,
                 description,
-                time,
+                start_time,
+                end_time,
                 ..Default::default()
             })
         }
