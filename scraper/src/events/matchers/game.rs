@@ -2,7 +2,7 @@ use regex::Regex;
 use regex::Match;
 
 use super::Event;
-use super::dateparse;
+use super::dateparse::DateParser;
 
 const EVENT_REGEX: &str = "^(?P<code>[A-Z][0-9]+): \
                            (?P<system>[^.]+)\\. \
@@ -12,6 +12,7 @@ const EVENT_REGEX: &str = "^(?P<code>[A-Z][0-9]+): \
 pub fn parse_event(input: &String) -> Option<Event> {
     lazy_static! {
         static ref RE: Regex = Regex::new(EVENT_REGEX).unwrap();
+        static ref parser: DateParser = DateParser::new(2018, 2, 22, 5 * 3600);
     }
     match RE.captures(&input.as_str()) {
         None => None,
@@ -33,7 +34,7 @@ pub fn parse_event(input: &String) -> Option<Event> {
                 .name("time")
                 .map(as_string)
                 .unwrap_or("".to_string());
-            let (start_time, end_time) = dateparse::parse_time_slot(&raw_time)?;
+            let (start_time, end_time) = parser.parse_time_slot(&raw_time)?;
             Some(Event {
                 code,
                 system,
