@@ -42,7 +42,7 @@
                 align-center
                 justify-end
                 >
-                <v-btn flat>Add</v-btn>
+                <v-btn flat v-on:click="schedule.addEvent(item)">Add</v-btn>
               </v-layout>
             </v-list-tile>
           </v-card-actions>
@@ -53,17 +53,19 @@
 </template>
 
 <script lang="ts">
+import Schedule from '../models/schedule';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class EventsList extends Vue {
-  @Prop() private schedule!: any;
+  @Prop() private eventSchedule!: any;
+  @Prop() private schedule!: Schedule;
 
   public categories: string[] = ['L', 'R'];
   public filter: string = '';
 
   get items() {
-    return this.schedule
+    return this.eventSchedule
       .filter(e => this.categories.includes(e.code[0]))
       .filter(e => {
         if (!this.filter) {

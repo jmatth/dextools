@@ -7,9 +7,10 @@
       <v-container fluid grid-list-md>
         <v-layout row>
           <v-flex md8>
-            <EventsList :schedule="schedule" />
+            <EventsList :schedule="schedule" :eventSchedule="scheduleList" />
           </v-flex>
           <v-flex md4>
+            <ScheduleView :schedule="schedule" />
           </v-flex>
         </v-layout>
       </v-container>
@@ -21,22 +22,33 @@
 </template>
 
 <script lang="ts">
-import HelloWorld from './components/HelloWorld.vue';
 import EventsList from './components/EventsList.vue';
-import schedule from './schedule';
+import ScheduleView from './components/ScheduleView.vue';
+import Event from './models/event';
+import Schedule from './models/schedule';
+import scheduleJson from './schedule';
 import { Component, Prop, Vue } from 'vue-property-decorator';
+
+const schedule = {};
+scheduleJson.forEach((e: any) => {
+  schedule[e.code] = new Event(e);
+});
 
 @Component({
   components: {
-    HelloWorld,
     EventsList,
+    ScheduleView,
   },
 })
 export default class App extends Vue {
-  @Prop() private source!: string;
+  get scheduleList(){
+    return Object.values(schedule);
+  }
 
-  get schedule(){
-    return schedule;
+  data() {
+    return {
+      schedule: new Schedule(),
+    };
   }
 };
 </script>
