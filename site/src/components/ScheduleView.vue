@@ -11,6 +11,7 @@
       <v-btn
         dark
         depressed
+        @click="schedule.exportIcs()"
       >
         Export
       </v-btn>

@@ -1,4 +1,6 @@
 import Event from './event';
+import * as ics from 'ics';
+import { saveAs } from 'file-saver';
 
 export default class Schedule {
   readonly events: Event[] = [];
@@ -24,5 +26,24 @@ export default class Schedule {
 
   public toString(): string {
     return this.events.toString();
+  }
+
+  public exportIcs(): void {
+    const icsEventObjs = this.events.map((e) => {
+      const start = e.startTime.format('YYYY-M-D-H-m').split('-');
+      const end = e.endTime.format('YYYY-M-D-H-m').split('-');
+      return {
+        title: `${e.code} - ${e.title}`,
+        description: e.description,
+        start,
+        end,
+      };
+    });
+    const { error, value: icsEvent } = ics.createEvents(icsEventObjs);
+    if ( !!error ) {
+      throw error;
+    }
+    const blob = new Blob([icsEvent]);
+    saveAs(blob, 'dextools.ics');
   }
 }

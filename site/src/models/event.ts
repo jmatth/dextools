@@ -1,3 +1,5 @@
+import moment, { Moment } from 'moment';
+
 export default class Event {
   public code: string;
   public title: string;
@@ -5,8 +7,8 @@ export default class Event {
   public system: string;
   public presenters: string;
   public authors: string;
-  public startTime: Date;
-  public endTime: Date;
+  public startTime: Moment;
+  public endTime: Moment;
 
   constructor({
       code,
@@ -36,7 +38,7 @@ export default class Event {
     this.system = system;
     this.presenters = presenters;
     this.authors = authors;
-    this.startTime = new Date(start_time);
-    this.endTime = new Date(end_time);
+    this.startTime = moment(start_time);
+    this.endTime = moment(end_time);
   }
 }
