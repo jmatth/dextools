@@ -13,6 +13,12 @@ export default class Schedule {
       return;
     }
     this.events.push(event);
+    this.events.sort((first, second) => {
+      if (first.startTime.isSame(second.startTime)) {
+        return first.code <= second.code ? -1 : 1;
+      }
+      return first.startTime.isBefore(second.startTime) ? -1 : 1
+    });
   }
 
   public removeEvent(code: string): void {
