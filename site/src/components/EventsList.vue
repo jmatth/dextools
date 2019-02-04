@@ -66,12 +66,18 @@ export default class EventsList extends Vue {
 
   get items() {
     return this.eventSchedule
-      .filter(e => this.categories.includes(e.code[0]))
-      .filter(e => {
+      .filter((e) => this.categories.includes(e.code[0]))
+      .filter((e) => {
         if (!this.filter) {
           return true;
         }
-        return ['title', 'system', 'description', 'presenters', 'authors'].some(field => e[field].toLowerCase().includes(this.filter.toLowerCase()));
+        return [
+          'title',
+          'system',
+          'description',
+          'presenters',
+          'authors',
+        ].some((field) => e[field].toLowerCase().includes(this.filter.toLowerCase()));
       });
   }
 }

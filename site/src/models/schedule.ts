@@ -3,7 +3,7 @@ import * as ics from 'ics';
 import { saveAs } from 'file-saver';
 
 export default class Schedule {
-  readonly events: Event[] = [];
+  public readonly events: Event[] = [];
 
   public addEvent(event: Event): void {
     // Already added
@@ -17,7 +17,7 @@ export default class Schedule {
       if (first.startTime.isSame(second.startTime)) {
         return first.code <= second.code ? -1 : 1;
       }
-      return first.startTime.isBefore(second.startTime) ? -1 : 1
+      return first.startTime.isBefore(second.startTime) ? -1 : 1;
     });
   }
 

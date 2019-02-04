@@ -29,7 +29,7 @@ import Schedule from './models/schedule';
 import scheduleJson from './schedule';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
-const schedule = {};
+const schedule: { [index: string]: Event } = {};
 scheduleJson.forEach((e: any) => {
   schedule[e.code] = new Event(e);
 });
@@ -41,14 +41,14 @@ scheduleJson.forEach((e: any) => {
   },
 })
 export default class App extends Vue {
-  get scheduleList(){
+  get scheduleList() {
     return Object.values(schedule);
   }
 
-  data() {
+  public data() {
     return {
       schedule: new Schedule(),
     };
   }
-};
+}
 </script>
