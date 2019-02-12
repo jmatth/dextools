@@ -1,6 +1,7 @@
 import moment, { Moment } from 'moment';
 
 export default class Event {
+  [key: string]: string|Moment;
   public code: string;
   public title: string;
   public description: string;

@@ -75,7 +75,7 @@ export default class EventsList extends Vue {
           'system',
           'description',
           'presenters',
-        ].some((field) => ((string)e[field]).toLowerCase().includes(this.filter.toLowerCase()));
+        ].some((field) => (<string>e[field]).toLowerCase().includes(this.filter.toLowerCase()));
       });
   }
 }

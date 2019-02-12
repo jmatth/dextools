@@ -26,7 +26,7 @@ import EventsList from './components/EventsList.vue';
 import ScheduleView from './components/ScheduleView.vue';
 import Event from './models/event';
 import Schedule from './models/schedule';
-import scheduleJson from './schedule';
+import scheduleJson from './schedule.json';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 const schedule: { [index: string]: Event } = {};

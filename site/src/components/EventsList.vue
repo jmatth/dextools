@@ -54,6 +54,7 @@
 
 <script lang="ts">
 import Schedule from '../models/schedule';
+import Event from '../models/event';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
@@ -66,8 +67,8 @@ export default class EventsList extends Vue {
 
   get items() {
     return this.eventSchedule
-      .filter((e) => this.categories.includes(e.code[0]))
-      .filter((e) => {
+      .filter((e: Event) => this.categories.includes(e.code[0]))
+      .filter((e: Event) => {
         if (!this.filter) {
           return true;
         }
@@ -77,7 +78,7 @@ export default class EventsList extends Vue {
           'description',
           'presenters',
           'authors',
-        ].some((field) => e[field].toLowerCase().includes(this.filter.toLowerCase()));
+        ].some((field) => (e[field] as string).toLowerCase().includes(this.filter.toLowerCase()));
       });
   }
 }

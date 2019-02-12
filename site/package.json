@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@types/file-saver": "^2.0.0",
     "file-saver": "^2.0.0",
     "ics": "^2.10.0",
     "moment": "^2.24.0",
