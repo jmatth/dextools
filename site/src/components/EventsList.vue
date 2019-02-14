@@ -46,6 +46,7 @@
                 align-center
                 justify-end
                 >
+                <span class="mr-2">{{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('ddd, HH:mm') }}</span>
                 <v-btn flat v-on:click="schedule.addEvent(item)">Add</v-btn>
               </v-layout>
             </v-list-tile>

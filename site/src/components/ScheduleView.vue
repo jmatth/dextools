@@ -43,8 +43,11 @@
               >
                 <v-icon>delete</v-icon>
               </v-btn>
-              {{ event.code }} - {{ event.title }}
-              </span>
+              <div style="float:right;">
+                {{ event.code }} - {{ event.title }}
+                <br>
+                <span class="mr-2 text-xs-right">{{ event.startTime.format('ddd, HH:mm') }} - {{ event.endTime.format('ddd, HH:mm') }}</span>
+              </div>
             </v-alert>
           </v-timeline-item>
         </v-slide-x-reverse-transition>
