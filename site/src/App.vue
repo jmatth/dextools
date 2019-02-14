@@ -13,6 +13,11 @@
             <ScheduleView :schedule="schedule" />
           </v-flex>
         </v-layout>
+        <v-layout>
+          <v-flex xs12>
+            <ScheduleCalendar :schedule="schedule" />
+          </v-flex>
+        </v-layout>
       </v-container>
     </v-content>
     <v-footer color="indigo" app>
@@ -24,6 +29,7 @@
 <script lang="ts">
 import EventsList from './components/EventsList.vue';
 import ScheduleView from './components/ScheduleView.vue';
+import ScheduleCalendar from './components/ScheduleCalendar.vue';
 import Event from './models/event';
 import Schedule from './models/schedule';
 import scheduleJson from './schedule.json';
@@ -38,6 +44,7 @@ scheduleJson.forEach((e: any) => {
   components: {
     EventsList,
     ScheduleView,
+    ScheduleCalendar,
   },
 })
 export default class App extends Vue {

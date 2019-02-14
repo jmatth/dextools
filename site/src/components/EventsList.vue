@@ -17,7 +17,7 @@
     <v-checkbox v-model="categories" label="G" value="G"></v-checkbox>
     </v-toolbar>
 
-    <div style="max-height: 900px; overflow-y: scroll;">
+    <div style="max-height: 500px; overflow-y: scroll;">
       <template v-for="(item, index) in items">
         <v-card>
           <v-card-title>
