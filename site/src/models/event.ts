@@ -1,7 +1,7 @@
 import moment, { Moment } from 'moment';
 
 export default class Event {
-  [key: string]: string|Moment;
+  [key: string]: string|boolean|Moment;
   public code: string;
   public title: string;
   public description: string;
@@ -10,6 +10,7 @@ export default class Event {
   public authors: string;
   public startTime: Moment;
   public endTime: Moment;
+  public filled: boolean;
 
   constructor({
       code,
@@ -20,6 +21,7 @@ export default class Event {
       authors,
       start_time,
       end_time,
+      filled,
       tags,
     }: {
       code: string,
@@ -30,6 +32,7 @@ export default class Event {
       authors: string,
       start_time: string,
       end_time: string,
+      filled: boolean,
       tags: string,
     },
   ) {
@@ -41,5 +44,6 @@ export default class Event {
     this.authors = authors;
     this.startTime = moment(start_time);
     this.endTime = moment(end_time);
+    this.filled = filled;
   }
 }

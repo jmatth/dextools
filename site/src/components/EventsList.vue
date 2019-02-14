@@ -26,6 +26,10 @@
             </v-avatar>
             &nbsp;&nbsp;
             <span class="headline">{{ item.code }}: {{ item.title }}</span>
+            <v-chip disabled class="ml-2" v-if="item.filled">
+              <v-icon left>lock</v-icon>
+              Filled
+            </v-chip>
           </v-card-title>
 
           <v-card-text>
