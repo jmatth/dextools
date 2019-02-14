@@ -25,6 +25,7 @@ pub struct Event {
     authors: String,
     start_time: String,
     end_time: String,
+    filled: bool,
     tags: String,
 }
 

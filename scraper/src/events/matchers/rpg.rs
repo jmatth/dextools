@@ -10,7 +10,8 @@ const EVENT_REGEX: &str = "^(?P<code>[A-Z][0-9]+): \
                            ( by (?P<authors>[a-zA-Z ]+))?\
                            (( written and|;)? presented by (?P<presenters>([a-zA-Z ]+(, )?)+))?. \
                            (?P<description>.*) \
-                           (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))";
+                           (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
+                           (?P<misc>.*)$";
 
 pub fn parse_event(input: &String) -> Option<Event> {
     lazy_static! {
@@ -49,6 +50,11 @@ pub fn parse_event(input: &String) -> Option<Event> {
                 .name("time")
                 .map(as_string)
                 .unwrap_or("".to_string());
+            let misc = captures
+                .name("misc")
+                .map(as_string)
+                .unwrap_or("".to_string());
+            let filled = misc.to_lowercase().contains("this event has been filled!");
             let (start_time, end_time) = parser.parse_time_slot(&raw_time)?;
             Some(Event {
                 code,
@@ -59,6 +65,7 @@ pub fn parse_event(input: &String) -> Option<Event> {
                 description,
                 start_time,
                 end_time,
+                filled,
                 ..Default::default()
             })
         }
