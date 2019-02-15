@@ -15,7 +15,7 @@
         </v-layout>
         <v-layout>
           <v-flex xs12>
-            <ScheduleCalendar :schedule="schedule" />
+            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" />
           </v-flex>
         </v-layout>
       </v-container>
