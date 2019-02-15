@@ -16,7 +16,7 @@
         Export
       </v-btn>
     </v-card-title>
-    <v-card-text class="py-0">
+    <v-card-text class="py-0" style="height:384px; overflow-y:scroll;">
       <v-timeline dense>
         <v-slide-x-reverse-transition
           group

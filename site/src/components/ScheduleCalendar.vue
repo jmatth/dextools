@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex>
-      <v-card>
+      <v-card height="600">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
         <v-calendar
           ref="calendar"
@@ -52,7 +52,7 @@ export default class EventsList extends Vue {
   public filter: string = '';
 
   public mounted() {
-    this.$refs.calendar.scrollToTime('08:00');
+    this.$refs.calendar.scrollToTime('09:00');
   };
 
   public startDateMatchesDate(startDate: any, date: any): boolean {
