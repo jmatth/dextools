@@ -52,6 +52,7 @@ export default class EventsList extends Vue {
   public filter: string = '';
 
   public mounted() {
+    // @ts-ignore
     this.$refs.calendar.scrollToTime('09:00');
   };
 
