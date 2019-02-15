@@ -6,7 +6,7 @@ buildCmd='npm run build'
 cname='dextools.jmatth.com'
 
 rm -rf $deployDir
-git worktree add $deployDir $deployBranch
+git worktree add $deployDir origin/$deployBranch
 wtBackup=`mktemp`
 cp $deployDir/.git $wtBackup
 
@@ -19,6 +19,6 @@ pushd $deployDir
 echo $cname > CNAME
 git add .
 git commit -m "Updating site to ${gitref}"
-git push
+git push origin HEAD:$deployBranch
 popd
 git worktree remove $deployDir
