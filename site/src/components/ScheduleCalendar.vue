@@ -1,18 +1,47 @@
 <template>
-  <v-card>
-    <v-calendar
-      ref="calendar"
-      type="custom-daily"
-      :start="startCal"
-      :end="endCal"
-    >
-    </v-calendar>
-  </v-card>
+  <v-layout>
+    <v-flex>
+      <v-card>
+        <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
+        <v-calendar
+          ref="calendar"
+          color="primary"
+          type="custom-daily"
+          :start="startCal"
+          :end="endCal"
+        >
+          <template
+            slot="dayBody"
+            slot-scope="{ date, timeToY, minutesToPixels }"
+          >
+            <template v-for="(startWithEvents, startIndex) in eventsByStartTime">
+              <template v-if="startDateMatchesDate(startWithEvents[0], date)">
+                <template v-for="(event, index) in startWithEvents[1]">
+                  <div
+                    :key="event.code"
+                    :style="{
+                      top: timeToY(event.startTime.format('HH:MM')) + 'px',
+                      height: minutesToPixels(getEventMinutes(event)) + 'px',
+                      marginLeft: overlappingEventsCount(event) * 5 + 100/startWithEvents[1].length * index + '%'}"
+                    class="my-event with-time"
+                    @click="schedule.removeEvent(event.code)"
+                    v-html="event.title"
+                  ></div>
+                </template>
+              </template>
+            </template>
+          </template>
+        </v-calendar>
+      </v-card>
+    </v-flex>
+  </v-layout>
 </template>
+
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Schedule from '../models/schedule';
 import Event from '../models/event';
+import moment from 'moment';
 
 @Component
 export default class EventsList extends Vue {
@@ -22,9 +51,37 @@ export default class EventsList extends Vue {
   public categories: string[] = ['L', 'R'];
   public filter: string = '';
 
-  public created(): void {
-    this.scheduleEvents.sort((e1: Event, e2: Event) =>
-      e1.startTime.isBefore(e2.startTime) ? -1 : 1);
+  public mounted() {
+    this.$refs.calendar.scrollToTime('08:00');
+  };
+
+  public startDateMatchesDate(startDate: any, date: any): boolean {
+    const dateMoment = moment(date);
+    const startDateMoment = moment(startDate);
+    const match = startDateMoment.isSame(dateMoment, 'day');
+    return match;
+  }
+
+  public eventMatchesDate(event: Event, date: any): boolean {
+    return event.startTime.isSame(date, 'day');
+  }
+
+  public getEventMinutes(event: Event): number {
+    const eventMins = moment.duration(event.endTime.diff(event.startTime)).asMinutes();
+    return eventMins;
+  }
+
+  public overlappingEventsCount(event: Event): number {
+    const oldOverlappingCount = this.schedule.events.reduce((acc: number, e: Event) => {
+      if (e.code === event.code) {
+        return acc;
+      }
+      if (e.endTime.isAfter(event.startTime) && e.startTime.isBefore(event.startTime)) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+    return oldOverlappingCount;
   }
 
   get startCal(): string {
@@ -33,6 +90,18 @@ export default class EventsList extends Vue {
 
   get endCal(): string {
     return this.scheduleEvents[this.scheduleEvents.length - 1].endTime.format("YYYY-MM-DD");
+  }
+
+  get eventsByStartTime() {
+    const ebt = new Map();
+    this.schedule.events.forEach(e => {
+      const startStr = e.startTime.format();
+      if (!ebt.has(startStr)) {
+        ebt.set(startStr, []);
+      }
+      ebt.get(startStr).push(e);
+    })
+    return Array.from(ebt);
   }
 
   get items() {
@@ -52,4 +121,29 @@ export default class EventsList extends Vue {
   }
 }
 </script>
+<style lang="scss">
+.my-event {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 2px;
+  background-color: #1867c0;
+  color: #ffffff;
+  border: 1px solid #1867c0;
+  font-size: 12px;
+  padding: 3px;
+  cursor: pointer;
+  margin-bottom: 1px;
+  left: 4px;
+  margin-right: 8px;
+  position: relative;
 
+  &.with-time {
+    position: absolute;
+    right: 4px;
+    margin-right: 0px;
+    borderwidth: 1px;
+    border-color: white;
+  }
+}
+</style>
