@@ -15,8 +15,14 @@ export default class Schedule {
     this.events.push(event);
     this.events.sort((first, second) => {
       if (first.startTime.isSame(second.startTime)) {
-        return first.code <= second.code ? -1 : 1;
+        if (first.endTime.isSame(second.endTime)) {
+          // Take place at exactly the same time, sort by code
+          return first.code <= second.code ? -1 : 1;
+        }
+        // Shorter events go first
+        return first.endTime.isBefore(second.endTime) ? -1 : 1;
       }
+      // Earlier events go first
       return first.startTime.isBefore(second.startTime) ? -1 : 1;
     });
   }
