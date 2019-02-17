@@ -17,7 +17,7 @@
     <v-checkbox v-model="categories" label="G" value="G"></v-checkbox>
     </v-toolbar>
 
-    <div style="max-height: 400px; overflow-y: scroll;">
+    <div :style="{ height: height, overflowY: 'scroll' }">
       <template v-for="(item, index) in items">
         <v-card>
           <v-card-title>
@@ -66,6 +66,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class EventsList extends Vue {
   @Prop() private eventSchedule!: any;
   @Prop() private schedule!: Schedule;
+  @Prop() private height!: string;
 
   public categories: string[] = ['L', 'R'];
   public filter: string = '';

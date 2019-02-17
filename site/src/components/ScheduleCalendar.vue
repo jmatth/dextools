@@ -54,7 +54,7 @@
           Export
         </v-btn>
       </v-card-title>
-      <v-card height="600">
+      <v-card :height="height">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
         <v-calendar
           ref="calendar"
@@ -102,6 +102,7 @@ export default class ScheduleCalendar extends Vue {
   @Prop() private schedule!: Schedule;
   @Prop() private scheduleEvents!: Event[];
   @Prop() private display!: any;
+  @Prop() private height!: string;
 
   public categories: string[] = ['L', 'R'];
   public filter: string = '';

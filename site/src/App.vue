@@ -10,13 +10,13 @@
             :md8="display.mode === 'split'"
             :md12="display.mode === 'full'"
           >
-            <EventsList :schedule="schedule" :eventSchedule="scheduleList" />
+            <EventsList :schedule="schedule" :eventSchedule="scheduleList" :height="eventListHeight"/>
           </v-flex>
           <v-flex
             v-if="display.mode === 'split'"
             md4
           >
-            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" :display='display' />
+            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" :display='display' :height="calendarHeight" />
           </v-flex>
         </v-layout>
         <v-layout
@@ -24,7 +24,7 @@
           row
         >
           <v-flex md12>
-            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" :display='display' />
+            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" :display='display' :height="calendarHeight"/>
           </v-flex>
         </v-layout>
       </v-container>
@@ -66,11 +66,22 @@ export default class App extends Vue {
       schedule: new Schedule(),
       display: {
         mode: 'split',
+        getHeight() {
+          return this.mode === 'split' ? 700 : 350;
+        },
         toggle() {
           this.mode = this.mode === 'split' ? 'full' : 'split';
         },
       },
     };
+  }
+
+  get calendarHeight() {
+    return (this.display.mode === 'split' ? 680 : 550) + 'px';
+  }
+
+  get eventListHeight() {
+    return (this.display.mode === 'split' ? 700 : 400) + 'px';
   }
 }
 </script>
