@@ -2,6 +2,53 @@
   <v-app id="inspire">
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-title>Dextools</v-toolbar-title>
+      <v-spacer/>
+      <v-dialog
+        v-model="about"
+        width="500"
+      >
+        <v-btn
+          fab
+          depressed
+          flat
+          slot="activator"
+        >
+          <v-icon>
+            help_outline
+          </v-icon>
+        </v-btn>
+        <v-card>
+          <v-card-title
+            class="headline grey lighten-2"
+            primary-title
+          >
+            About
+          </v-card-title>
+          <v-card-text>
+            <p>
+              This is a site to help with building your schedule for the excellent conventions run by Double Exposure Inc.
+              It uses data scraped from the Double Exposure website so may be innacurrate or out of date.
+            </p>
+            <p>
+              This site WILL NOT register you for any events; it will only help you figure out your schedule and export it
+              to an ics file to import into a calendar program like Google Calendar. You will still need to register for
+              events via the usual method detailed on the Double Exposure website.
+              If you find a bug or have a feature suggestion, please submit it
+              <a target="_blank" href="https://github.com/jmatth/dextools">on the github</a>.
+            </p>
+            <p>
+              This site is not associated with or endorsed by Double Exposure Inc.
+            </p>
+          </v-card-text>
+          <v-divider/>
+          <v-spacer/>
+          <v-btn
+            @click="about = false"
+          >
+            Close
+          </v-btn>
+        </v-card>
+      </v-dialog>
     </v-toolbar>
     <v-content>
       <v-container fluid grid-list-md>
@@ -56,6 +103,7 @@ scheduleJson.forEach((e: any) => {
 })
 export default class App extends Vue {
   public schedule = new Schedule();
+  public about = false;
   public display = {
         mode: 'split',
         getHeight() {
