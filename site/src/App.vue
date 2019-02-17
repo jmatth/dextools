@@ -6,11 +6,25 @@
     <v-content>
       <v-container fluid grid-list-md>
         <v-layout row>
-          <v-flex md8>
+          <v-flex
+            :md8="display.mode === 'split'"
+            :md12="display.mode === 'full'"
+          >
             <EventsList :schedule="schedule" :eventSchedule="scheduleList" />
           </v-flex>
-          <v-flex md4>
-            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" />
+          <v-flex
+            v-if="display.mode === 'split'"
+            md4
+          >
+            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" :display='display' />
+          </v-flex>
+        </v-layout>
+        <v-layout
+          v-if="display.mode === 'full'"
+          row
+        >
+          <v-flex md12>
+            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" :display='display' />
           </v-flex>
         </v-layout>
       </v-container>
@@ -50,6 +64,12 @@ export default class App extends Vue {
   public data() {
     return {
       schedule: new Schedule(),
+      display: {
+        mode: 'split',
+        toggle() {
+          this.mode = this.mode === 'split' ? 'full' : 'split';
+        },
+      },
     };
   }
 }

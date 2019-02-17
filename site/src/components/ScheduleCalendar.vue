@@ -5,6 +5,7 @@
         class="blue-grey white--text"
       >
         <v-btn
+          v-if="calType === 'day'"
           fab
           small
           depressed
@@ -18,6 +19,7 @@
           </v-icon>
         </v-btn>
         <v-btn
+          v-if="calType === 'day'"
           fab
           small
           depressed
@@ -28,6 +30,18 @@
         >
           <v-icon dark>
             keyboard_arrow_right
+          </v-icon>
+        </v-btn>
+        <v-btn
+          fab
+          small
+          depressed
+          left
+          color="primary"
+          @click="toggleDisplay()"
+        >
+          <v-icon dark>
+            {{ calType === 'day' ? 'fullscreen' : 'fullscreen_exit' }}
           </v-icon>
         </v-btn>
         <v-spacer/>
@@ -47,6 +61,8 @@
           v-model="currDate"
           color="primary"
           :type="calType"
+          :start='startCal'
+          :end='endCal'
         >
           <template
             slot="dayBody"
@@ -85,6 +101,7 @@ import moment from 'moment';
 export default class ScheduleCalendar extends Vue {
   @Prop() private schedule!: Schedule;
   @Prop() private scheduleEvents!: Event[];
+  @Prop() private display!: any;
 
   public categories: string[] = ['L', 'R'];
   public filter: string = '';
@@ -128,6 +145,10 @@ export default class ScheduleCalendar extends Vue {
     return oldOverlappingCount;
   }
 
+  get calType(): string {
+    return this.display.mode === 'split' ? 'day' : 'custom-daily';
+  }
+
   get startCal(): string {
     return this.scheduleEvents[0].startTime.format("YYYY-MM-DD");
   }
@@ -160,8 +181,8 @@ export default class ScheduleCalendar extends Vue {
     this.$refs.calendar.prev();
   }
 
-  get calType() {
-    return 'day';
+  public toggleDisplay() {
+    this.display.toggle();
   }
 
   get eventsByStartTime() {
