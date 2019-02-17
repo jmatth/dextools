@@ -10,11 +10,6 @@
             <EventsList :schedule="schedule" :eventSchedule="scheduleList" />
           </v-flex>
           <v-flex md4>
-            <ScheduleView :schedule="schedule" />
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex xs12>
             <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" />
           </v-flex>
         </v-layout>

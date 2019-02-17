@@ -5,6 +5,12 @@ import { saveAs } from 'file-saver';
 export default class Schedule {
   public readonly events: Event[] = [];
 
+  private _lastAdded?: Event = undefined;
+
+  get lastAdded() {
+    return this._lastAdded;
+  }
+
   public addEvent(event: Event): void {
     // Already added
     console.log(`Adding ${event.code} to schedule`);
@@ -13,6 +19,7 @@ export default class Schedule {
       return;
     }
     this.events.push(event);
+    this._lastAdded = event;
     this.events.sort((first, second) => {
       if (first.startTime.isSame(second.startTime)) {
         if (first.endTime.isSame(second.endTime)) {
@@ -34,6 +41,7 @@ export default class Schedule {
       console.log(`Event code ${code} not found in schedule`);
     }
     this.events.splice(eventIndex, 1);
+    this._lastAdded = undefined;
   }
 
   public toString(): string {

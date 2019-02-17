@@ -1,14 +1,52 @@
 <template>
   <v-layout>
     <v-flex>
+      <v-card-title
+        class="blue-grey white--text"
+      >
+        <v-btn
+          fab
+          small
+          depressed
+          :disabled="prevDisabled"
+          left
+          color="primary"
+          @click="prevDay()"
+        >
+          <v-icon dark>
+            keyboard_arrow_left
+          </v-icon>
+        </v-btn>
+        <v-btn
+          fab
+          small
+          depressed
+          :disabled="nextDisabled"
+          left
+          color="primary"
+          @click="nextDay()"
+        >
+          <v-icon dark>
+            keyboard_arrow_right
+          </v-icon>
+        </v-btn>
+        <v-spacer/>
+        <v-btn
+          dark
+          depressed
+          small
+          @click="schedule.exportIcs()"
+        >
+          Export
+        </v-btn>
+      </v-card-title>
       <v-card height="600">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
         <v-calendar
           ref="calendar"
+          v-model="currDate"
           color="primary"
-          type="custom-daily"
-          :start="startCal"
-          :end="endCal"
+          :type="calType"
         >
           <template
             slot="dayBody"
@@ -44,12 +82,17 @@ import Event from '../models/event';
 import moment from 'moment';
 
 @Component
-export default class EventsList extends Vue {
+export default class ScheduleCalendar extends Vue {
   @Prop() private schedule!: Schedule;
   @Prop() private scheduleEvents!: Event[];
 
   public categories: string[] = ['L', 'R'];
   public filter: string = '';
+  public currDate = '';
+
+  public created() {
+    this.currDate = this.startCal;
+  }
 
   public mounted() {
     // @ts-ignore
@@ -91,6 +134,34 @@ export default class EventsList extends Vue {
 
   get endCal(): string {
     return this.scheduleEvents[this.scheduleEvents.length - 1].endTime.format("YYYY-MM-DD");
+  }
+
+  get nextDisabled() {
+    return this.currDate === this.endCal;
+  }
+
+  get prevDisabled() {
+    return this.currDate === this.startCal;
+  }
+
+  public nextDay() {
+    if (this.nextDisabled) {
+      return;
+    }
+    // @ts-ignore
+    this.$refs.calendar.next();
+  }
+
+  public prevDay() {
+    if (this.prevDisabled) {
+      return;
+    }
+    // @ts-ignore
+    this.$refs.calendar.prev();
+  }
+
+  get calType() {
+    return 'day';
   }
 
   get eventsByStartTime() {
