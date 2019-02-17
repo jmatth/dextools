@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex>
-      <v-card-title
+      <v-toolbar
         class="blue-grey white--text"
       >
         <v-btn
@@ -53,7 +53,7 @@
         >
           Export
         </v-btn>
-      </v-card-title>
+      </v-toolbar>
       <v-card :height="height">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
         <v-calendar

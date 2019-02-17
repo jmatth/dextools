@@ -55,14 +55,8 @@ scheduleJson.forEach((e: any) => {
   },
 })
 export default class App extends Vue {
-  get scheduleList() {
-    return Object.values(schedule);
-  }
-
-  public data() {
-    return {
-      schedule: new Schedule(),
-      display: {
+  public schedule = new Schedule();
+  public display = {
         mode: 'split',
         getHeight() {
           return this.mode === 'split' ? 700 : 350;
@@ -70,12 +64,14 @@ export default class App extends Vue {
         toggle() {
           this.mode = this.mode === 'split' ? 'full' : 'split';
         },
-      },
-    };
+      };
+
+  get scheduleList() {
+    return Object.values(schedule);
   }
 
   get calendarHeight() {
-    return (this.display.mode === 'split' ? 680 : 550) + 'px';
+    return (this.display.mode === 'split' ? 700 : 550) + 'px';
   }
 
   get eventListHeight() {
