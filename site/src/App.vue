@@ -37,7 +37,6 @@
 
 <script lang="ts">
 import EventsList from './components/EventsList.vue';
-import ScheduleView from './components/ScheduleView.vue';
 import ScheduleCalendar from './components/ScheduleCalendar.vue';
 import Event from './models/event';
 import Schedule from './models/schedule';
@@ -52,7 +51,6 @@ scheduleJson.forEach((e: any) => {
 @Component({
   components: {
     EventsList,
-    ScheduleView,
     ScheduleCalendar,
   },
 })
