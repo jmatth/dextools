@@ -6,11 +6,13 @@ use select::predicate::*;
 use std::iter::Peekable;
 use select::predicate as pred;
 
-mod matchers;
+pub mod matchers;
+
+use crate::events::matchers::dateparse::DateParser;
 
 const CODE_REGEX: &str = "^[A-Z][0-9]+$";
 
-const MATCHERS: [fn(&String) -> Option<Event>; 2] = [
+const MATCHERS: [fn(&String, &DateParser) -> Option<Event>; 2] = [
     matchers::rpg::parse_event,
     matchers::game::parse_event,
 ];
@@ -29,7 +31,7 @@ pub struct Event {
     tags: String,
 }
 
-pub fn parse_events<'a, I>(nodes: &mut Peekable<I>) -> Vec<Event>
+pub fn parse_events<'a, I>(nodes: &mut Peekable<I>, dateParser: &DateParser) -> Vec<Event>
 where
     I: Iterator<Item = Node<'a>>,
 {
@@ -75,7 +77,7 @@ where
             continue
         };
 
-        match MATCHERS.into_iter().find_map(|f| f(&body)) {
+        match MATCHERS.into_iter().find_map(|f| f(&body, dateParser)) {
             None => {
                 println!("<{}>", body);
             },

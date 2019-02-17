@@ -10,10 +10,9 @@ const EVENT_REGEX: &str = "^(?P<code>[A-Z][0-9]+): \
                            (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
                            (?P<misc>.*)$";
 
-pub fn parse_event(input: &String) -> Option<Event> {
+pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
     lazy_static! {
         static ref RE: Regex = Regex::new(EVENT_REGEX).unwrap();
-        static ref parser: DateParser = DateParser::new(2018, 2, 22, 5 * 3600);
     }
     match RE.captures(&input.as_str()) {
         None => None,
