@@ -31,7 +31,8 @@
           </v-card-title>
 
           <v-card-text>
-            {{ item.description }}
+            <p v-if="item.system" class="caption">{{ item.system }}</p>
+            <p>{{ item.description }}</p>
           </v-card-text>
 
           <v-card-actions>
