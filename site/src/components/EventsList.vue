@@ -11,10 +11,8 @@
 
       <v-spacer></v-spacer>
 
-    <v-checkbox v-model="categories" label="L" value="L"></v-checkbox>
-    <v-checkbox v-model="categories" label="R" value="R"></v-checkbox>
-    <v-checkbox v-model="categories" label="B" value="B"></v-checkbox>
-    <v-checkbox v-model="categories" label="G" value="G"></v-checkbox>
+    <v-checkbox v-for="code in availableCodes" v-model="categories" :label="code" :value="code"></v-checkbox>
+
     </v-toolbar>
 
     <div :style="{ height: height, overflowY: 'scroll' }">
@@ -70,6 +68,16 @@ export default class EventsList extends Vue {
 
   public categories: string[] = ['L', 'R'];
   public filter: string = '';
+
+  get availableCodes() {
+    return this.eventSchedule.reduce((acc: string[], e: Event) => {
+      const code = e.code[0];
+      if (!acc.includes(code)) {
+        acc.push(code);
+      }
+      return acc;
+    }, []);
+  }
 
   get items() {
     return this.eventSchedule
