@@ -80,7 +80,14 @@
                       marginLeft: overlappingEventsCount(event) * 5 + 100/startWithEvents[1].length * index + '%'}"
                     class="my-event with-time"
                     @click="schedule.removeEvent(event.code)"
-                  >{{ `${event.code}: ${event.title}` }}</div>
+                    >
+                      {{ `${event.code}: ${event.title}` }}
+                      <v-icon
+                        v-if="event.filled"
+                        small
+                        dark
+                      >lock</v-icon>
+                  </div>
                 </template>
               </template>
             </template>
