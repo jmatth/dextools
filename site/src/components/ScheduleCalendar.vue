@@ -147,7 +147,7 @@ export default class ScheduleCalendar extends Vue {
   }
 
   get intervalHeight() {
-    return this.display.mode === 'split' ? 40 : 20;
+    return this.display.mode === 'split' ? 26 : 20;
   }
 
   get calType(): string {
