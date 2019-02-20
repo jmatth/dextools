@@ -114,6 +114,14 @@ export default class App extends Vue {
         },
       };
 
+  public mounted(): void {
+    if (localStorage.scheduledEventCodes) {
+      try {
+        JSON.parse(localStorage.scheduledEventCodes).forEach((c: string) => this.schedule.addEvent(schedule[c]));
+      } catch {}
+    }
+  }
+
   get scheduleList() {
     return Object.values(schedule);
   }

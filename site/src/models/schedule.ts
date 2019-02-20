@@ -11,6 +11,10 @@ export default class Schedule {
     return this._lastAdded;
   }
 
+  private updateLocalStorage() {
+    localStorage.scheduledEventCodes = JSON.stringify(this.events.map(e => e.code));
+  }
+
   public addEvent(event: Event): void {
     // Already added
     console.log(`Adding ${event.code} to schedule`);
@@ -32,6 +36,7 @@ export default class Schedule {
       // Earlier events go first
       return first.startTime.isBefore(second.startTime) ? -1 : 1;
     });
+    this.updateLocalStorage();
   }
 
   public removeEvent(code: string): void {
@@ -42,6 +47,7 @@ export default class Schedule {
     }
     this.events.splice(eventIndex, 1);
     this._lastAdded = undefined;
+    this.updateLocalStorage();
   }
 
   public toString(): string {
