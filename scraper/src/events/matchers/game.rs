@@ -5,7 +5,7 @@ use super::Event;
 use super::dateparse::DateParser;
 
 const EVENT_REGEX: &str = "^(?P<code>[A-Z][0-9]+): \
-                           (?P<system>.*?)\\. \
+                           (?P<title>.*?)\\. \
                            (?P<description>.*) \
                            (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
                            (?P<misc>.*)$";
@@ -22,8 +22,8 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
                 .name("code")
                 .map(as_string)
                 .unwrap_or("".to_string());
-            let system = captures
-                .name("system")
+            let title = captures
+                .name("title")
                 .map(as_string)
                 .unwrap_or("".to_string());
             let description = captures
@@ -42,7 +42,7 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
             let (start_time, end_time) = parser.parse_time_slot(&raw_time)?;
             Some(Event {
                 code,
-                system,
+                title,
                 description,
                 start_time,
                 end_time,

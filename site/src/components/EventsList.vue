@@ -23,7 +23,7 @@
               <span class="white--text headline">{{ item.code[0] }}</span>
             </v-avatar>
             &nbsp;&nbsp;
-            <span class="headline">{{ item.code }}: {{ item.title ? item.title : item.system }}</span>
+            <span class="headline">{{ item.code }}: {{ item.title }}</span>
             <v-chip disabled class="ml-2" v-if="item.filled">
               <v-icon left>lock</v-icon>
               Filled
@@ -31,7 +31,7 @@
           </v-card-title>
 
           <v-card-text>
-            <p v-if="item.system && item.title" class="caption">{{ item.system }}</p>
+            <p v-if="item.system" class="caption">{{ item.system }}</p>
             <p>{{ item.description }}</p>
           </v-card-text>
 
