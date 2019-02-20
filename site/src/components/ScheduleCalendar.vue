@@ -54,12 +54,13 @@
           Export
         </v-btn>
       </v-toolbar>
-      <v-card :height="height">
+      <v-card :height="calType == 'day' ? height : 'auto'">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
         <v-calendar
           ref="calendar"
           v-model="currDate"
           color="primary"
+          :interval-height="intervalHeight"
           :type="calType"
           :start='startCal'
           :end='endCal'
@@ -143,6 +144,10 @@ export default class ScheduleCalendar extends Vue {
       return acc;
     }, 0);
     return oldOverlappingCount;
+  }
+
+  get intervalHeight() {
+    return this.display.mode === 'split' ? 40 : 20;
   }
 
   get calType(): string {
