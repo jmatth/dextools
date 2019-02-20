@@ -2,11 +2,11 @@
   <v-card>
     <v-toolbar dark>
       <v-text-field
-        v-model="filter"
         label="Filter"
         single-line
         single
         dark
+        @input="debounceSearch"
         ></v-text-field>
 
       <v-spacer></v-spacer>
@@ -60,6 +60,7 @@
 import Schedule from '../models/schedule';
 import Event from '../models/event';
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { debounce } from 'lodash';
 
 @Component
 export default class EventsList extends Vue {
@@ -69,6 +70,15 @@ export default class EventsList extends Vue {
 
   public categories: string[] = ['L', 'R'];
   public filter: string = '';
+
+  constructor() {
+    super();
+    this.debounceSearch = debounce(this.debounceSearch, 500);
+  }
+
+  public debounceSearch(input: any): void {
+    this.filter = input;
+  }
 
   get availableCodes() {
     return this.eventSchedule.reduce((acc: string[], e: Event) => {
