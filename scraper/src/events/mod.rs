@@ -40,6 +40,9 @@ where
     }
     let mut events = Vec::new();
     loop {
+        // Hack because the borrow checker hates me, come back
+        // and figure out how to remove this eventually.
+        let mut should_step = false;
         let node = match nodes.peek() {
             None => break,
             Some(node) => node,
@@ -65,6 +68,7 @@ where
             }
         } else if node.is(Name("p")) {
             // Most events are wrapped in a <p> tag, get its contents as text.
+            should_step = true;
             node.text().replace('\n', "").trim().to_string()
         } else {
             // Found something we don't know how to handle, ignore and keep going.
@@ -85,7 +89,9 @@ where
                 events.push(event);
             }
         }
-        nodes.next();
+        if should_step {
+            nodes.next();
+        }
     }
     println!("{}", events.len());
     events
