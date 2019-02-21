@@ -120,6 +120,10 @@ export default class App extends Vue {
         JSON.parse(localStorage.scheduledEventCodes).forEach((c: string) => this.schedule.addEvent(schedule[c]));
       } catch {}
     }
+    // @ts-ignore
+    if (this.$vuetify.breakpoint.smAndDown) {
+      this.display.mode = 'full';
+    }
   }
 
   get scheduleList() {

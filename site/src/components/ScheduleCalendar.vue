@@ -33,6 +33,7 @@
           </v-icon>
         </v-btn>
         <v-btn
+          v-if="allowResizing"
           fab
           small
           depressed
@@ -223,6 +224,11 @@ export default class ScheduleCalendar extends Vue {
           'presenters',
         ].some((field) => (<string>e[field]).toLowerCase().includes(this.filter.toLowerCase()));
       });
+  }
+
+  get allowResizing() {
+    // @ts-ignore
+    return !this.$vuetify.breakpoint.smAndDown;
   }
 }
 </script>
