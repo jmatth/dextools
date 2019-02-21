@@ -1,6 +1,9 @@
 <template>
   <v-card>
-    <v-toolbar dark>
+    <v-toolbar
+      dark
+      :extended="breakToolbar"
+    >
       <v-text-field
         label="Filter"
         single-line
@@ -11,7 +14,7 @@
 
       <v-spacer></v-spacer>
 
-    <v-checkbox v-for="code in availableCodes" v-model="categories" :label="code" :value="code"></v-checkbox>
+    <v-checkbox :slot="breakToolbar ? 'extension' : undefined" v-for="code in availableCodes" v-model="categories" :label="code" :value="code"></v-checkbox>
 
     </v-toolbar>
 
@@ -68,7 +71,7 @@ export default class EventsList extends Vue {
   @Prop() private schedule!: Schedule;
   @Prop() private height!: string;
 
-  public categories: string[] = ['L', 'R'];
+  public categories: string[] = [];
   public filter: string = '';
 
   constructor() {
@@ -80,6 +83,10 @@ export default class EventsList extends Vue {
     this.filter = input;
   }
 
+  public beforeMount() {
+    this.categories = this.availableCodes.slice(0);
+  }
+
   get availableCodes() {
     return this.eventSchedule.reduce((acc: string[], e: Event) => {
       const code = e.code[0];
@@ -88,6 +95,11 @@ export default class EventsList extends Vue {
       }
       return acc;
     }, []);
+  }
+
+  get breakToolbar() {
+    // @ts-ignore
+    return this.$vuetify.breakpoint.smAndDown;
   }
 
   get items() {
