@@ -4,6 +4,7 @@ import Event from './models/event';
 import App from './App.vue';
 import moment from 'moment';
 import 'moment-timezone';
+import './registerServiceWorker'
 
 moment.tz.setDefault('America/New_York');
 
