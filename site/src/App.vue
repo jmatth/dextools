@@ -1,6 +1,12 @@
 <template>
   <v-app id="inspire">
-    <v-toolbar color="indigo" dark fixed app>
+    <v-toolbar
+      color="indigo"
+      dark
+      fixed
+      app
+      :dense="onMobile"
+    >
       <v-toolbar-title>Dextools</v-toolbar-title>
       <v-spacer/>
       <v-dialog
@@ -114,6 +120,11 @@ export default class App extends Vue {
         },
       };
 
+  get onMobile(): boolean {
+    // @ts-ignore
+    return this.$vuetify.breakpoint.smAndDown;
+  }
+
   public mounted(): void {
     if (localStorage.scheduledEventCodes) {
       try {
@@ -121,7 +132,7 @@ export default class App extends Vue {
       } catch {}
     }
     // @ts-ignore
-    if (this.$vuetify.breakpoint.smAndDown) {
+    if (this.onMobile) {
       this.display.mode = 'full';
     }
   }
