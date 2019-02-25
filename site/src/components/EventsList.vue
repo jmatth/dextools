@@ -18,26 +18,22 @@
 
     </v-toolbar>
 
-    <div :style="{ height: height, overflowY: 'scroll' }">
-      <template v-for="(item, index) in items">
-        <v-card>
-          <v-card-title>
-            <v-avatar color="red">
-              <span class="white--text headline">{{ item.code[0] }}</span>
-            </v-avatar>
-            &nbsp;&nbsp;
-            <span class="headline">{{ item.code }}: {{ item.title }}</span>
-            <v-chip disabled class="ml-2" v-if="item.filled">
-              <v-icon left>lock</v-icon>
-              Filled
-            </v-chip>
-          </v-card-title>
+    <v-expansion-panel :style="{ height: height, overflowY: 'scroll' }">
+      <v-expansion-panel-content v-for="(item, index) in items" v-show="shouldShow(item)">
+        <div slot="header">
+          <v-avatar color="red" size="20" class="mr-1">
+            <span class="white--text">{{ item.code[0] }}</span>
+          </v-avatar>
+          <span>{{ item.code }}: {{ item.title }}</span>
+          <v-chip class="caption text-truncate" v-if="item.system" small>{{ item.system }}</v-chip>
+          <v-icon class="ml-1" size="20" v-if="item.filled">lock</v-icon>
+        </div>
 
+        <v-card>
           <v-card-text>
             <p v-if="item.system" class="caption">{{ item.system }}</p>
             <p>{{ item.description }}</p>
           </v-card-text>
-
           <v-card-actions>
             <v-list-tile class="grow">
               <v-list-tile-content>
@@ -54,8 +50,8 @@
             </v-list-tile>
           </v-card-actions>
         </v-card>
-      </template>
-    </div>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
   </v-card>
 </template>
 
@@ -102,21 +98,33 @@ export default class EventsList extends Vue {
     return this.$vuetify.breakpoint.smAndDown;
   }
 
-  get items() {
-    return this.eventSchedule
-      .filter((e: Event) => this.categories.includes(e.code[0]))
-      .filter((e: Event) => {
-        if (!this.filter) {
-          return true;
-        }
-        return [
+  public shouldShow(event: Event): boolean {
+    return this.categories.includes(event.code[0])
+      && (!this.filter || [
           'title',
           'system',
           'description',
           'presenters',
           'authors',
-        ].some((field) => (e[field] as string).toLowerCase().includes(this.filter.toLowerCase()));
-      });
+        ].some((field) => (event[field] as string).toLowerCase().includes(this.filter.toLowerCase())));
+  }
+
+  get items() {
+    return this.eventSchedule;
+    // return this.eventSchedule
+    //   .filter((e: Event) => this.categories.includes(e.code[0]))
+    //   .filter((e: Event) => {
+    //     if (!this.filter) {
+    //       return true;
+    //     }
+    //     return [
+    //       'title',
+    //       'system',
+    //       'description',
+    //       'presenters',
+    //       'authors',
+    //     ].some((field) => (e[field] as string).toLowerCase().includes(this.filter.toLowerCase()));
+    //   });
   }
 }
 </script>
