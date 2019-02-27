@@ -126,7 +126,9 @@ export default class App extends Vue {
     if (localStorage.scheduledEventCodes) {
       try {
         JSON.parse(localStorage.scheduledEventCodes).forEach((c: string) => this.schedule.addEvent(schedule[c]));
-      } catch {}
+      } catch (err) {
+        console.log(`Failed to load schedule from localStorage: ${err}`);
+      }
     }
     // @ts-ignore
     if (this.onMobile) {

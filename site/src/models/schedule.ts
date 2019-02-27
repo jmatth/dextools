@@ -11,10 +11,6 @@ export default class Schedule {
     return this._lastAdded;
   }
 
-  private updateLocalStorage() {
-    localStorage.scheduledEventCodes = JSON.stringify(this.events.map(e => e.code));
-  }
-
   public addEvent(event: Event): void {
     // Already added
     console.log(`Adding ${event.code} to schedule`);
@@ -71,5 +67,9 @@ export default class Schedule {
     }
     const blob = new Blob([icsEvent]);
     saveAs(blob, 'dextools.ics');
+  }
+
+  private updateLocalStorage() {
+    localStorage.scheduledEventCodes = JSON.stringify(this.events.map((e: Event) => e.code));
   }
 }

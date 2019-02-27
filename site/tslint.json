@@ -16,6 +16,18 @@
     "interface-name": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
-    "no-consecutive-blank-lines": false
+    "no-consecutive-blank-lines": false,
+    "variable-name": [true, "allow-leading-underscore"],
+    "member-ordering": [ false, {"order": [
+      "public-static-field",
+      "public-instance-field",
+      "public-constructor",
+      "private-static-field",
+      "private-instance-field",
+      "private-constructor",
+      "public-instance-method",
+      "protected-instance-method",
+      "private-instance-method"
+    ]}]
   }
 }

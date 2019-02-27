@@ -123,7 +123,7 @@ export default class ScheduleCalendar extends Vue {
   public mounted() {
     // @ts-ignore
     this.$refs.calendar.scrollToTime('09:00');
-  };
+  }
 
   public startDateMatchesDate(startDate: any, date: any): boolean {
     const dateMoment = moment(date);
@@ -163,11 +163,11 @@ export default class ScheduleCalendar extends Vue {
   }
 
   get startCal(): string {
-    return this.scheduleEvents[0].startTime.format("YYYY-MM-DD");
+    return this.scheduleEvents[0].startTime.format('YYYY-MM-DD');
   }
 
   get endCal(): string {
-    return this.scheduleEvents[this.scheduleEvents.length - 1].endTime.format("YYYY-MM-DD");
+    return this.scheduleEvents[this.scheduleEvents.length - 1].endTime.format('YYYY-MM-DD');
   }
 
   get nextDisabled() {
@@ -200,13 +200,13 @@ export default class ScheduleCalendar extends Vue {
 
   get eventsByStartTime() {
     const ebt = new Map();
-    this.schedule.events.forEach(e => {
+    this.schedule.events.forEach((e: Event) => {
       const startStr = e.startTime.format();
       if (!ebt.has(startStr)) {
         ebt.set(startStr, []);
       }
       ebt.get(startStr).push(e);
-    })
+    });
     return Array.from(ebt);
   }
 
@@ -222,7 +222,7 @@ export default class ScheduleCalendar extends Vue {
           'system',
           'description',
           'presenters',
-        ].some((field) => (<string>e[field]).toLowerCase().includes(this.filter.toLowerCase()));
+        ].some((field) => (e[field] as string).toLowerCase().includes(this.filter.toLowerCase()));
       });
   }
 
