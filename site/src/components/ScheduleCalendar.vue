@@ -100,10 +100,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Schedule from '../models/schedule';
 import Event from '../models/event';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 
 @Component
 export default class ScheduleCalendar extends Vue {
@@ -120,9 +120,11 @@ export default class ScheduleCalendar extends Vue {
     this.currDate = this.startCal;
   }
 
-  public mounted() {
-    // @ts-ignore
-    this.$refs.calendar.scrollToTime('09:00');
+  @Watch('schedule.lastAdded')
+  private onEventAdded(): void {
+    this.currDate = this.schedule.lastAdded
+      ? (this.schedule.lastAdded.startTime as Moment).format('YYYY-MM-DD')
+      : this.currDate;
   }
 
   public startDateMatchesDate(startDate: any, date: any): boolean {
