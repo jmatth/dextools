@@ -20,34 +20,34 @@
 
     <v-expansion-panel :style="{ height: height, overflowY: 'scroll' }">
       <v-expansion-panel-content v-for="(item, index) in items" v-show="shouldShow(item)">
-        <div slot="header">
-          <v-avatar color="red" size="20" class="mr-1">
-            <span class="white--text">{{ item.code[0] }}</span>
-          </v-avatar>
-          <span>{{ item.code }}: {{ item.title }}</span>
-          <v-chip class="caption text-truncate" v-if="item.system" small>{{ item.system }}</v-chip>
-          <v-icon class="ml-1" size="20" v-if="item.filled">lock</v-icon>
-        </div>
+        <v-layout row wrap slot="header">
+          <v-flex xs12 sm5>
+            <!-- <v&#45;avatar color="red" size="20" class="mr&#45;1"> -->
+            <!--   <span class="white&#45;&#45;text">{{ item.code[0] }}</span> -->
+            <!-- </v&#45;avatar> -->
+            <span>{{ item.code }}: {{ item.title }}</span>
+          </v-flex>
+          <v-flex xs12 sm7>
+            {{ item.system }}
+          </v-flex>
+          <v-flex xs12 sm5>
+            {{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('HH:mm') }}
+          </v-flex>
+          <v-flex xs12 sm5>
+            {{ item.presenters }}
+          </v-flex>
+          <v-flex xs12 sm2>
+            <v-icon class="ml-1" size="20" v-if="item.filled">lock</v-icon>
+          </v-flex>
+        </v-layout>
 
         <v-card>
           <v-card-text>
-            <p v-if="item.system" class="caption">{{ item.system }}</p>
-            <p>{{ item.description }}</p>
+            {{ item.description }}
           </v-card-text>
           <v-card-actions>
-            <v-list-tile class="grow">
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.presenters || item.authors }}</v-list-tile-title>
-              </v-list-tile-content>
-
-              <v-layout
-                align-center
-                justify-end
-                >
-                <span class="mr-2">{{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('ddd, HH:mm') }}</span>
-                <v-btn flat v-on:click="schedule.addEvent(item)">Add</v-btn>
-              </v-layout>
-            </v-list-tile>
+            <v-spacer />
+            <v-btn flat v-on:click="schedule.addEvent(item)">Add</v-btn>
           </v-card-actions>
         </v-card>
       </v-expansion-panel-content>
