@@ -46,14 +46,7 @@
           </v-icon>
         </v-btn>
         <v-spacer/>
-        <v-btn
-          dark
-          depressed
-          small
-          @click="schedule.exportIcs()"
-        >
-          Export
-        </v-btn>
+        <ExportDialogue :schedule="schedule" />
       </v-toolbar>
       <v-card :height="calType == 'day' ? height : 'auto'">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
@@ -101,11 +94,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import ExportDialogue from './ExportDialogue.vue';
 import Schedule from '../models/schedule';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
 
-@Component
+@Component({
+  components: {
+    ExportDialogue,
+  },
+})
 export default class ScheduleCalendar extends Vue {
   @Prop() private schedule!: Schedule;
   @Prop() private scheduleEvents!: Event[];
