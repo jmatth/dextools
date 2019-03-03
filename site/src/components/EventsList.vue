@@ -2,6 +2,7 @@
   <v-card>
     <v-toolbar
       dark
+      extended
       :extended="breakToolbar"
     >
       <v-text-field
@@ -9,17 +10,49 @@
         single-line
         single
         dark
-        @input="debounceSearch"
-        ></v-text-field>
+        clearable
+        @input="updateSearch"
+      />
 
-      <v-spacer></v-spacer>
+      <v-spacer/>
 
-    <v-checkbox :slot="breakToolbar ? 'extension' : undefined" v-for="code in availableCodes" v-model="categories" :label="code" :value="code"></v-checkbox>
+      <v-select
+        v-model.lazy="categories"
+        :items="availableCodes"
+        label="Categories"
+        multiple
+        chips
+        solo
+        dense
+        clearable
+        flat
+        background-color="rgba(0,0,0,0)"
+        :style="{ maxWidth: (47 * availableCodes.length) + 'px' }"
+      />
 
+      <template slot="extension">
+        <v-select
+          v-model.lazy="days"
+          :items="availableDays"
+          label="Days"
+          multiple
+          chips
+          solo
+          dense
+          clearable
+          flat
+          background-color="rgba(0,0,0,0)"
+          :style="{ maxWidth: (32 * availableCodes.length) + 'px' }"
+        />
+      </template>
     </v-toolbar>
 
     <v-expansion-panel :style="{ height: height, overflowY: 'scroll' }">
-      <v-expansion-panel-content v-for="(item, index) in items" v-show="shouldShow(item)">
+      <v-expansion-panel-content
+        v-for="(item, index) in items"
+        v-show="shouldShow(item)"
+        :key="item.code + '-epc'"
+      >
         <v-layout row wrap slot="header">
           <v-flex xs12 sm5>
             <!-- <v&#45;avatar color="red" size="20" class="mr&#45;1"> -->
@@ -68,19 +101,23 @@ export default class EventsList extends Vue {
   @Prop() private height!: string;
 
   public categories: string[] = [];
+  public days: string[] = [];
   public filter: string = '';
+  public items?: Event[] = undefined;
 
   constructor() {
     super();
-    this.debounceSearch = debounce(this.debounceSearch, 500);
+    this.updateSearch = debounce(this.updateSearch, 500);
   }
 
-  public debounceSearch(input: any): void {
+  public updateSearch(input: any): void {
     this.filter = input;
   }
 
-  public beforeMount() {
-    this.categories = this.availableCodes.slice(0);
+  public created(): void {
+    this.items = this.eventSchedule.map((e: Event) => {
+      return Object.assign({}, e);
+    });
   }
 
   get availableCodes() {
@@ -93,38 +130,34 @@ export default class EventsList extends Vue {
     }, []);
   }
 
+  get availableDays() {
+    return this.eventSchedule.reduce((acc: any, event: Event) => {
+      const day = event.startTime.clone().format('dd');
+      if (!acc.includes(day)) {
+        acc.push(day);
+      }
+      return acc;
+    }, []);
+  }
+
   get breakToolbar() {
     // @ts-ignore
     return this.$vuetify.breakpoint.smAndDown;
   }
 
   public shouldShow(event: Event): boolean {
-    return this.categories.includes(event.code[0])
-      && (!this.filter || [
+    return (
+      (this.categories.length < 1 || this.categories.includes(event.code[0])) &&
+      (this.days.length < 1 || this.days.includes(event.startTime.format('dd'))) &&
+      (!this.filter || [
+          'code',
           'title',
           'system',
           'description',
           'presenters',
           'authors',
-        ].some((field) => (event[field] as string).toLowerCase().includes(this.filter.toLowerCase())));
-  }
-
-  get items() {
-    return this.eventSchedule;
-    // return this.eventSchedule
-    //   .filter((e: Event) => this.categories.includes(e.code[0]))
-    //   .filter((e: Event) => {
-    //     if (!this.filter) {
-    //       return true;
-    //     }
-    //     return [
-    //       'title',
-    //       'system',
-    //       'description',
-    //       'presenters',
-    //       'authors',
-    //     ].some((field) => (e[field] as string).toLowerCase().includes(this.filter.toLowerCase()));
-    //   });
+        ].some((field) => (event[field] as string).toLowerCase().includes(this.filter.toLowerCase())))
+    );
   }
 }
 </script>

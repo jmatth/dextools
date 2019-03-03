@@ -145,7 +145,7 @@ export default class App extends Vue {
   }
 
   get eventListHeight() {
-    return (this.display.mode === 'split' ? 700 : 400) + 'px';
+    return (this.display.mode === 'split' ? 636 : 400) + 'px';
   }
 }
 </script>
