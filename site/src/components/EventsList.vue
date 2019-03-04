@@ -44,6 +44,40 @@
           background-color="rgba(0,0,0,0)"
           :style="{ maxWidth: (32 * availableCodes.length) + 'px' }"
         />
+
+        <v-spacer/>
+        <v-menu
+          ref="startTimeMenu"
+          v-model="filterStartTimeMenu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          :return-value.sync="filterStartTime"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          max-width="290px"
+          min-width="290px"
+          >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="filterStartTime"
+              label="Start at"
+              prepend-icon="access_time"
+              readonly
+              clearable
+              v-on="on"
+              ></v-text-field>
+          </template>
+          <v-time-picker
+            v-if="filterStartTimeMenu"
+            v-model="filterStartTime"
+            full-width
+            format="24hr"
+            :allowed-minutes="timePickerStep"
+            @click:hour="$refs.startTimeMenu.save($event + ':00')"
+            ></v-time-picker>
+        </v-menu>
       </template>
     </v-toolbar>
 
@@ -106,6 +140,8 @@ export default class EventsList extends Vue {
   public days: string[] = [];
   public filter: string = '';
   public items?: Event[] = undefined;
+  public filterStartTime?: any = null;
+  public filterStartTimeMenu: boolean = false;
 
   constructor() {
     super();
@@ -151,10 +187,15 @@ export default class EventsList extends Vue {
     return this.$vuetify.breakpoint.smAndDown;
   }
 
+  public timePickerStep(minutes: number): boolean {
+    return minutes % 30 === 0;
+  }
+
   public shouldShow(event: Event): boolean {
     return (
       (this.categories.length < 1 || this.categories.includes(event.code[0])) &&
       (this.days.length < 1 || this.days.includes(event.startTime.format('dd'))) &&
+      (this.filterStartTime ? event.startTime.format('H:mm') === this.filterStartTime : true) &&
       (!this.filter || [
           'code',
           'title',
