@@ -64,7 +64,6 @@
             :md12="display.mode === 'full'"
           >
             <EventsList
-              :eventSchedule="scheduleList"
               :height="eventListHeight"
             />
           </v-flex>
@@ -73,7 +72,6 @@
             md4
           >
             <AgendaCalendar
-              :scheduleEvents="scheduleList"
               :display='display'
               :height="calendarHeight"
             />
@@ -85,7 +83,6 @@
         >
           <v-flex md12>
             <AgendaCalendar
-            :scheduleEvents="scheduleList"
             :display='display'
             :height="calendarHeight"
           />
@@ -101,13 +98,7 @@ import EventsList from './components/EventsList.vue';
 import AgendaCalendar from './components/AgendaCalendar.vue';
 import Event from './models/event';
 import Agenda from './models/agenda';
-import scheduleJson from './schedule.json';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-
-const schedule: { [index: string]: Event } = {};
-scheduleJson.forEach((e: any) => {
-  schedule[e.code] = new Event(e);
-});
 
 @Component({
   components: {
@@ -136,7 +127,7 @@ export default class App extends Vue {
     if (localStorage.agendaEventCodes) {
       try {
         JSON.parse(localStorage.agendaEventCodes).forEach((c: string) =>
-          this.$store.commit('addEventToAgenda', schedule[c]));
+          this.$store.commit('addEventToAgenda', c));
       } catch (err) {
         console.log(`Failed to load agenda from localStorage: ${err}`);
       }
@@ -144,10 +135,6 @@ export default class App extends Vue {
     if (this.onMobile) {
       this.display.mode = 'full';
     }
-  }
-
-  get scheduleList() {
-    return Object.values(schedule);
   }
 
   get calendarHeight() {

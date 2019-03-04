@@ -100,7 +100,6 @@ import { debounce } from 'lodash';
 
 @Component
 export default class EventsList extends Vue {
-  @Prop() private eventSchedule!: any;
   @Prop() private height!: string;
 
   public categories: string[] = [];
@@ -113,18 +112,22 @@ export default class EventsList extends Vue {
     this.updateSearch = debounce(this.updateSearch, 500);
   }
 
+  get scheduleEvents(): Event[] {
+    return Object.values(this.$store.state.schedule);
+  }
+
   public updateSearch(input: any): void {
     this.filter = input;
   }
 
   public created(): void {
-    this.items = this.eventSchedule.map((e: Event) => {
+    this.items = this.scheduleEvents.map((e: Event) => {
       return Object.assign({}, e);
     });
   }
 
   get availableCodes() {
-    return this.eventSchedule.reduce((acc: string[], e: Event) => {
+    return this.scheduleEvents.reduce((acc: string[], e: Event) => {
       const code = e.code[0];
       if (!acc.includes(code)) {
         acc.push(code);
@@ -134,7 +137,7 @@ export default class EventsList extends Vue {
   }
 
   get availableDays() {
-    return this.eventSchedule.reduce((acc: any, event: Event) => {
+    return this.scheduleEvents.reduce((acc: any, event: Event) => {
       const day = event.startTime.clone().format('dd');
       if (!acc.includes(day)) {
         acc.push(day);
