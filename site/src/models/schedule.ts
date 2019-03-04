@@ -4,10 +4,6 @@ import { saveAs } from 'file-saver';
 
 export default class Schedule {
   public readonly events: Event[] = [];
-  public readonly conName: string = 'Dreamation';
-  public readonly conEmail: string = 'josh@jmatth.com';
-
-  public userName: string = '';
 
   private _lastAdded?: Event = undefined;
 

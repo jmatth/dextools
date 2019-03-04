@@ -8,6 +8,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     schedule: new Schedule(),
+    userName: '',
+    conName: 'Dreamation',
+    conEmail: 'josh@jmatth.com',
   },
   mutations: {
     addEventToSchedule(state: any, event: Event) {

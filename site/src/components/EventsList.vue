@@ -82,7 +82,7 @@
             <v-spacer />
             <v-btn
               flat
-              v-on:click="this.$store.commit('addeEventToSchedule', item)">
+              v-on:click="$store.commit('addEventToSchedule', item)">
                 Add
             </v-btn>
           </v-card-actions>

@@ -46,7 +46,7 @@
           </v-icon>
         </v-btn>
         <v-spacer/>
-        <ExportDialogue :schedule="this.$store.state.schedule" />
+        <ExportDialogue/>
       </v-toolbar>
       <v-card :height="calType == 'day' ? height : 'auto'">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->

@@ -31,7 +31,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn
-          @click="schedule.exportIcs()"
+          @click="$store.state.schedule.exportIcs()"
         >
           ICS
         </v-btn>
@@ -54,25 +54,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import Schedule from '../models/schedule';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
 
 @Component
 export default class ScheduleCalendar extends Vue {
-  @Prop() private schedule!: Schedule;
-
   public exportDialogue: boolean = false;
 
   get emailText(): string {
-    return this.schedule.events.reduce((text: string, event: Event) => text += `\n${event.code}`, '<YOUR NAME>\n');
+    return this.$store.state.schedule.events.reduce(
+      (text: string, event: Event) => text += `\n${event.code}`, '<YOUR NAME>\n');
   }
 
   get mailtoLink(): string {
-    const subject = encodeURI(`${this.schedule.conName} Registration`);
+    const subject = encodeURI(`${this.$store.state.conName} Registration`);
     const body = encodeURI(this.emailText);
-    return `mailto:${this.schedule.conEmail}?subject=${subject}&body=${body}`;
+    return `mailto:${this.$store.state.conEmail}?subject=${subject}&body=${body}`;
   }
 }
 </script>
