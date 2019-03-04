@@ -46,7 +46,7 @@
           </v-icon>
         </v-btn>
         <v-spacer/>
-        <ExportDialogue :schedule="schedule" />
+        <ExportDialogue :schedule="this.$store.state.schedule" />
       </v-toolbar>
       <v-card :height="calType == 'day' ? height : 'auto'">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
@@ -105,7 +105,6 @@ import moment, { Moment } from 'moment';
   },
 })
 export default class ScheduleCalendar extends Vue {
-  @Prop() private schedule!: Schedule;
   @Prop() private scheduleEvents!: Event[];
   @Prop() private display!: any;
   @Prop() private height!: string;
@@ -118,10 +117,10 @@ export default class ScheduleCalendar extends Vue {
     this.currDate = this.startCal;
   }
 
-  @Watch('schedule.lastAdded')
+  @Watch('this.$store.state.schedule.lastAdded')
   private onEventAdded(): void {
-    this.currDate = this.schedule.lastAdded
-      ? (this.schedule.lastAdded.startTime as Moment).format('YYYY-MM-DD')
+    this.currDate = this.$store.state.schedule.lastAdded
+      ? (this.$store.state.schedule.lastAdded.startTime as Moment).format('YYYY-MM-DD')
       : this.currDate;
   }
 
@@ -142,7 +141,7 @@ export default class ScheduleCalendar extends Vue {
   }
 
   public overlappingEventsCount(event: Event): number {
-    const oldOverlappingCount = this.schedule.events.reduce((acc: number, e: Event) => {
+    const oldOverlappingCount = this.$store.state.schedule.events.reduce((acc: number, e: Event) => {
       if (e.code === event.code) {
         return acc;
       }
@@ -200,7 +199,7 @@ export default class ScheduleCalendar extends Vue {
 
   get eventsByStartTime() {
     const ebt = new Map();
-    this.schedule.events.forEach((e: Event) => {
+    this.$store.state.schedule.events.forEach((e: Event) => {
       const startStr = e.startTime.format();
       if (!ebt.has(startStr)) {
         ebt.set(startStr, []);
@@ -211,9 +210,9 @@ export default class ScheduleCalendar extends Vue {
   }
 
   get items() {
-    return this.schedule.events
-      .filter((e) => this.categories.includes(e.code[0]))
-      .filter((e) => {
+    return this.$store.state.schedule.events
+      .filter((e: Event) => this.categories.includes(e.code[0]))
+      .filter((e: Event) => {
         if (!this.filter) {
           return true;
         }

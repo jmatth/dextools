@@ -80,7 +80,11 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn flat v-on:click="schedule.addEvent(item)">Add</v-btn>
+            <v-btn
+              flat
+              v-on:click="this.$store.commit('addeEventToSchedule', item)">
+                Add
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-expansion-panel-content>
@@ -97,7 +101,6 @@ import { debounce } from 'lodash';
 @Component
 export default class EventsList extends Vue {
   @Prop() private eventSchedule!: any;
-  @Prop() private schedule!: Schedule;
   @Prop() private height!: string;
 
   public categories: string[] = [];

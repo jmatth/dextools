@@ -63,13 +63,20 @@
             :md8="display.mode === 'split'"
             :md12="display.mode === 'full'"
           >
-            <EventsList :schedule="schedule" :eventSchedule="scheduleList" :height="eventListHeight"/>
+            <EventsList
+              :eventSchedule="scheduleList"
+              :height="eventListHeight"
+            />
           </v-flex>
           <v-flex
             v-if="display.mode === 'split'"
             md4
           >
-            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" :display='display' :height="calendarHeight" />
+            <ScheduleCalendar
+              :scheduleEvents="scheduleList"
+              :display='display'
+              :height="calendarHeight"
+            />
           </v-flex>
         </v-layout>
         <v-layout
@@ -77,7 +84,7 @@
           row
         >
           <v-flex md12>
-            <ScheduleCalendar :schedule="schedule" :scheduleEvents="scheduleList" :display='display' :height="calendarHeight"/>
+            <ScheduleCalendar :scheduleEvents="scheduleList" :display='display' :height="calendarHeight"/>
           </v-flex>
         </v-layout>
       </v-container>
@@ -105,7 +112,6 @@ scheduleJson.forEach((e: any) => {
   },
 })
 export default class App extends Vue {
-  public schedule = new Schedule();
   public about = false;
   public display = {
         mode: 'split',
@@ -125,12 +131,12 @@ export default class App extends Vue {
   public mounted(): void {
     if (localStorage.scheduledEventCodes) {
       try {
-        JSON.parse(localStorage.scheduledEventCodes).forEach((c: string) => this.schedule.addEvent(schedule[c]));
+        JSON.parse(localStorage.scheduledEventCodes).forEach((c: string) =>
+          this.$store.commit('addEventToSchedule', schedule[c]));
       } catch (err) {
         console.log(`Failed to load schedule from localStorage: ${err}`);
       }
     }
-    // @ts-ignore
     if (this.onMobile) {
       this.display.mode = 'full';
     }
