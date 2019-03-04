@@ -82,7 +82,7 @@
             <v-spacer />
             <v-btn
               flat
-              v-on:click="$store.commit('addEventToSchedule', item)">
+              v-on:click="$store.commit('addEventToAgenda', item)">
                 Add
             </v-btn>
           </v-card-actions>
@@ -93,7 +93,7 @@
 </template>
 
 <script lang="ts">
-import Schedule from '../models/schedule';
+import Agenda from '../models/agenda';
 import Event from '../models/event';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { debounce } from 'lodash';

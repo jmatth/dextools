@@ -73,7 +73,7 @@
                       height: minutesToPixels(getEventMinutes(event)) + 'px',
                       marginLeft: overlappingEventsCount(event) * 5 + 100/startWithEvents[1].length * index + '%'}"
                     class="my-event with-time"
-                    @click="schedule.removeEvent(event.code)"
+                    @click="$store.commit('removeEventFromAgenda', event.code)"
                     >
                       {{ `${event.code}: ${event.title}` }}
                       <v-icon
@@ -95,7 +95,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ExportDialogue from './ExportDialogue.vue';
-import Schedule from '../models/schedule';
+import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
 
@@ -104,8 +104,7 @@ import moment, { Moment } from 'moment';
     ExportDialogue,
   },
 })
-export default class ScheduleCalendar extends Vue {
-  @Prop() private scheduleEvents!: Event[];
+export default class AgendaCalendar extends Vue {
   @Prop() private display!: any;
   @Prop() private height!: string;
 
@@ -117,10 +116,18 @@ export default class ScheduleCalendar extends Vue {
     this.currDate = this.startCal;
   }
 
-  @Watch('this.$store.state.schedule.lastAdded')
+  get scheduleEvents(): Event[] {
+    return Object.values(this.$store.state.schedule);
+  }
+
+  get lastEventAdded() {
+    return this.$store.state.agenda.lastAdded;
+  }
+
+  @Watch('lastEventAdded')
   private onEventAdded(): void {
-    this.currDate = this.$store.state.schedule.lastAdded
-      ? (this.$store.state.schedule.lastAdded.startTime as Moment).format('YYYY-MM-DD')
+    this.currDate = this.lastEventAdded
+      ? (this.lastEventAdded.startTime as Moment).format('YYYY-MM-DD')
       : this.currDate;
   }
 
@@ -141,7 +148,7 @@ export default class ScheduleCalendar extends Vue {
   }
 
   public overlappingEventsCount(event: Event): number {
-    const oldOverlappingCount = this.$store.state.schedule.events.reduce((acc: number, e: Event) => {
+    const oldOverlappingCount = this.$store.state.agenda.events.reduce((acc: number, e: Event) => {
       if (e.code === event.code) {
         return acc;
       }
@@ -199,7 +206,7 @@ export default class ScheduleCalendar extends Vue {
 
   get eventsByStartTime() {
     const ebt = new Map();
-    this.$store.state.schedule.events.forEach((e: Event) => {
+    this.$store.state.agenda.events.forEach((e: Event) => {
       const startStr = e.startTime.format();
       if (!ebt.has(startStr)) {
         ebt.set(startStr, []);
@@ -210,7 +217,7 @@ export default class ScheduleCalendar extends Vue {
   }
 
   get items() {
-    return this.$store.state.schedule.events
+    return this.$store.state.agenda.events
       .filter((e: Event) => this.categories.includes(e.code[0]))
       .filter((e: Event) => {
         if (!this.filter) {

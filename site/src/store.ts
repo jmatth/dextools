@@ -1,20 +1,23 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import Schedule from './models/schedule';
+import Agenda from './models/agenda';
 import Event from './models/event';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    schedule: new Schedule(),
+    agenda: new Agenda(),
     userName: '',
     conName: 'Dreamation',
     conEmail: 'josh@jmatth.com',
   },
   mutations: {
-    addEventToSchedule(state: any, event: Event) {
-      state.schedule.addEvent(event);
+    addEventToAgenda(state: any, event: Event) {
+      state.agenda.addEvent(event);
+    },
+    removeEventFromAgenda(state: any, code: string) {
+      state.agenda.removeEvent(code);
     },
   },
   actions: {

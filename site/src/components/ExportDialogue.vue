@@ -31,7 +31,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn
-          @click="$store.state.schedule.exportIcs()"
+          @click="$store.state.agenda.exportIcs()"
         >
           ICS
         </v-btn>
@@ -55,16 +55,16 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import Schedule from '../models/schedule';
+import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
 
 @Component
-export default class ScheduleCalendar extends Vue {
+export default class AgendaCalendar extends Vue {
   public exportDialogue: boolean = false;
 
   get emailText(): string {
-    return this.$store.state.schedule.events.reduce(
+    return this.$store.state.agenda.events.reduce(
       (text: string, event: Event) => text += `\n${event.code}`, '<YOUR NAME>\n');
   }
 

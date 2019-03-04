@@ -72,7 +72,7 @@
             v-if="display.mode === 'split'"
             md4
           >
-            <ScheduleCalendar
+            <AgendaCalendar
               :scheduleEvents="scheduleList"
               :display='display'
               :height="calendarHeight"
@@ -84,7 +84,11 @@
           row
         >
           <v-flex md12>
-            <ScheduleCalendar :scheduleEvents="scheduleList" :display='display' :height="calendarHeight"/>
+            <AgendaCalendar
+            :scheduleEvents="scheduleList"
+            :display='display'
+            :height="calendarHeight"
+          />
           </v-flex>
         </v-layout>
       </v-container>
@@ -94,9 +98,9 @@
 
 <script lang="ts">
 import EventsList from './components/EventsList.vue';
-import ScheduleCalendar from './components/ScheduleCalendar.vue';
+import AgendaCalendar from './components/AgendaCalendar.vue';
 import Event from './models/event';
-import Schedule from './models/schedule';
+import Agenda from './models/agenda';
 import scheduleJson from './schedule.json';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
@@ -108,7 +112,7 @@ scheduleJson.forEach((e: any) => {
 @Component({
   components: {
     EventsList,
-    ScheduleCalendar,
+    AgendaCalendar,
   },
 })
 export default class App extends Vue {
@@ -129,12 +133,12 @@ export default class App extends Vue {
   }
 
   public mounted(): void {
-    if (localStorage.scheduledEventCodes) {
+    if (localStorage.agendaEventCodes) {
       try {
-        JSON.parse(localStorage.scheduledEventCodes).forEach((c: string) =>
-          this.$store.commit('addEventToSchedule', schedule[c]));
+        JSON.parse(localStorage.agendaEventCodes).forEach((c: string) =>
+          this.$store.commit('addEventToAgenda', schedule[c]));
       } catch (err) {
-        console.log(`Failed to load schedule from localStorage: ${err}`);
+        console.log(`Failed to load agenda from localStorage: ${err}`);
       }
     }
     if (this.onMobile) {
