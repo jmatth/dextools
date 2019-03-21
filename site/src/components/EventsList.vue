@@ -93,8 +93,11 @@
                       ></v-time-picker>
                   </v-menu>
                 </v-flex>
-                <v-flex sm12 md2>
+                <v-flex sm6 md3>
                   <v-checkbox label="Hide filled" v-model="hideFilled"/>
+                </v-flex>
+                <v-flex sm6 md3>
+                  <v-checkbox label="Hide conflicting" v-model="hideConflicting"/>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -171,6 +174,7 @@ export default class EventsList extends Vue {
   public filter: string = '';
   public items?: Event[] = undefined;
   public hideFilled: boolean = false;
+  public hideConflicting: boolean = false;
   public filterStartTime?: any = null;
   public filterStartTimeMenu: boolean = false;
   public showAdvancedFilter: boolean = false;
@@ -221,12 +225,15 @@ export default class EventsList extends Vue {
   public clearAdvancedFilter(): void {
     this.filterStartTime = null;
     this.days = [];
+    this.hideFilled = false;
+    this.hideConflicting = false;
     this.showAdvancedFilter = false;
   }
 
   public shouldShow(event: Event): boolean {
     return (
       (!this.hideFilled || !event.filled) &&
+      (!this.hideConflicting || !this.$store.state.agenda.events.some((se: Event) => se.conflicts(event))) &&
       (this.categories.length < 1 || this.categories.includes(event.code[0])) &&
       (this.days.length < 1 || this.days.includes(event.startTime.format('dd'))) &&
       (this.filterStartTime ? event.startTime.format('H:mm') === this.filterStartTime : true) &&

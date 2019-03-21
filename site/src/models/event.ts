@@ -1,7 +1,7 @@
 import moment, { Moment } from 'moment';
 
 export default class Event {
-  [key: string]: string|boolean|Moment;
+  [key: string]: any;
   public code: string;
   public title: string;
   public description: string;
@@ -45,5 +45,12 @@ export default class Event {
     this.startTime = moment(start_time);
     this.endTime = moment(end_time);
     this.filled = filled;
+  }
+
+  public conflicts(that: Event): boolean {
+    // Let's just say events don't conflict with themselves
+    if (this.code === that.code) { return false; }
+    return (this.startTime.isSameOrBefore(that.startTime) && this.endTime.isSameOrAfter(that.startTime)) ||
+           (this.startTime.isSameOrBefore(that.endTime) && this.endTime.isSameOrAfter(that.endTime));
   }
 }
