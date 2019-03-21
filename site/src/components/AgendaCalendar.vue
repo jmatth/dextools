@@ -1,9 +1,7 @@
 <template>
   <v-layout>
     <v-flex>
-      <v-toolbar
-        class="blue-grey white--text"
-      >
+      <v-toolbar dark>
         <v-btn
           v-if="calType === 'day'"
           fab

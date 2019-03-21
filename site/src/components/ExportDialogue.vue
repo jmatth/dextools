@@ -9,6 +9,7 @@
           dark
           depressed
           small
+          color="primary"
         >
           Export
         </v-btn>
