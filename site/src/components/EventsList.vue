@@ -1,10 +1,6 @@
 <template>
   <v-card>
-    <v-toolbar
-      dark
-      extended
-      :extended="breakToolbar"
-    >
+    <v-toolbar dark>
       <v-text-field
         label="Filter"
         single-line
@@ -30,55 +26,89 @@
         :style="{ maxWidth: (47 * availableCodes.length) + 'px' }"
       />
 
-      <template slot="extension">
-        <v-select
-          v-model.lazy="days"
-          :items="availableDays"
-          label="Days"
-          multiple
-          chips
-          solo
-          dense
-          clearable
-          flat
-          background-color="rgba(0,0,0,0)"
-          :style="{ maxWidth: (32 * availableCodes.length) + 'px' }"
-        />
 
-        <v-spacer/>
-        <v-menu
-          ref="startTimeMenu"
-          v-model="filterStartTimeMenu"
-          :close-on-content-click="false"
-          :nudge-right="40"
-          :return-value.sync="filterStartTime"
-          lazy
-          transition="scale-transition"
-          offset-y
-          full-width
-          max-width="290px"
-          min-width="290px"
+      <v-dialog v-model="showAdvancedFilter">
+        <v-btn
+          fab
+          depressed
+          flat
+          slot="activator"
+        >
+          <v-icon>remove_red_eye</v-icon>
+        </v-btn>
+        <v-card>
+          <v-card-title
+            class="headline grey lighten-2"
+            primary-title
           >
-          <template v-slot:activator="{ on }">
-            <v-text-field
-              v-model="filterStartTime"
-              label="Start at"
-              prepend-icon="access_time"
-              readonly
-              clearable
-              v-on="on"
-              ></v-text-field>
-          </template>
-          <v-time-picker
-            v-if="filterStartTimeMenu"
-            v-model="filterStartTime"
-            full-width
-            format="24hr"
-            :allowed-minutes="timePickerStep"
-            @click:hour="$refs.startTimeMenu.save($event + ':00')"
-            ></v-time-picker>
-        </v-menu>
-      </template>
+            Advanced Search
+          </v-card-title>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex sm12 md6>
+                  <v-select
+                    v-model.lazy="days"
+                    :items="availableDays"
+                    label="Days"
+                    multiple
+                    chips
+                    solo
+                    dense
+                    clearable
+                    background-color="rgba(0,0,0,0)"
+                    :style="{ maxWidth: (32 * availableCodes.length) + 'px' }"
+                  />
+                </v-flex>
+                <v-flex sm12 md6>
+                  <v-menu
+                    ref="startTimeMenu"
+                    v-model="filterStartTimeMenu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    :return-value.sync="filterStartTime"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    max-width="290px"
+                    min-width="290px"
+                    >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="filterStartTime"
+                        label="Start at"
+                        readonly
+                        clearable
+                        v-on="on"
+                      />
+                    </template>
+                    <v-time-picker
+                      v-if="filterStartTimeMenu"
+                      v-model="filterStartTime"
+                      full-width
+                      format="24hr"
+                      :allowed-minutes="timePickerStep"
+                      @click:hour="$refs.startTimeMenu.save($event + ':00')"
+                      ></v-time-picker>
+                  </v-menu>
+                </v-flex>
+                <v-flex sm12 md2>
+                  <v-checkbox label="Hide filled" v-model="hideFilled"/>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+          <v-divider/>
+          <v-spacer/>
+          <v-btn @click="showAdvancedFilter = false" color="primary">
+            Apply
+          </v-btn>
+          <v-btn @click="clearAdvancedFilter">
+            clear
+          </v-btn>
+        </v-card>
+      </v-dialog>
     </v-toolbar>
 
     <v-expansion-panel :style="{ height: height, overflowY: 'scroll' }">
@@ -140,8 +170,10 @@ export default class EventsList extends Vue {
   public days: string[] = [];
   public filter: string = '';
   public items?: Event[] = undefined;
+  public hideFilled: boolean = false;
   public filterStartTime?: any = null;
   public filterStartTimeMenu: boolean = false;
+  public showAdvancedFilter: boolean = false;
 
   constructor() {
     super();
@@ -182,17 +214,19 @@ export default class EventsList extends Vue {
     }, []);
   }
 
-  get breakToolbar() {
-    // @ts-ignore
-    return this.$vuetify.breakpoint.smAndDown;
-  }
-
   public timePickerStep(minutes: number): boolean {
     return minutes % 30 === 0;
   }
 
+  public clearAdvancedFilter(): void {
+    this.filterStartTime = null;
+    this.days = [];
+    this.showAdvancedFilter = false;
+  }
+
   public shouldShow(event: Event): boolean {
     return (
+      (!this.hideFilled || !event.filled) &&
       (this.categories.length < 1 || this.categories.includes(event.code[0])) &&
       (this.days.length < 1 || this.days.includes(event.startTime.format('dd'))) &&
       (this.filterStartTime ? event.startTime.format('H:mm') === this.filterStartTime : true) &&
