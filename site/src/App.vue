@@ -58,34 +58,23 @@
     </v-toolbar>
     <v-content>
       <v-container fluid grid-list-md>
-        <v-layout row>
+        <v-layout row wrap>
           <v-flex
-            :md8="display.mode === 'split'"
             :md12="display.mode === 'full'"
+            :md8="display.mode === 'split'"
           >
             <EventsList
               :height="eventListHeight"
             />
           </v-flex>
           <v-flex
-            v-if="display.mode === 'split'"
-            md4
+            :md12="display.mode === 'full'"
+            :md4="display.mode === 'split'"
           >
             <AgendaCalendar
               :display='display'
               :height="calendarHeight"
             />
-          </v-flex>
-        </v-layout>
-        <v-layout
-          v-if="display.mode === 'full'"
-          row
-        >
-          <v-flex md12>
-            <AgendaCalendar
-            :display='display'
-            :height="calendarHeight"
-          />
           </v-flex>
         </v-layout>
       </v-container>
