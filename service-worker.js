@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.f8b1d1b9ae0b18e226f52120eba2e26f.js"
+  "/precache-manifest.27532f2915840fc7d805c4559ff1ce89.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "dextools"});
