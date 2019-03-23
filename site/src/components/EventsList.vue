@@ -37,10 +37,7 @@
           <v-icon>remove_red_eye</v-icon>
         </v-btn>
         <v-card>
-          <v-card-title
-            class="headline grey lighten-2"
-            primary-title
-          >
+          <v-card-title class="headline grey darken-4 grey--text">
             Advanced Search
           </v-card-title>
           <v-card-text>
@@ -56,7 +53,6 @@
                     solo
                     dense
                     clearable
-                    background-color="rgba(0,0,0,0)"
                     :style="{ maxWidth: (32 * availableCodes.length) + 'px' }"
                   />
                 </v-flex>
