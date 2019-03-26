@@ -145,8 +145,9 @@
             <v-spacer />
             <v-btn
               flat
-              v-on:click="$store.commit('addEventToAgenda', item)">
-                Add
+              v-on:click="$store.commit('addEventToAgenda', item.code)"
+            >
+              Add
             </v-btn>
           </v-card-actions>
         </v-card>
