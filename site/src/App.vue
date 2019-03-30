@@ -1,5 +1,17 @@
 <template>
   <v-app id="inspire">
+    <v-dialog :value="scheduleLoading" width="130" hide-overlay persistent>
+      <v-card color="primary" dark>
+        <v-card-text>
+          Loading...
+          <v-progress-circular
+            indeterminate
+            color="white"
+            class="mb-0"
+          />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <v-toolbar
       color="indigo"
       dark
@@ -58,7 +70,11 @@
     </v-toolbar>
     <v-content>
       <v-container fluid grid-list-md>
-        <v-layout row wrap>
+        <v-layout
+          v-if="$store.state.schedule.length > 0"
+          row
+          wrap
+        >
           <v-flex
             :md12="display.mode === 'full'"
             :md8="display.mode === 'split'"
@@ -124,6 +140,10 @@ export default class App extends Vue {
     if (this.onMobile) {
       this.display.mode = 'full';
     }
+  }
+
+  get scheduleLoading() {
+    return Object.keys(this.$store.state.schedule).length < 1;
   }
 
   get calendarHeight() {

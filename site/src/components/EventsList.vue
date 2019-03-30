@@ -185,8 +185,8 @@ export default class EventsList extends Vue {
     return Object.values(this.$store.state.schedule);
   }
 
-  public updateSearch(input: any): void {
-    this.filter = input;
+  public updateSearch(input: string|null): void {
+    this.filter = input === null ? '' : input.trim();
   }
 
   public created(): void {

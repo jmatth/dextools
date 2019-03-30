@@ -2,19 +2,18 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import Agenda from './models/agenda';
 import Event from './models/event';
-import scheduleJson from './schedule.json';
+import axios from 'axios';
 
-const schedule: { [index: string]: Event } = {};
-scheduleJson.forEach((e: any) => {
-  schedule[e.code] = new Event(e);
-});
+interface Schedule {
+  [key: string]: Event;
+}
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     agenda: new Agenda(),
-    schedule,
+    schedule: {},
     userName: '',
     conName: 'Dreamation',
     conEmail: 'josh@jmatth.com',
@@ -26,7 +25,20 @@ export default new Vuex.Store({
     removeEventFromAgenda(state: any, code: string) {
       state.agenda.removeEvent(code);
     },
+    setSchedule(state: any, schedule: Schedule) {
+      state.schedule = schedule;
+    },
   },
   actions: {
+    loadSchedule(context) {
+      axios.get('/schedule.json').then((response: any) => {
+        const schedule = response.data.map((e: any) => new Event(e));
+        context.commit('setSchedule', schedule);
+      });
+    },
   },
 });
+
+export default store;
+
+store.dispatch('loadSchedule');
