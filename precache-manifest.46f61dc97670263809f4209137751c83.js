@@ -16,8 +16,16 @@ self.__precacheManifest = [
     "url": "/js/app.6f8f4fa5.js"
   },
   {
-    "revision": "ef7c22fe56973946fbfcbed55aca3f94",
+    "revision": "fc999c6e7c03aac11c61dab35ff8c9d9",
     "url": "/index.html"
+  },
+  {
+    "revision": "f819607e397c0b97650f6bdbd520bdf7",
+    "url": "/css/roboto.css"
+  },
+  {
+    "revision": "66a7876a79395255d7ff16313464e08d",
+    "url": "/css/materialIcons.css"
   },
   {
     "revision": "492facdf26ce796e74c6",
