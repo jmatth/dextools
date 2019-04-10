@@ -71,7 +71,7 @@
     <v-content>
       <v-container fluid grid-list-md>
         <v-layout
-          v-if="$store.state.schedule.length > 0"
+          v-if="Object.keys($store.state.schedule).length > 0"
           row
           wrap
         >

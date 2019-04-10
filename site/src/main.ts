@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import './plugins/vuetify';
+import './plugins/virtual-scroller';
 import Event from './models/event';
 import App from './App.vue';
 import moment from 'moment';

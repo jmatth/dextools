@@ -32,7 +32,7 @@ const store = new Vuex.Store({
   actions: {
     loadSchedule(context) {
       axios.get('/schedule.json').then((response: any) => {
-        const schedule = response.data.map((e: any) => new Event(e));
+        const schedule = Object.assign({}, ...(response.data.map((e: any) => ({ [e.code]: new Event(e) }))));
         context.commit('setSchedule', schedule);
       });
     },

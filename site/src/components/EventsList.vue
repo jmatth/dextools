@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card style="height:700px">
     <v-toolbar dark>
       <v-text-field
         label="Filter"
@@ -110,49 +110,78 @@
       </v-dialog>
     </v-toolbar>
 
-    <v-expansion-panel :style="{ height: height, overflowY: 'scroll' }">
-      <v-expansion-panel-content
-        v-for="(item, index) in items"
-        v-show="shouldShow(item)"
-        :key="item.code + '-epc'"
-      >
-        <v-layout row wrap slot="header">
-          <v-flex xs12 sm5>
-            <!-- <v&#45;avatar color="red" size="20" class="mr&#45;1"> -->
-            <!--   <span class="white&#45;&#45;text">{{ item.code[0] }}</span> -->
-            <!-- </v&#45;avatar> -->
-            <span>{{ item.code }}: {{ item.title }}</span>
+    <DynamicScroller
+      class="scroller"
+      :items="filteredItems"
+      :min-item-size="78"
+      key-field="code"
+      style="height:600px;"
+    >
+      <template v-slot="{ item, index, active }">
+        <DynamicScrollerItem
+          :item="item"
+          :active="active"
+          :data-index="index"
+          :size-dependencies="[ expandedCode ]"
+          :class="{ 'event-item-row': true, 'event-item-row-expanded': isExpanded(item) }"
+        >
+        <v-layout
+          row
+          wrap
+          class="event-item-row-header"
+          @click="toggleExpanded(item)"
+        >
+          <v-flex xs11>
+            <v-layout row wrap>
+              <v-flex xs12 sm5>
+                <!-- <v&#45;avatar color="red" size="20" class="mr&#45;1"> -->
+                <!--   <span class="white&#45;&#45;text">{{ item.code[0] }}</span> -->
+                <!-- </v&#45;avatar> -->
+                <span>{{ item.code }}: {{ item.title }}</span>
+              </v-flex>
+              <v-flex xs12 sm6>
+                {{ item.system }}
+              </v-flex>
+              <v-flex xs12 sm5>
+                {{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('HH:mm') }}
+              </v-flex>
+              <v-flex xs12 sm5>
+                {{ item.presenters }}
+              </v-flex>
+              <v-flex xs12 sm1>
+                <v-icon class="ml-1" size="20" v-if="item.filled">lock</v-icon>
+              </v-flex>
+            </v-layout>
           </v-flex>
-          <v-flex xs12 sm7>
-            {{ item.system }}
-          </v-flex>
-          <v-flex xs12 sm5>
-            {{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('HH:mm') }}
-          </v-flex>
-          <v-flex xs12 sm5>
-            {{ item.presenters }}
-          </v-flex>
-          <v-flex xs12 sm2>
-            <v-icon class="ml-1" size="20" v-if="item.filled">lock</v-icon>
+          <v-flex xs1>
+            <v-layout row wrap>
+              <v-flex xs12 order-xs2 sm6 order-sm1>
+                <v-btn
+                  flat
+                  icon
+                  depressed
+                >
+                  <v-icon size="20">{{ isExpanded(item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+                </v-btn>
+              </v-flex>
+              <v-flex xs12 order-xs1 sm6 order-sm2>
+                <v-btn
+                  flat
+                  icon
+                  v-on:click="$store.commit('addEventToAgenda', item.code)"
+                >
+                  <v-icon size="20">add</v-icon>
+                </v-btn>
+              </v-flex>
+            </v-layout>
           </v-flex>
         </v-layout>
-
-        <v-card>
-          <v-card-text>
-            {{ item.description }}
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              flat
-              v-on:click="$store.commit('addEventToAgenda', item.code)"
-            >
-              Add
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+        <div v-show="expandedCode === item.code" class="event-item-row-body">
+          {{ item.description }}
+        </div>
+        </DynamicScrollerItem>
+      </template>
+    </DynamicScroller>
   </v-card>
 </template>
 
@@ -175,6 +204,14 @@ export default class EventsList extends Vue {
   public filterStartTime?: any = null;
   public filterStartTimeMenu: boolean = false;
   public showAdvancedFilter: boolean = false;
+  public expandedCode: string = '';
+
+  // public expansionPanel: any = {
+  //   panelClick(): any {
+  //     console.log('panel clicked');
+  //     console.log(arguments);
+  //   },
+  // };
 
   constructor() {
     super();
@@ -193,6 +230,14 @@ export default class EventsList extends Vue {
     this.items = this.scheduleEvents.map((e: Event) => {
       return Object.assign({}, e);
     });
+  }
+
+  public toggleExpanded(event: Event): void {
+    this.expandedCode = this.expandedCode === event.code ? '' : event.code;
+  }
+
+  public isExpanded(event: Event): boolean {
+    return this.expandedCode === event.code;
   }
 
   get availableCodes() {
@@ -227,6 +272,10 @@ export default class EventsList extends Vue {
     this.showAdvancedFilter = false;
   }
 
+  get filteredItems(): Event[] {
+    return this.items ? this.items.filter((e: Event) => this.shouldShow(e)) : [];
+  }
+
   public shouldShow(event: Event): boolean {
     return (
       (!this.hideFilled || !event.filled) &&
@@ -246,3 +295,22 @@ export default class EventsList extends Vue {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.event-item-row {
+  border-top: 1px solid rgba(0,0,0,0.12);
+
+  &-expanded {
+    margin-bottom: 10px;
+  }
+
+  &-header {
+    padding: 12px 24px 12px 24px;
+    cursor: pointer;
+  }
+
+  &-body {
+    padding: 0px 24px 12px 24px;
+  }
+}
+</style>
