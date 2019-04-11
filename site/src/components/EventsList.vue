@@ -1,5 +1,5 @@
 <template>
-  <v-card style="height:700px">
+  <v-card :style="{ height: height + 'px' }">
     <v-toolbar dark>
       <v-text-field
         label="Filter"
@@ -115,7 +115,7 @@
       :items="filteredItems"
       :min-item-size="78"
       key-field="code"
-      style="height:600px;"
+      style="height:700px;"
     >
       <template v-slot="{ item, index, active }">
         <DynamicScrollerItem
@@ -168,7 +168,7 @@
                 <v-btn
                   flat
                   icon
-                  v-on:click="$store.commit('addEventToAgenda', item.code)"
+                  @click.stop="$store.commit('addEventToAgenda', item.code)"
                 >
                   <v-icon size="20">add</v-icon>
                 </v-btn>
