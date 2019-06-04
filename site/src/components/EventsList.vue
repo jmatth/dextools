@@ -188,6 +188,7 @@
 <script lang="ts">
 import Agenda from '../models/agenda';
 import Event from '../models/event';
+import { Moment } from 'moment';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { debounce } from 'lodash';
 
@@ -251,13 +252,15 @@ export default class EventsList extends Vue {
   }
 
   get availableDays() {
-    return this.scheduleEvents.reduce((acc: any, event: Event) => {
-      const day = event.startTime.clone().format('dd');
-      if (!acc.includes(day)) {
+    const days = this.scheduleEvents.reduce((acc: any, event: Event) => {
+      const day = event.startTime.clone();
+      if (!acc.includes(day.format('dd'))) {
         acc.push(day);
       }
       return acc;
     }, []);
+    days.sort((d1: Moment, d2: Moment) => d1.isBefore(d2) ? -1 : 1);
+    return days.map((d: Moment) => d.format('dd'));
   }
 
   public timePickerStep(minutes: number): boolean {

@@ -167,7 +167,10 @@ export default class AgendaCalendar extends Vue {
   }
 
   get startCal(): string {
-    return this.scheduleEvents[0].startTime.format('YYYY-MM-DD');
+    return this.scheduleEvents
+      .reduce((acc: Moment, e: Event) =>
+        acc && e.startTime.isAfter(acc) ? acc : e.startTime, this.scheduleEvents[0].startTime)
+      .format('YYYY-MM-DD');
   }
 
   get endCal(): string {
