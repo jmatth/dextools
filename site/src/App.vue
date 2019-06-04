@@ -129,25 +129,25 @@ export default class App extends Vue {
   }
 
   public mounted(): void {
-    // If the site has been updated for a new con, blow out the agenda cache.
-    if (localStorage.agendaConName !== this.$store.conName) {
-      console.log(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.conName}, resetting agenda.`);
-      localStorage.agendaEventCodes = undefined;
-      localStorage.agendaConName = this.$store.conName;
-    }
-    // Reload the saved agenda if it exists.
-    // TODO: use a library to do this automatically.
-    if (localStorage.agendaEventCodes) {
-      try {
-        JSON.parse(localStorage.agendaEventCodes).forEach((c: string) =>
-          this.$store.commit('addEventToAgenda', c));
-      } catch (err) {
-        console.log(`Failed to load agenda from localStorage: ${err}`);
-      }
-    }
+    // Start the request to load the schedule json file as soon as possible.
+    const scheduleLoaded = this.$store.dispatch('loadSchedule');
     if (this.onMobile) {
       this.display.mode = 'full';
     }
+    // If the site has been updated for a new con, blow out the agenda cache.
+    if (localStorage.agendaConName !== this.$store.state.conName) {
+      // tslint:disable-next-line
+      console.log(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.state.conName}, resetting agenda.`);
+      localStorage.agendaEventCodes = [];
+      localStorage.agendaConName = this.$store.state.conName;
+    }
+    scheduleLoaded.then(() => {
+      // Reload the saved agenda if it exists.
+      // TODO: use a library to do this automatically.
+      if (localStorage.agendaEventCodes) {
+        JSON.parse(localStorage.agendaEventCodes).forEach((c: string) => this.$store.commit('addEventToAgenda', c));
+      }
+    });
   }
 
   get scheduleLoading() {

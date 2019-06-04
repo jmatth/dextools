@@ -31,7 +31,7 @@ const store = new Vuex.Store({
   },
   actions: {
     loadSchedule(context) {
-      axios.get('/schedule.json').then((response: any) => {
+      return axios.get('/schedule.json').then((response: any) => {
         const schedule = Object.assign({}, ...(response.data.map((e: any) => ({ [e.code]: new Event(e) }))));
         context.commit('setSchedule', schedule);
       });
@@ -40,5 +40,3 @@ const store = new Vuex.Store({
 });
 
 export default store;
-
-store.dispatch('loadSchedule');
