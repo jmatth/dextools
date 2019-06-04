@@ -129,6 +129,14 @@ export default class App extends Vue {
   }
 
   public mounted(): void {
+    // If the site has been updated for a new con, blow out the agenda cache.
+    if (localStorage.agendaConName !== this.$store.conName) {
+      console.log(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.conName}, resetting agenda.`);
+      localStorage.agendaEventCodes = undefined;
+      localStorage.agendaConName = this.$store.conName;
+    }
+    // Reload the saved agenda if it exists.
+    // TODO: use a library to do this automatically.
     if (localStorage.agendaEventCodes) {
       try {
         JSON.parse(localStorage.agendaEventCodes).forEach((c: string) =>
