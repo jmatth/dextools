@@ -50,6 +50,20 @@ fn main() {
              .help("First day of the convention in the format YYYY-mm-dd")
              .required(true)
              .takes_value(true))
+        .arg(Arg::with_name("con_name")
+             .short("n")
+             .long("conName")
+             .value_name("CON_NAME")
+             .help("The name of the convention, e.g. Dreamation 2019")
+             .required(true)
+             .takes_value(true))
+        .arg(Arg::with_name("con_email")
+             .short("e")
+             .long("conEmail")
+             .value_name("CON_EMAIL")
+             .help("The email address to send event registrations to, if available")
+             .required(false)
+             .takes_value(true))
         .get_matches();
     let input = matches.value_of("input").unwrap();
     let output = matches.value_of("output").unwrap_or("./schedule.json");
@@ -57,12 +71,14 @@ fn main() {
     let start_date_year = start_date_strs.next().unwrap().parse::<i32>().unwrap();
     let start_date_month = start_date_strs.next().unwrap().parse::<u32>().unwrap();
     let start_date_day = start_date_strs.next().unwrap().parse::<u32>().unwrap();
+    let con_name = matches.value_of("con_name").unwrap();
+    let con_email = matches.value_of("con_email").unwrap_or("");
     let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 5 * 3600);
     let input_file = File::open(input).unwrap();
-    scrape_dexposure(input_file, &output.to_string(), &date_parser);
+    scrape_dexposure(input_file, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string());
 }
 
-fn scrape_dexposure(input: File, outputPath: &String, dateParser: &DateParser) {
+fn scrape_dexposure(input: File, outputPath: &String, dateParser: &DateParser, conName: String, conEmail: String) {
     // let resp = reqwest::get(url).unwrap();
     // assert!(resp.status().is_success());
 
@@ -86,8 +102,13 @@ fn scrape_dexposure(input: File, outputPath: &String, dateParser: &DateParser) {
         .map(|n| *n)
         .peekable();
     let events = events::parse_events(&mut iter, dateParser);
+    let outputObject = Settings {
+        conName,
+        conEmail,
+        schedule: events,
+    };
     let output = File::create(outputPath).unwrap();
-    serde_json::to_writer_pretty(output, &events);
+    serde_json::to_writer_pretty(output, &outputObject);
 }
 
 fn filter_event_nodes<'a>(container: &'a Node) -> Vec<Node<'a>> {
@@ -98,4 +119,12 @@ fn filter_event_nodes<'a>(container: &'a Node) -> Vec<Node<'a>> {
             n.is(pred::Name("p"))
         })
         .collect()
+}
+
+
+#[derive(Default, Debug, Serialize)]
+pub struct Settings {
+    conName: String,
+    conEmail: String,
+    schedule: Vec<events::Event>,
 }
