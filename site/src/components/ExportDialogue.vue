@@ -36,13 +36,19 @@
         >
           ICS
         </v-btn>
-        <a :href="mailtoLink">
-          <v-btn
-            @click="exportDialogue = false"
-          >
-            Email
-          </v-btn>
-        </a>
+        <v-tooltip top :disabled="!disableEmail">
+          <template v-slot:activator="{ on }">
+            <a :href="mailtoLink" v-on="on">
+              <v-btn
+                @click="exportDialogue = false"
+                :disabled="disableEmail"
+              >
+                Email
+              </v-btn>
+            </a>
+          </template>
+          <span>{{ this.$store.state.conName }} is not accepting event registrations yet.</span>
+        </v-tooltip>
         <v-spacer/>
         <v-btn
           @click="exportDialogue = false"
@@ -70,9 +76,16 @@ export default class AgendaCalendar extends Vue {
   }
 
   get mailtoLink(): string {
+    if (this.disableEmail) {
+      return '#';
+    }
     const subject = encodeURI(`${this.$store.state.conName} Registration`);
     const body = encodeURI(this.emailText);
     return `mailto:${this.$store.state.conEmail}?subject=${subject}&body=${body}`;
+  }
+
+  get disableEmail(): boolean {
+    return !this.$store.state.conEmail;
   }
 }
 </script>

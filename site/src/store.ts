@@ -15,8 +15,8 @@ const store = new Vuex.Store({
     agenda: new Agenda(),
     schedule: {},
     userName: '',
-    conName: 'Dreamation',
-    conEmail: 'josh@jmatth.com',
+    conName: '',
+    conEmail: '',
   },
   mutations: {
     addEventToAgenda(state: any, code: string): void {
@@ -28,11 +28,20 @@ const store = new Vuex.Store({
     setSchedule(state: any, schedule: Schedule) {
       state.schedule = schedule;
     },
+    setConName(state: any, conName: string) {
+      state.conName = conName;
+    },
+    setConEmail(state: any, conEmail: string) {
+      state.conEmail = conEmail;
+    },
   },
   actions: {
-    loadSchedule(context) {
-      return axios.get('/schedule.json').then((response: any) => {
-        const schedule = Object.assign({}, ...(response.data.map((e: any) => ({ [e.code]: new Event(e) }))));
+    loadSettings(context) {
+      return axios.get('/settings.json').then((response: any) => {
+        const settings = response.data;
+        context.commit('setConName', settings.conName);
+        context.commit('setConEmail', settings.conEmail);
+        const schedule = Object.assign({}, ...(response.data.schedule.map((e: any) => ({ [e.code]: new Event(e) }))));
         context.commit('setSchedule', schedule);
       });
     },

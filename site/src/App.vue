@@ -130,18 +130,18 @@ export default class App extends Vue {
 
   public mounted(): void {
     // Start the request to load the schedule json file as soon as possible.
-    const scheduleLoaded = this.$store.dispatch('loadSchedule');
+    const settingsLoaded = this.$store.dispatch('loadSettings');
     if (this.onMobile) {
       this.display.mode = 'full';
     }
-    // If the site has been updated for a new con, blow out the agenda cache.
-    if (localStorage.agendaConName !== this.$store.state.conName) {
-      // tslint:disable-next-line
-      console.log(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.state.conName}, resetting agenda.`);
-      localStorage.agendaEventCodes = [];
-      localStorage.agendaConName = this.$store.state.conName;
-    }
-    scheduleLoaded.then(() => {
+    settingsLoaded.then(() => {
+      // If the site has been updated for a new con, blow out the agenda cache.
+      if (localStorage.agendaConName !== this.$store.state.conName) {
+        // tslint:disable-next-line
+        console.log(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.state.conName}, resetting agenda.`);
+        localStorage.agendaEventCodes = [];
+        localStorage.agendaConName = this.$store.state.conName;
+      }
       // Reload the saved agenda if it exists.
       // TODO: use a library to do this automatically.
       if (localStorage.agendaEventCodes) {
