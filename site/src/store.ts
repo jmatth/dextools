@@ -41,11 +41,31 @@ const store = new Vuex.Store({
         const settings = response.data;
         context.commit('setConName', settings.conName);
         context.commit('setConEmail', settings.conEmail);
-        const schedule = Object.assign({}, ...(response.data.schedule.map((e: any) => ({ [e.code]: new Event(e) }))));
+        const schedule = scheduleJsonToEvents(settings.schedule);
         context.commit('setSchedule', schedule);
       });
     },
   },
 });
+
+function scheduleJsonToEvents(jsonObject: any): any {
+  const scheduleObject = jsonObject.reduce((acc: any, event: any) => {
+    acc[event.code] = event;
+    return acc;
+  }, {});
+  Object.values(scheduleObject).forEach((event: any) => {
+    const matches = event.description.match(/See [A-Z][0-9]{3}.$/g);
+    if (matches) {
+      const dereferencedCode = matches[matches.length - 1].substring(4, 8);
+      const dereferencedEvent = scheduleObject[dereferencedCode];
+      if (!dereferencedEvent) {
+        console.error(`Tried to dereference non-existent event ${dereferencedCode}.`);
+        return;
+      }
+      event.description += ` ${dereferencedEvent.description}`;
+    }
+  });
+  return Object.assign({}, ...(Object.values(scheduleObject).map((e: any) => ({ [e.code]: new Event(e) }))));
+}
 
 export default store;
