@@ -7,6 +7,11 @@ cname='dextools.jmatth.com'
 
 rm -rf $deployDir
 git worktree add $deployDir origin/$deployBranch
+cleanup() {
+  git worktree remove $deployDir
+}
+trap cleanup EXIT
+
 wtBackup=`mktemp`
 cp $deployDir/.git $wtBackup
 
@@ -21,4 +26,3 @@ git add .
 git commit -m "Updating site to ${gitref}"
 git push origin HEAD:$deployBranch
 popd
-git worktree remove $deployDir
