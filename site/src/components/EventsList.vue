@@ -23,7 +23,7 @@
         clearable
         flat
         background-color="rgba(0,0,0,0)"
-        :style="{ maxWidth: (47 * availableCodes.length) + 'px' }"
+        :style="{ maxWidth: (Math.max(47 * availableCodes.length, 130)) + 'px' }"
       />
 
 
