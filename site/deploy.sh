@@ -8,7 +8,7 @@ cname='dextools.jmatth.com'
 rm -rf $deployDir
 git worktree add $deployDir origin/$deployBranch
 cleanup() {
-  git worktree remove $deployDir
+  git worktree remove $deployDir -f
 }
 trap cleanup EXIT
 
