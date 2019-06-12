@@ -115,7 +115,7 @@
       :items="filteredItems"
       :min-item-size="78"
       key-field="code"
-      style="height:700px;"
+      :style="{ height: dynamicScrollerHeight }"
     >
       <template v-slot="{ item, index, active }">
         <DynamicScrollerItem
@@ -194,7 +194,7 @@ import { debounce } from 'lodash';
 
 @Component
 export default class EventsList extends Vue {
-  @Prop() private height!: string;
+  @Prop() private height!: number;
 
   public categories: string[] = [];
   public days: string[] = [];
@@ -206,6 +206,7 @@ export default class EventsList extends Vue {
   public filterStartTimeMenu: boolean = false;
   public showAdvancedFilter: boolean = false;
   public expandedCode: string = '';
+  public dynamicScrollerHeight: string = '300px';
 
   // public expansionPanel: any = {
   //   panelClick(): any {
@@ -277,6 +278,20 @@ export default class EventsList extends Vue {
 
   get filteredItems(): Event[] {
     return this.items ? this.items.filter((e: Event) => this.shouldShow(e)) : [];
+  }
+
+  public mounted() {
+    this.updateDynamicScrollerHeight();
+  }
+
+  public beforeUpdate() {
+    this.updateDynamicScrollerHeight();
+  }
+
+  private updateDynamicScrollerHeight() {
+    // @ts-ignore
+    const toolbarHeight = this.$el.querySelector('nav.v-toolbar').offsetHeight;
+    this.dynamicScrollerHeight = (this.height - toolbarHeight) + 'px';
   }
 
   public shouldShow(event: Event): boolean {

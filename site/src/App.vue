@@ -103,6 +103,7 @@ import EventsList from './components/EventsList.vue';
 import AgendaCalendar from './components/AgendaCalendar.vue';
 import Event from './models/event';
 import Agenda from './models/agenda';
+import { debounce } from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component({
@@ -113,6 +114,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class App extends Vue {
   public about = false;
+  private workspaceHeight = 700;
   public display = {
         mode: 'split',
         getHeight() {
@@ -123,9 +125,27 @@ export default class App extends Vue {
         },
       };
 
+  constructor() {
+    super();
+    this.handleResize = debounce(this.handleResize, 250);
+  }
+
   get onMobile(): boolean {
     // @ts-ignore
     return this.$vuetify.breakpoint.smAndDown;
+  }
+
+  public handleResize() {
+    const windowHeight = window.innerHeight;
+    const workspacePaddingStr = window
+      .getComputedStyle(document.querySelector('div.container')!, null)
+      .getPropertyValue('padding-bottom');
+    const workspacePadding = workspacePaddingStr.endsWith('px')
+      ? parseInt(workspacePaddingStr.substring(0, workspacePaddingStr.length - 2), 10)
+      : 16;
+    // @ts-ignore
+    const headerHeight = document.querySelector('nav.v-toolbar')!.offsetHeight;
+    this.workspaceHeight = windowHeight - (workspacePadding * 2 + headerHeight);
   }
 
   public mounted(): void {
@@ -134,6 +154,8 @@ export default class App extends Vue {
     if (this.onMobile) {
       this.display.mode = 'full';
     }
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
     settingsLoaded.then(() => {
       // If the site has been updated for a new con, blow out the agenda cache.
       if (localStorage.agendaConName !== this.$store.state.conName) {
@@ -154,12 +176,12 @@ export default class App extends Vue {
     return Object.keys(this.$store.state.schedule).length < 1;
   }
 
-  get calendarHeight() {
-    return (this.display.mode === 'split' ? 700 : 550) + 'px';
+  get calendarHeight(): number {
+    return this.display.mode === 'split' ? this.workspaceHeight : (this.workspaceHeight * 0.6) - 5;
   }
 
-  get eventListHeight() {
-    return (this.display.mode === 'split' ? 764 : 400) + 'px';
+  get eventListHeight(): number {
+    return this.display.mode === 'split' ? this.workspaceHeight : (this.workspaceHeight * 0.4) - 5;
   }
 }
 </script>

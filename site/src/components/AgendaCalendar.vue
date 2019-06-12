@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+  <v-layout :height="height">
     <v-flex>
       <v-toolbar dark>
         <v-btn
@@ -46,7 +46,7 @@
         <v-spacer/>
         <ExportDialogue/>
       </v-toolbar>
-      <v-card :height="calType == 'day' ? height : 'auto'">
+      <v-card :height="calendarHeight + 'px'">
         <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
         <v-calendar
           ref="calendar"
@@ -67,7 +67,7 @@
                   <div
                     :key="event.code"
                     :style="{
-                      top: timeToY(event.startTime.format('HH:MM')) + 'px',
+                      top: (timeToY(event.startTime.format('HH:MM')) - 2) + 'px',
                       height: minutesToPixels(getEventMinutes(event)) + 'px',
                       marginLeft: overlappingEventsCount(event) * 5 + 100/startWithEvents[1].length * index + '%'}"
                     class="my-event with-time"
@@ -104,14 +104,35 @@ import moment, { Moment } from 'moment';
 })
 export default class AgendaCalendar extends Vue {
   @Prop() private display!: any;
-  @Prop() private height!: string;
+  @Prop() private height!: number;
 
   public categories: string[] = ['L', 'R'];
   public filter: string = '';
   public currDate = '';
+  public calendarHeight = 300;
+  public intervalHeight = 10;
 
   public created() {
     this.currDate = this.startCal;
+  }
+
+  public mounted() {
+    this.updateComputedHeights();
+  }
+
+  public beforeUpdate() {
+    this.updateComputedHeights();
+  }
+
+  private updateComputedHeights() {
+    // @ts-ignore
+    const toolbarHeight = this.$el.querySelector('nav.v-toolbar').offsetHeight;
+    console.log(toolbarHeight);
+    this.calendarHeight = this.height - toolbarHeight;
+    // @ts-ignore
+    const headerHeight = this.$el.querySelector('div.v-calendar-daily__head')!.offsetHeight;
+    const computedIntervalHeight = ((this.calendarHeight - headerHeight) - 1) / 24;
+    this.intervalHeight = Math.max(computedIntervalHeight, 10);
   }
 
   get scheduleEvents(): Event[] {
@@ -156,10 +177,6 @@ export default class AgendaCalendar extends Vue {
       return acc;
     }, 0);
     return oldOverlappingCount;
-  }
-
-  get intervalHeight() {
-    return this.display.mode === 'split' ? 26 : 20;
   }
 
   get calType(): string {
