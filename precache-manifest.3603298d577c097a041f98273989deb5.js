@@ -1,6 +1,6 @@
 self.__precacheManifest = [
   {
-    "revision": "dee9f41dd9a02479aa70d710f30d4aa0",
+    "revision": "99ae9b27f76b2f0e4a3acd39d0e0620c",
     "url": "/settings.json"
   },
   {
