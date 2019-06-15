@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.4318cc1d026faae54cc1f01a5a819ff5.js"
+  "/precache-manifest.3603298d577c097a041f98273989deb5.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "dextools"});
@@ -27,3 +27,5 @@ workbox.core.setCacheNameDetails({prefix: "dextools"});
 self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+workbox.routing.registerRoute(/^\/settings.json$/, workbox.strategies.networkFirst({ "cacheName":"manual-updates-cache","networkTimeoutSeconds":5, plugins: [new workbox.cacheableResponse.Plugin({"statuses":[0,200]})] }), 'GET');
