@@ -23,6 +23,6 @@ mv $wtBackup $deployDir/.git
 pushd $deployDir
 echo $cname > CNAME
 git add .
-git commit -m "Updating site to ${gitref}"
+git commit -m "Updating site at $(date)"
 git push origin HEAD:$deployBranch
 popd
