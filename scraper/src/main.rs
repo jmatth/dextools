@@ -73,7 +73,7 @@ fn main() {
     let start_date_day = start_date_strs.next().unwrap().parse::<u32>().unwrap();
     let con_name = matches.value_of("con_name").unwrap();
     let con_email = matches.value_of("con_email").unwrap_or("");
-    let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 5 * 3600);
+    let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 4 * 3600);
     let input_file = File::open(input).unwrap();
     scrape_dexposure(input_file, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string());
 }
