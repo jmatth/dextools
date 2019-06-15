@@ -127,7 +127,6 @@ export default class AgendaCalendar extends Vue {
   private updateComputedHeights() {
     // @ts-ignore
     const toolbarHeight = this.$el.querySelector('nav.v-toolbar').offsetHeight;
-    console.log(toolbarHeight);
     this.calendarHeight = this.height - toolbarHeight;
     // @ts-ignore
     const headerHeight = this.$el.querySelector('div.v-calendar-daily__head')!.offsetHeight;
