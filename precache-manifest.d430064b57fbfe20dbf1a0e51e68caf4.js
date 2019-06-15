@@ -1,9 +1,5 @@
 self.__precacheManifest = [
   {
-    "revision": "99ae9b27f76b2f0e4a3acd39d0e0620c",
-    "url": "/settings.json"
-  },
-  {
     "revision": "b6216d61c03e6ce0c9aea6ca7808f7ca",
     "url": "/robots.txt"
   },

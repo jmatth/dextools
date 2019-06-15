@@ -3,18 +3,6 @@
   "conEmail": "",
   "schedule": [
     {
-      "code": "F999",
-      "title": "Fake Test Event",
-      "system": "Homebrew",
-      "description": "This is a fake event I'm using to test the website and should be gone by the time the full schedule is available. Sorry for the inconvenience.",
-      "presenters": "",
-      "authors": "jmatth",
-      "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
-      "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": true,
-      "tags": ""
-    },
-    {
       "code": "Q001",
       "title": "These ARE My Pirate Monkeys",
       "system": "The Nexus",
