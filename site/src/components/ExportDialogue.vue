@@ -23,11 +23,17 @@
         Export
       </v-card-title>
       <v-card-text>
+        <v-text-field
+            label="Enter your name"
+            single-line
+            :value="userName"
+            @input="updateUserName"
+        />
         <p>
           Use the buttons below to export to ICS (for importing into calendar applications)
           or email (to register for events). For email, you can also copy the text below.
         </p>
-      <v-divider/>
+        <v-divider/>
         <pre>{{ emailText }}</pre>
       </v-card-text>
       <v-card-actions>
@@ -65,14 +71,29 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
+import { debounce } from 'lodash';
 
 @Component
 export default class AgendaCalendar extends Vue {
   public exportDialogue: boolean = false;
 
+  constructor() {
+    super();
+    this.updateUserName = debounce(this.updateUserName, 500);
+  }
+
+  get userName(): string {
+    return this.$store.state.userName;
+  }
+
+  public updateUserName(name: string): void {
+    this.$store.commit('setUserName', name);
+  }
+
   get emailText(): string {
+    const userName: string = this.$store.state.userName || '<YOUR NAME>';
     return this.$store.state.agenda.events.reduce(
-      (text: string, event: Event) => text += `\n${event.code}`, '<YOUR NAME>\n');
+      (text: string, event: Event) => text += `\n${event.code}`, `${userName}\n`);
   }
 
   get mailtoLink(): string {

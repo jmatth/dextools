@@ -34,6 +34,10 @@ const store = new Vuex.Store({
     setConEmail(state: any, conEmail: string) {
       state.conEmail = conEmail;
     },
+    setUserName(state: any, userName: string) {
+      state.userName = userName;
+      localStorage.userName = userName;
+    },
   },
   actions: {
     loadSettings(context) {

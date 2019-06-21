@@ -164,6 +164,10 @@ export default class App extends Vue {
         localStorage.agendaEventCodes = [];
         localStorage.agendaConName = this.$store.state.conName;
       }
+      // Reload the user's name for email generation if it was set
+      if (localStorage.userName) {
+        this.$store.commit('setUserName', localStorage.userName);
+      }
       // Reload the saved agenda if it exists.
       // TODO: use a library to do this automatically.
       if (localStorage.agendaEventCodes) {
