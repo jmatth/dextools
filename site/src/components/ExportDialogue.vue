@@ -55,6 +55,19 @@
           </template>
           <span>{{ this.$store.state.conName }} is not accepting event registrations yet.</span>
         </v-tooltip>
+        <v-tooltip top v-model="shouldShowCopyMessage">
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="{ on }"
+              v-clipboard:copy="emailText"
+              v-clipboard:success="onCopy"
+              v-clipboard:error="onFailedCopy"
+            >
+              Copy
+            </v-btn>
+          </template>
+          <span>{{ this.copyMessage }}</span>
+        </v-tooltip>
         <v-spacer/>
         <v-btn
           @click="exportDialogue = false"
@@ -74,8 +87,10 @@ import moment, { Moment } from 'moment';
 import { debounce } from 'lodash';
 
 @Component
-export default class AgendaCalendar extends Vue {
+export default class ExportDialogue extends Vue {
   public exportDialogue: boolean = false;
+  public shouldShowCopyMessage: boolean = false;
+  public copyMessage: string = '';
 
   constructor() {
     super();
@@ -107,6 +122,23 @@ export default class AgendaCalendar extends Vue {
 
   get disableEmail(): boolean {
     return !this.$store.state.conEmail;
+  }
+
+  public showCopyTooltip(message: string): void {
+    this.copyMessage = message;
+    this.shouldShowCopyMessage = true;
+    setTimeout(function() {
+      // @ts-ignore
+      this.shouldShowCopyMessage = false;
+    }.bind(this), 5000);
+  }
+
+  public onCopy(): void {
+    this.showCopyTooltip('Email text copied to clipboard.');
+  }
+
+  public onFailedCopy(): void {
+    this.showCopyTooltip('Error, please copy the email text manually.');
   }
 }
 </script>
