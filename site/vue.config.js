@@ -8,6 +8,7 @@ module.exports = {
         /^manifest.*\.js?$/,
         /^manifest.*\.json$/,
         /^settings\.json$/,
+        /^CNAME$/,
       ],
     },
   },
