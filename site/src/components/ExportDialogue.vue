@@ -33,7 +33,8 @@
           Use the buttons below to export to ICS (for importing into calendar applications)
           or email (to register for events). For email, you can also copy the text below.
         </p>
-        <v-divider/>
+        <span v-if="!disableEmail">To: <a :href="'mailto:' + conEmail">{{ conEmail }}</a></span>
+        <v-divider style="margin-bottom:5px; margin-top: 2px;"/>
         <pre>{{ emailText }}</pre>
       </v-card-text>
       <v-card-actions>
@@ -108,7 +109,11 @@ export default class ExportDialogue extends Vue {
   get emailText(): string {
     const userName: string = this.$store.state.userName || '<YOUR NAME>';
     return this.$store.state.agenda.events.reduce(
-      (text: string, event: Event) => text += `\n${event.code}`, `${userName}\n`);
+      (text: string, event: Event) => text += `\n${event.code}`, `Name: ${userName}\n\nEvents:`);
+  }
+
+  get conEmail(): string {
+    return this.$store.state.conEmail;
   }
 
   get mailtoLink(): string {
@@ -117,7 +122,7 @@ export default class ExportDialogue extends Vue {
     }
     const subject = encodeURI(`${this.$store.state.conName} Registration`);
     const body = encodeURI(this.emailText);
-    return `mailto:${this.$store.state.conEmail}?subject=${subject}&body=${body}`;
+    return `mailto:${this.conEmail}?subject=${subject}&body=${body}`;
   }
 
   get disableEmail(): boolean {
