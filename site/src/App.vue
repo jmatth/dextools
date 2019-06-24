@@ -181,10 +181,17 @@ export default class App extends Vue {
   }
 
   get calendarHeight(): number {
+    if (this.onMobile) {
+      return this.workspaceHeight;
+    }
     return this.display.mode === 'split' ? this.workspaceHeight : (this.workspaceHeight * 0.6) - 5;
   }
 
   get eventListHeight(): number {
+    if (this.onMobile) {
+      // TODO: Calculate this offset rather than hardcode it
+      return this.workspaceHeight - 56;
+    }
     return this.display.mode === 'split' ? this.workspaceHeight : (this.workspaceHeight * 0.4) - 5;
   }
 }
