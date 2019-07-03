@@ -39,7 +39,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn
-          @click="$store.state.agenda.exportIcs()"
+          @click="$store.state.agenda.exportIcs($store.state.conName)"
         >
           ICS
         </v-btn>

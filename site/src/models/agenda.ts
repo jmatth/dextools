@@ -51,7 +51,7 @@ export default class Agenda {
     return this.events.toString();
   }
 
-  public exportIcs(): void {
+  public exportIcs(conName: string): void {
     const icsEventObjs = this.events.map((e) => {
       const start = moment.utc(e.startTime).format('YYYY-M-D-H-m').split('-');
       const end = moment.utc(e.endTime).format('YYYY-M-D-H-m').split('-');
@@ -67,7 +67,7 @@ export default class Agenda {
       throw error;
     }
     const blob = new Blob([icsEvent]);
-    saveAs(blob, 'dextools.ics');
+    saveAs(blob, `${conName.toLowerCase().replace(/ /g, '_')}.ics`);
   }
 
   private updateLocalStorage() {
