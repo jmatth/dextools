@@ -1,6 +1,6 @@
 Dextools
 ========
-Dextools is a collection of tools for manipulating and displaying convention
+Dextools is a collection of tools for parsing and displaying convention
 schedules from Double Exposure. It currently consists of two components:
 
 1. A scraper that takes in the schedule's HTML and produces a JSON file.
