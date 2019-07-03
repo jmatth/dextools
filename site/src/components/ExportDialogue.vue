@@ -54,7 +54,7 @@
               </v-btn>
             </a>
           </template>
-          <span>{{ this.$store.state.conName }} is not accepting event registrations yet.</span>
+          <span>{{ this.$store.state.conName }} is not accepting event registrations at this time.</span>
         </v-tooltip>
         <v-tooltip top v-model="shouldShowCopyMessage">
           <template v-slot:activator="{ on }">
