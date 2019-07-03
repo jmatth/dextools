@@ -1,6 +1,7 @@
 import Event from './event';
 import * as ics from 'ics';
 import { saveAs } from 'file-saver';
+import moment from 'moment';
 
 export default class Agenda {
   public readonly events: Event[] = [];
@@ -52,8 +53,8 @@ export default class Agenda {
 
   public exportIcs(): void {
     const icsEventObjs = this.events.map((e) => {
-      const start = e.startTime.format('YYYY-M-D-H-m').split('-');
-      const end = e.endTime.format('YYYY-M-D-H-m').split('-');
+      const start = moment.utc(e.startTime).format('YYYY-M-D-H-m').split('-');
+      const end = moment.utc(e.endTime).format('YYYY-M-D-H-m').split('-');
       return {
         title: `${e.code} - ${e.title}`,
         description: e.description,
