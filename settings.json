@@ -95,7 +95,7 @@
       "authors": "Thorny Games",
       "start_time": "Thu,  4 Jul 2019 11:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -227,7 +227,7 @@
       "authors": "Burning Wheel Headquarters",
       "start_time": "Thu,  4 Jul 2019 20:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -275,7 +275,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 16:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -431,7 +431,7 @@
       "authors": "Kitsune Entertainment",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 16:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -995,7 +995,7 @@
       "authors": "The Gauntlet Codex Zine",
       "start_time": "Thu,  4 Jul 2019 20:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1115,7 +1115,7 @@
       "authors": "Pelgrane Press",
       "start_time": "Thu,  4 Jul 2019 20:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1132,11 +1132,11 @@
     },
     {
       "code": "R095",
-      "title": "Adventures in Middle Earth: A Safe Fairyland",
-      "system": "Arcane Circle RPS",
-      "description": "An investigation into a shadowy organization leads the party into what seems to be an idyllic pastoral countryside. This adventure will deal with themes of life, innocence, and competing concepts of peace. This is an Arcane Circle role playing event, based on an original RP variant based on the old Dungeon & Dragons RPS. The game setting is in Tolkien's Middle Earth during the mid-Third Age around 1700. This system is for mature players, emphasizing interactive role playing using real-time combat, and occurs in a current Middle Earth campaign. No previous experience with the system necessary.",
+      "title": "A Safe Fairyland",
+      "system": "The One Ring",
+      "description": "An INDEPENDENTLY PUBLISHED GAME - Part of the Indie Games Explosion! An investigation into a shadowy organization leads the party into what seems to be an idyllic pastoral countryside. This adventure will deal with themes of life, innocence, and competing concepts of peace.",
       "presenters": "Andrew Quigley",
-      "authors": "",
+      "authors": "Cubicle 7",
       "start_time": "Thu,  4 Jul 2019 20:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 00:00:00 -0400",
       "filled": false,
@@ -1271,7 +1271,7 @@
       "authors": "Evil Hat Productions",
       "start_time": "Fri,  5 Jul 2019 09:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1343,7 +1343,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 09:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1379,7 +1379,7 @@
       "authors": "Pompey Crew Design",
       "start_time": "Fri,  5 Jul 2019 09:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1451,7 +1451,7 @@
       "authors": "Evil Hat Productions",
       "start_time": "Fri,  5 Jul 2019 11:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1508,7 +1508,7 @@
       "system": "Autumn Triduum (Powered by the Apocalypse)",
       "description": "An INDEPENDENTLY PUBLISHED GAME - Part of the Indie Games Explosion! A game of darkness, sisterhood, and faith. Something sinister is threatening your convent this hallowmass season. How will you and your sisters rally to renounce Satan and all his works? How will your faith be tested from All Hallows' Eve to All Saints' Day to All Souls' Day? Playbooks based on archetypes of religious sisters. Will you be the naive Novice, the crotchety Elder, the alarming Mystic?",
       "presenters": "Alexi Sargeant",
-      "authors": "Sage Kobold Productions",
+      "authors": "Cloven Pine Games",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
       "filled": false,
@@ -1547,7 +1547,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1583,7 +1583,7 @@
       "authors": "Exile Game Studio",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1619,7 +1619,7 @@
       "authors": "Magpie Games",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1667,7 +1667,7 @@
       "authors": "Aviatrix Games",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1715,7 +1715,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1751,7 +1751,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 20:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1763,7 +1763,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 20:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1787,7 +1787,7 @@
       "authors": "Galileo Games",
       "start_time": "Fri,  5 Jul 2019 20:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -1835,7 +1835,7 @@
       "authors": "The Gauntlet Codex Zine",
       "start_time": "Fri,  5 Jul 2019 20:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2051,7 +2051,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2075,7 +2075,7 @@
       "authors": "Graham Walmsley",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2159,7 +2159,7 @@
       "authors": "Monkeyfun Studios, LLC",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2267,7 +2267,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2327,7 +2327,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2351,7 +2351,7 @@
       "authors": "The Gauntlet Codex Zine",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2363,7 +2363,7 @@
       "authors": "Magpie Games",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2375,7 +2375,7 @@
       "authors": "Pelgrane Press",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2411,7 +2411,7 @@
       "authors": "Robot Claw Game Design",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2519,7 +2519,7 @@
       "authors": "Galileo Games",
       "start_time": "Sat,  6 Jul 2019 20:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2603,7 +2603,7 @@
       "authors": "Cavalry Games",
       "start_time": "Sat,  6 Jul 2019 20:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2747,7 +2747,7 @@
       "authors": "Magpie Games",
       "start_time": "Sun,  7 Jul 2019 10:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 14:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2783,7 +2783,7 @@
       "authors": "Incarnadine Press",
       "start_time": "Sun,  7 Jul 2019 10:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 14:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -2807,7 +2807,7 @@
       "authors": "Robot Claw Game Design",
       "start_time": "Sun,  7 Jul 2019 10:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 14:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -3047,7 +3047,7 @@
       "authors": "",
       "start_time": "Wed,  3 Jul 2019 22:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 01:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -3479,7 +3479,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 09:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -3503,7 +3503,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 09:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 11:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -3635,7 +3635,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 09:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -3803,7 +3803,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 11:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -3899,7 +3899,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 11:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4007,7 +4007,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 14:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4151,7 +4151,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 14:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 16:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4295,7 +4295,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 14:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4475,7 +4475,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 16:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4530,7 +4530,7 @@
       "code": "B378",
       "title": "Race for the Galaxy",
       "system": "",
-      "description": "Explore, Settle, Develop, Trade, Consume, or Produce? Which do you need the most? Which of Earth's former colonies will be most successful at settling the galaxy, now that JumpDrive exists? Who will discover the secrets of the mysteriously vanished Alien Overlords? Your goal: to build the most prosperous and powerful space empire in this popular Rio Grande game. Beginners will play the basic game; experienced players are welcome to bring expansions for the more advanced game.",
+      "description": "Explore, Settle, Develop, Trade, Consume, or Produce? Which do you need the most? Which of Earth's former colonies will be most successful at settling the galaxy, now that JumpDrive exists? Who will discover the secrets of the mysteriously vanished Alien Overlords? Your goal: to build the most prosperous and powerful space empire in this popular Rio Grande game. This event will include The Gathering Storm expansion.",
       "presenters": "",
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 16:00:00 -0400",
@@ -4619,7 +4619,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 16:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4630,7 +4630,7 @@
       "presenters": "",
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 16:00:00 -0400",
-      "end_time": "Thu,  4 Jul 2019 18:00:00 -0400",
+      "end_time": "Thu,  4 Jul 2019 19:00:00 -0400",
       "filled": false,
       "tags": ""
     },
@@ -4696,9 +4696,9 @@
     },
     {
       "code": "V392",
-      "title": "Soul Calibur V",
+      "title": "Soul Calibur VI",
       "system": "",
-      "description": "RATED: T. The latest entry in the premier weapons-based head-to-head fighting series. Taking place 17 years after the events of Soul Calibur IV and continues the epic story of warriors in search of the legendary Soul Swords in 17th century Europe. The heroic battles transpire in a beautiful and fluid world with eye-popping graphics and visual appeal. Soul Calibur V tunes the battle, movement, and visual systems so players can pull off cool dynamic attacks with ease and battle with complete freedom.",
+      "description": "RATED: T. Bring more than your fists to the fight! Featuring all-new battle mechanics and characters, SOUL CALIBUR VI marks a new era of the historic franchise. Welcome back to the stage of history!",
       "presenters": "",
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 18:00:00 -0400",
@@ -4739,7 +4739,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 19:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 22:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4751,7 +4751,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 19:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 22:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4811,7 +4811,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 20:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 22:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4847,7 +4847,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 20:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -4967,7 +4967,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 20:00:00 -0400",
       "end_time": "Thu,  4 Jul 2019 22:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -5315,7 +5315,7 @@
       "authors": "",
       "start_time": "Thu,  4 Jul 2019 22:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -5603,7 +5603,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 09:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -5627,7 +5627,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 09:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 11:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -5663,7 +5663,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 09:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 11:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -5735,7 +5735,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 09:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 11:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -5771,7 +5771,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 09:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -5987,7 +5987,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 11:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -5999,7 +5999,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 11:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6155,7 +6155,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 11:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6299,7 +6299,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6383,7 +6383,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6539,7 +6539,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6551,7 +6551,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 16:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6563,7 +6563,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 14:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6592,7 +6592,7 @@
     },
     {
       "code": "V550",
-      "title": "Soul Calibur V",
+      "title": "Soul Calibur VI",
       "system": "",
       "description": "See V392.",
       "presenters": "",
@@ -6630,12 +6630,12 @@
       "code": "B553",
       "title": "Azul",
       "system": "",
-      "description": "Players take turns drafting colored tiles from suppliers to their player board. Later in the round, players score points based on how they've placed their tiles to decorate the palace. Extra points are scored for specific patterns and completing sets; wasted supplies harm the player's score. The player with the most points at the end of the game wins.",
+      "description": "An Envoy Event! Players take turns drafting colored tiles from suppliers to their player board. Later in the round, players score points based on how they've placed their tiles to decorate the palace. Extra points are scored for specific patterns and completing sets; wasted supplies harm the player's score. The player with the most points at the end of the game wins.",
       "presenters": "",
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 16:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6743,7 +6743,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 16:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -6983,7 +6983,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 19:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 22:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7115,7 +7115,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 20:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7259,7 +7259,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 20:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 22:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7451,7 +7451,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 22:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7475,7 +7475,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 22:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7528,7 +7528,7 @@
     },
     {
       "code": "B628",
-      "title": "Tiny Epic Defenders",
+      "title": "Tiny Epic Galaxies",
       "system": "",
       "description": "An Envoy Event! Each player controls a galactic empire, aiming to expand their influence by acquiring highly contested planets and increasing their cosmic armada. The game revolves around an innovative dice-rolling combo mechanic. The number of dice you roll is determined by the strength of your galaxy. Each die is engraved with symbols representing the various actions you can take, such as moving a spaceship, increasing your culture or energy resources, or advancing your political or economic influence over newly discovered planets.",
       "presenters": "",
@@ -7559,7 +7559,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 22:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7571,7 +7571,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 22:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7679,7 +7679,7 @@
       "authors": "",
       "start_time": "Fri,  5 Jul 2019 00:00:00 -0400",
       "end_time": "Fri,  5 Jul 2019 02:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7799,7 +7799,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 11:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7871,7 +7871,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7919,7 +7919,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 11:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7955,7 +7955,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 11:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -7986,7 +7986,7 @@
       "code": "B666",
       "title": "Steve Jackson Dice Games",
       "system": "",
-      "description": "See B458.",
+      "description": "An Envoy Event! See B458.",
       "presenters": "",
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
@@ -8039,7 +8039,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 09:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -8375,7 +8375,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 11:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -8399,7 +8399,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 11:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 13:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -8443,7 +8443,7 @@
       "title": "Gaslands",
       "system": "",
       "description": "Shoot, ram, skid and loot your way through the ruins of civilisation with Gaslands, a tabletop wargame of car-on-car destruction in a post-apocalyptic wasteland. Players control small fleets of armed vehicles in battles for resources, dominance and survival. With rules for multiple vehicle types (from motorbikes to big rigs), varied special weapons and accessories (including oil slicks, caltrops and nitro boosters), and a host of options for scenarios, environmental conditions, crew and campaigns, players can tailor games to match their own visions for an anarchic future.",
-      "presenters": "Chris Masucci",
+      "presenters": "Christopher Masucci",
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 11:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 14:00:00 -0400",
@@ -8615,7 +8615,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -8627,7 +8627,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -8663,7 +8663,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 16:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -8747,7 +8747,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 14:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 16:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -8939,7 +8939,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 16:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 19:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -9223,7 +9223,7 @@
       "title": "Konflikt '47",
       "system": "",
       "description": "As World War II continues beyond 1945, the battling countries have become even more desperate to develop new super weapons to give them a winning advantage. Exploiting new technologies revealed from the first nuclear explosions, the Axis and Allied forces quickly develop new tanks and strange armoured walkers to become the vanguard of their armies, supported by new highly equipped or terribly twisted troops. With the Soviet Union seceding from the Allies the war now becomes a three-way conflict!",
-      "presenters": "Chris Masucci",
+      "presenters": "Christopher Masucci",
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 16:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 19:00:00 -0400",
@@ -9503,7 +9503,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 20:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 00:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -9587,7 +9587,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 20:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 22:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -9683,7 +9683,7 @@
       "authors": "",
       "start_time": "Sat,  6 Jul 2019 20:00:00 -0400",
       "end_time": "Sat,  6 Jul 2019 22:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -10379,7 +10379,7 @@
       "authors": "",
       "start_time": "Sun,  7 Jul 2019 10:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 12:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -10643,7 +10643,7 @@
       "authors": "",
       "start_time": "Sun,  7 Jul 2019 12:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 14:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -10715,7 +10715,7 @@
       "authors": "",
       "start_time": "Sun,  7 Jul 2019 12:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 14:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -10835,7 +10835,7 @@
       "authors": "",
       "start_time": "Sun,  7 Jul 2019 12:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 15:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
@@ -10919,7 +10919,7 @@
       "authors": "",
       "start_time": "Sun,  7 Jul 2019 15:00:00 -0400",
       "end_time": "Sun,  7 Jul 2019 18:00:00 -0400",
-      "filled": false,
+      "filled": true,
       "tags": ""
     },
     {
