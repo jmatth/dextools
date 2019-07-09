@@ -10,9 +10,11 @@ use crate::events::matchers::dateparse::DateParser;
 
 const CODE_REGEX: &str = "^[A-Z][0-9]+$";
 
-const MATCHERS: [fn(&String, &DateParser) -> Option<Event>; 2] = [
+const MATCHERS: [fn(&String, &DateParser) -> Option<Event>; 4] = [
+    matchers::metatopia::parse_event,
     matchers::rpg::parse_event,
     matchers::game::parse_event,
+    matchers::cancelled::parse_event,
 ];
 
 #[derive(Default, Debug, Serialize)]
@@ -70,18 +72,20 @@ where
             node.text().replace('\n', "").trim().to_string()
         } else {
             // Found something we don't know how to handle, ignore and keep going.
-            println!(
-                "Don't know how to handle node {}: {}",
-                node.index(),
-                node.html()
-            );
+            // println!(
+            //     "Don't know how to handle node {}: {}",
+            //     node.index(),
+            //     node.html()
+            // );
             nodes.next();
             continue
         };
 
         match MATCHERS.into_iter().find_map(|f| f(&body, date_parser)) {
             None => {
-                println!("<{}>", body);
+                if body.len() > 0 {
+                    println!("<{}>", body);
+                }
             },
             Some(event) => {
                 events.push(event);
@@ -91,7 +95,7 @@ where
             nodes.next();
         }
     }
-    println!("{}", events.len());
+    println!("Successfully parsed {} events.", events.len());
     events
 }
 
