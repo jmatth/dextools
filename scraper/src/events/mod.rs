@@ -1,5 +1,3 @@
-use regex::Captures;
-use regex::Match;
 use regex::Regex;
 use select::node::Node;
 use select::predicate::*;
@@ -31,7 +29,7 @@ pub struct Event {
     tags: String,
 }
 
-pub fn parse_events<'a, I>(nodes: &mut Peekable<I>, dateParser: &DateParser) -> Vec<Event>
+pub fn parse_events<'a, I>(nodes: &mut Peekable<I>, date_parser: &DateParser) -> Vec<Event>
 where
     I: Iterator<Item = Node<'a>>,
 {
@@ -81,7 +79,7 @@ where
             continue
         };
 
-        match MATCHERS.into_iter().find_map(|f| f(&body, dateParser)) {
+        match MATCHERS.into_iter().find_map(|f| f(&body, date_parser)) {
             None => {
                 println!("<{}>", body);
             },

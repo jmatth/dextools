@@ -13,18 +13,15 @@ extern crate lazy_static;
 use select::document::Document;
 use select::node::Node;
 use std::fs::File;
-use std::env;
 use select::predicate as pred;
 use clap::{Arg, App};
-
-const NUM_RULES: usize = 2;
 
 mod events;
 
 use crate::events::matchers::dateparse::DateParser;
 
 
-fn main() {
+fn main() -> Result<(), String>{
     let matches = App::new("Dextools scraper")
         .version("1.0")
         .author("Joshua Matthews <josh@jmatth.com>")
@@ -75,10 +72,10 @@ fn main() {
     let con_email = matches.value_of("con_email").unwrap_or("");
     let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 4 * 3600);
     let input_file = File::open(input).unwrap();
-    scrape_dexposure(input_file, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string());
+    scrape_dexposure(input_file, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string())
 }
 
-fn scrape_dexposure(input: File, outputPath: &String, dateParser: &DateParser, conName: String, conEmail: String) {
+fn scrape_dexposure(input: File, output_path: &String, date_parser: &DateParser, con_name: String, con_email: String) -> Result<(), String> {
     // let resp = reqwest::get(url).unwrap();
     // assert!(resp.status().is_success());
 
@@ -101,18 +98,20 @@ fn scrape_dexposure(input: File, outputPath: &String, dateParser: &DateParser, c
         .iter()
         .map(|n| *n)
         .peekable();
-    let events = events::parse_events(&mut iter, dateParser);
-    let outputObject = Settings {
-        conName,
-        conEmail,
-        schedule: events,
+    let schedule = events::parse_events(&mut iter, date_parser);
+    let output_object = Settings {
+        con_name,
+        con_email,
+        schedule,
     };
-    let output = File::create(outputPath).unwrap();
-    serde_json::to_writer_pretty(output, &outputObject);
+    let output = File::create(output_path).unwrap();
+    match serde_json::to_writer_pretty(output, &output_object) {
+        Ok(_) => Ok(()),
+        Err(err) => Err(format!("Failed to write json output: {}", err.to_string()))
+    }
 }
 
 fn filter_event_nodes<'a>(container: &'a Node) -> Vec<Node<'a>> {
-    let mut seen_hrs = 0;
     container
         .children()
         .skip_while(|n| {
@@ -123,8 +122,9 @@ fn filter_event_nodes<'a>(container: &'a Node) -> Vec<Node<'a>> {
 
 
 #[derive(Default, Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Settings {
-    conName: String,
-    conEmail: String,
+    con_name: String,
+    con_email: String,
     schedule: Vec<events::Event>,
 }

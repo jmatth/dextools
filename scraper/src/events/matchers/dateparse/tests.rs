@@ -1,9 +1,9 @@
-use super::*;
-
+#[cfg(test)]
 fn get_parser() -> DateParser {
     DateParser::new(2018, 2, 22, 5 * 3600)
 }
 
+#[cfg(test)]
 fn test_parser(slot: &str, expected_start: &str, expected_end: &str) {
     let parsed = get_parser().parse_time_slot(&slot.to_string());
     assert!(parsed.is_some(), "Parser returned None");
