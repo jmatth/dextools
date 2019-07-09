@@ -30,6 +30,7 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
             let authors = as_string(&captures, "authors");
             let presenters = as_string(&captures, "presenters");
             let description = as_string(&captures,"description");
+            let mtype = as_string(&captures,"mtype");
             let raw_time = as_string(&captures,"time");
             let (start_time, end_time) = parser.parse_time_slot(&raw_time)?;
             Some(Event {
@@ -42,6 +43,7 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
                 start_time,
                 end_time,
                 filled,
+                mtype,
                 ..Default::default()
             })
         }

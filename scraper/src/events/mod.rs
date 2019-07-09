@@ -14,7 +14,7 @@ const MATCHERS: [fn(&String, &DateParser) -> Option<Event>; 4] = [
     matchers::metatopia::parse_event,
     matchers::rpg::parse_event,
     matchers::game::parse_event,
-    matchers::cancelled::parse_event,
+    matchers::canceled::parse_event,
 ];
 
 #[derive(Default, Debug, Serialize)]
@@ -29,6 +29,7 @@ pub struct Event {
     end_time: String,
     filled: bool,
     tags: String,
+    mtype: String,
 }
 
 pub fn parse_events<'a, I>(nodes: &mut Peekable<I>, date_parser: &DateParser) -> Vec<Event>
