@@ -31,7 +31,7 @@
           </v-icon>
         </v-btn>
         <v-btn
-          v-if="allowResizing"
+          v-show="allowResizing"
           fab
           small
           depressed
@@ -40,7 +40,7 @@
           @click="toggleDisplay()"
         >
           <v-icon dark>
-            {{ calType === 'day' ? 'fullscreen' : 'fullscreen_exit' }}
+            {{ calType === 'day' ? 'horizontal_split' : 'vertical_split' }}
           </v-icon>
         </v-btn>
         <v-spacer/>
