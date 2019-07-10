@@ -94,10 +94,7 @@ fn scrape_dexposure(input: File, output_path: &String, date_parser: &DateParser,
     // );
     let event_children = filter_event_nodes(&container);
 
-    let mut iter = event_children
-        .iter()
-        .map(|n| *n)
-        .peekable();
+    let mut iter = event_children.iter().map(|n| *n);
     let schedule = events::parse_events(&mut iter, date_parser);
     let output_object = Settings {
         con_name,
