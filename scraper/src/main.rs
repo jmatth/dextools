@@ -1,3 +1,5 @@
+#![feature(try_trait)]
+
 extern crate reqwest;
 extern crate select;
 extern crate serde_json;
@@ -15,13 +17,18 @@ use select::node::Node;
 use std::fs::File;
 use select::predicate as pred;
 use clap::{Arg, App};
+use std::io::Read;
 
 mod events;
+mod client;
+mod error;
+
+use error::Error;
 
 use crate::events::matchers::dateparse::DateParser;
 
 
-fn main() -> Result<(), String>{
+fn main() -> Result<(), Error>{
     let matches = App::new("Dextools scraper")
         .version("1.0")
         .author("Joshua Matthews <josh@jmatth.com>")
@@ -62,23 +69,41 @@ fn main() -> Result<(), String>{
              .required(false)
              .takes_value(true))
         .get_matches();
-    let input = matches.value_of("input").unwrap();
+    let input = matches.value_of("input").ok_or("Missing required flag 'input'")?;
     let output = matches.value_of("output").unwrap_or("./schedule.json");
-    let mut start_date_strs = matches.value_of("start_date").unwrap().splitn(3, "-");
-    let start_date_year = start_date_strs.next().unwrap().parse::<i32>().unwrap();
-    let start_date_month = start_date_strs.next().unwrap().parse::<u32>().unwrap();
-    let start_date_day = start_date_strs.next().unwrap().parse::<u32>().unwrap();
-    let con_name = matches.value_of("con_name").unwrap();
+    let mut start_date_strs = matches.value_of("start_date").ok_or("Missing required flag 'start_date'")?.splitn(3, "-");
+    let start_date_year = start_date_strs.next()
+        .ok_or("Provided start_date is invalid: could not parse year")?
+        .parse::<i32>().unwrap();
+    let start_date_month = start_date_strs.next()
+        .ok_or("Provided start_date is invalid: could not parse month")?
+        .parse::<u32>().unwrap();
+    let start_date_day = start_date_strs.next()
+        .ok_or("Provided start_date is invalid: could not parse day")?
+        .parse::<u32>().unwrap();
+    let con_name = matches.value_of("con_name").ok_or("Missing required flag 'con_name'")?;
     let con_email = matches.value_of("con_email").unwrap_or("");
     let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 4 * 3600);
-    let input_file = File::open(input).unwrap();
-    scrape_dexposure(input_file, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string())
+    let client = client::CachingClient::new("./cache.json")?;
+    let scrape_result = client.scrape_site(input)?;
+    let mut input_reader = match scrape_result {
+        Some(reader) => reader,
+        None => {
+            println!("Upstream not modified");
+            return Ok(());
+        }
+    };
+    // let input_file = File::open(input).unwrap();
+    parse_events(&mut input_reader, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string())
 }
 
-fn scrape_dexposure(input: File, output_path: &String, date_parser: &DateParser, con_name: String, con_email: String) -> Result<(), String> {
+fn parse_events(input: &mut dyn Read, output_path: &String, date_parser: &DateParser, con_name: String, con_email: String) -> Result<(), Error> {
     // let resp = reqwest::get(url).unwrap();
     // assert!(resp.status().is_success());
-
+    let mut cache_dir = std::env::current_dir()?;
+    cache_dir.push(".client_cache_headers");
+    let cache_dir = cache_dir.to_str()?;
+    let _client = client::CachingClient::new(cache_dir);
     let doc = Document::from_read(input).unwrap();
     let mut bg3_nodes = doc.find(pred::And(pred::Name("td"), pred::Class("bg3")));
     let container = bg3_nodes.next().unwrap();
@@ -104,7 +129,7 @@ fn scrape_dexposure(input: File, output_path: &String, date_parser: &DateParser,
     let output = File::create(output_path).unwrap();
     match serde_json::to_writer_pretty(output, &output_object) {
         Ok(_) => Ok(()),
-        Err(err) => Err(format!("Failed to write json output: {}", err.to_string()))
+        Err(err) => Err(Error::JsonError(err)),
     }
 }
 
