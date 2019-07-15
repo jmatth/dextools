@@ -7,7 +7,7 @@ use super::dateparse::DateParser;
 
 const EVENT_REGEX: &str = "^((?P<filled>\\[FILLED\\]) )?\
                            (?P<code>[A-Z][0-9]+): \
-                           (\\[(?P<mtype>.*)\\] )?\
+                           (\\[(?P<test_type>.*)\\] )?\
                            \"(?P<title>.*?)\"\
                            ( by (?P<authors>.*?))?\
                            (( written and|;)? presented by (?P<presenters>(.*?(, )?)+))?\\. \
@@ -30,7 +30,7 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
             let authors = as_string(&captures, "authors");
             let presenters = as_string(&captures, "presenters");
             let description = as_string(&captures,"description");
-            let mtype = as_string(&captures,"mtype");
+            let test_type = as_string(&captures,"test_type");
             let raw_time = as_string(&captures,"time");
             let (start_time, end_time) = parser.parse_time_slot(&raw_time)?;
             Some(Event {
@@ -43,7 +43,7 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
                 start_time,
                 end_time,
                 filled,
-                mtype,
+                test_type,
                 ..Default::default()
             })
         }
