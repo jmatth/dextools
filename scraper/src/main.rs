@@ -47,6 +47,13 @@ fn main() -> Result<(), Error>{
              .help("File to write resulting JSON to")
              .required(false)
              .takes_value(true))
+        .arg(Arg::with_name("cache")
+             .short("c")
+             .long("cache")
+             .value_name("CACHE")
+             .help("File to store HTTP cache headers")
+             .required(false)
+             .takes_value(true))
         .arg(Arg::with_name("start_date")
              .short("d")
              .long("startDate")
@@ -71,6 +78,7 @@ fn main() -> Result<(), Error>{
         .get_matches();
     let input = matches.value_of("input").ok_or("Missing required flag 'input'")?;
     let output = matches.value_of("output").unwrap_or("./schedule.json");
+    let cache = matches.value_of("cache").unwrap_or("./cache.json");
     let mut start_date_strs = matches.value_of("start_date").ok_or("Missing required flag 'start_date'")?.splitn(3, "-");
     let start_date_year = start_date_strs.next()
         .ok_or("Provided start_date is invalid: could not parse year")?
@@ -84,7 +92,7 @@ fn main() -> Result<(), Error>{
     let con_name = matches.value_of("con_name").ok_or("Missing required flag 'con_name'")?;
     let con_email = matches.value_of("con_email").unwrap_or("");
     let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 4 * 3600);
-    let client = client::CachingClient::new("./cache.json")?;
+    let client = client::CachingClient::new(cache)?;
     let scrape_result = client.scrape_site(input)?;
     let mut input_reader = match scrape_result {
         Some(reader) => reader,
