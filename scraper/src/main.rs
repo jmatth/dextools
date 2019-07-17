@@ -93,19 +93,24 @@ fn main() -> Result<(), Error>{
     let con_email = matches.value_of("con_email").unwrap_or("");
     let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 4 * 3600);
     let client = client::CachingClient::new(cache)?;
-    let scrape_result = client.scrape_site(input)?;
-    let mut input_reader = match scrape_result {
-        Some(reader) => reader,
-        None => {
-            println!("Upstream not modified");
-            return Ok(());
+    if input.starts_with("http") {
+        let scrape_result = client.scrape_site(input)?;
+        match scrape_result {
+            Some(mut http_reader) => parse_events(&mut http_reader, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string()),
+            None => {
+                println!("Upstream not modified");
+                return Ok(());
+            }
         }
-    };
-    // let input_file = File::open(input).unwrap();
-    parse_events(&mut input_reader, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string())
+    } else {
+        // This substring assumes the argument started with "file://"
+        let path = &input[7..];
+        let mut file_input = File::open(path)?;
+        parse_events(&mut file_input, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string())
+    }
 }
 
-fn parse_events(input: &mut dyn Read, output_path: &String, date_parser: &DateParser, con_name: String, con_email: String) -> Result<(), Error> {
+fn parse_events<R: Read>(input: &mut R, output_path: &String, date_parser: &DateParser, con_name: String, con_email: String) -> Result<(), Error> {
     // let resp = reqwest::get(url).unwrap();
     // assert!(resp.status().is_success());
     let mut cache_dir = std::env::current_dir()?;
