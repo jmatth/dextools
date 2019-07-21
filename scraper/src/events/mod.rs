@@ -29,6 +29,7 @@ pub struct Event {
     filled: bool,
     tags: String,
     test_type: String,
+    hi_test: bool,
 }
 
 pub fn parse_events<'a, I>(nodes: &mut I, date_parser: &DateParser) -> Vec<Event>

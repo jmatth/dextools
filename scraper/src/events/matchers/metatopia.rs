@@ -31,6 +31,8 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
             let presenters = as_string(&captures, "presenters");
             let description = as_string(&captures,"description");
             let test_type = as_string(&captures,"test_type");
+            let misc = as_string(&captures, "misc");
+            let hi_test = misc.to_lowercase().contains("this is a hi-test session");
             let raw_time = as_string(&captures,"time");
             let (start_time, end_time) = parser.parse_time_slot(&raw_time)?;
             Some(Event {
@@ -44,6 +46,7 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
                 end_time,
                 filled,
                 test_type,
+                hi_test,
                 ..Default::default()
             })
         }
