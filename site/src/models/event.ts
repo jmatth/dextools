@@ -11,6 +11,7 @@ export default class Event {
   public startTime: Moment;
   public endTime: Moment;
   public filled: boolean;
+  public hiTest: boolean;
 
   constructor({
       code,
@@ -22,6 +23,7 @@ export default class Event {
       start_time,
       end_time,
       filled,
+      hi_test,
       tags,
     }: {
       code: string,
@@ -33,6 +35,7 @@ export default class Event {
       start_time: string,
       end_time: string,
       filled: boolean,
+      hi_test: boolean
       tags: string,
     },
   ) {
@@ -45,6 +48,7 @@ export default class Event {
     this.startTime = moment(start_time);
     this.endTime = moment(end_time);
     this.filled = filled;
+    this.hiTest = hi_test;
   }
 
   public conflicts(that: Event): boolean {

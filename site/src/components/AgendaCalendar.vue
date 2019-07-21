@@ -79,6 +79,11 @@
                         small
                         dark
                       >lock</v-icon>
+                      <v-icon
+                        v-if="event.hiTest"
+                        small
+                        dark
+                      >error_outline</v-icon>
                   </div>
                 </template>
               </template>

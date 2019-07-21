@@ -164,6 +164,21 @@
                   </template>
                   <span>This event has been filled, you may sign up as an alternate at the convention.</span>
                 </v-tooltip>
+                <v-tooltip
+                  bottom
+                  v-if="item.hiTest"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-icon
+                      class="ml-1"
+                      size="20"
+                      v-on="on"
+                    >
+                      error_outline
+                    </v-icon>
+                  </template>
+                  <span>This is a HI-TEST session.</span>
+                </v-tooltip>
               </v-flex>
             </v-layout>
           </v-flex>
