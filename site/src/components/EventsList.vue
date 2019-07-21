@@ -149,7 +149,21 @@
                 {{ item.presenters }}
               </v-flex>
               <v-flex xs12 sm1>
-                <v-icon class="ml-1" size="20" v-if="item.filled">lock</v-icon>
+                <v-tooltip
+                  bottom
+                  v-if="item.filled"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-icon
+                      class="ml-1"
+                      size="20"
+                      v-on="on"
+                    >
+                      lock
+                    </v-icon>
+                  </template>
+                  <span>This event has been filled, you may sign up as an alternate at the convention.</span>
+                </v-tooltip>
               </v-flex>
             </v-layout>
           </v-flex>
