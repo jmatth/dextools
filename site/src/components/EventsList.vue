@@ -139,8 +139,23 @@
                 <!-- </v&#45;avatar> -->
                 <span>{{ item.code }}: {{ item.title }}</span>
               </v-flex>
-              <v-flex xs12 sm6>
+              <v-flex xs12 sm5>
                 {{ item.system }}
+              </v-flex>
+              <v-flex xs12 sm1>
+                <v-icon
+                  v-if="item.testType === 'FOCUS GROUP'"
+                  class="ml-1"
+                  size="20"
+                >
+                  group
+                </v-icon>
+                <span
+                  v-else
+                  class="ml-1"
+                >
+                  {{ testTypeText(item.testType) }}
+                </span>
               </v-flex>
               <v-flex xs12 sm5>
                 {{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('HH:mm') }}
@@ -339,6 +354,22 @@ export default class EventsList extends Vue {
           'authors',
         ].some((field) => (event[field] as string).toLowerCase().includes(this.filter.toLowerCase())))
     );
+  }
+
+  public testTypeText(type: string): string {
+    switch (type) {
+      case 'ALPHA TEST': {
+        return 'α';
+      }
+      case 'BETA TEST': {
+        return 'β';
+      }
+      case '': {
+        return '';
+      }
+    }
+    console.error(`Found unknown test type ${type}`);
+    return '';
   }
 }
 </script>
