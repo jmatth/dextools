@@ -53,10 +53,15 @@
                     solo
                     dense
                     clearable
-                    :style="{ maxWidth: (32 * availableCodes.length) + 'px' }"
                   />
                 </v-flex>
-                <v-flex sm12 md6>
+                <v-flex sm6 md3>
+                  <v-checkbox label="Hide filled" v-model="hideFilled"/>
+                </v-flex>
+                <v-flex sm6 md3>
+                  <v-checkbox label="Hide conflicting" v-model="hideConflicting"/>
+                </v-flex>
+                <v-flex sm12>
                   <v-menu
                     ref="startTimeMenu"
                     v-model="filterStartTimeMenu"
@@ -86,14 +91,30 @@
                       format="24hr"
                       :allowed-minutes="timePickerStep"
                       @click:hour="$refs.startTimeMenu.save($event + ':00')"
-                      ></v-time-picker>
+                    />
                   </v-menu>
                 </v-flex>
-                <v-flex sm6 md3>
-                  <v-checkbox label="Hide filled" v-model="hideFilled"/>
+                <v-flex sm12 md6>
+                  <v-select
+                    v-model.lazy="testTypes"
+                    :items="availableTestTypes"
+                    label="Test Types"
+                    multiple
+                    chips
+                    solo
+                    dense
+                    clearable
+                  />
                 </v-flex>
                 <v-flex sm6 md3>
-                  <v-checkbox label="Hide conflicting" v-model="hideConflicting"/>
+                  <v-select
+                    v-model.lazy="hiTestFilter"
+                    :items="hiTestFilterOptions"
+                    label="HI-Tests"
+                    solo
+                    dense
+                    clearable
+                  />
                 </v-flex>
               </v-layout>
             </v-container>
@@ -242,10 +263,16 @@ export default class EventsList extends Vue {
 
   public categories: string[] = [];
   public days: string[] = [];
+  public testTypes: string[] = [];
   public filter: string = '';
   public items?: Event[] = undefined;
   public hideFilled: boolean = false;
   public hideConflicting: boolean = false;
+  public hiTestFilter: boolean | null = null;
+  public hiTestFilterOptions: any = [
+    { text: 'Hide HI-Tests', value: false },
+    { text: 'Only HI-Tests', value: true },
+  ];
   public filterStartTime?: any = null;
   public filterStartTimeMenu: boolean = false;
   public showAdvancedFilter: boolean = false;
@@ -308,6 +335,18 @@ export default class EventsList extends Vue {
     return days.map((d: Moment) => d.format('dd'));
   }
 
+  get availableTestTypes() {
+    const typesSet = this.scheduleEvents.reduce((acc: any, event: Event) => {
+      if (event.testType) {
+        acc.add(event.testType);
+      }
+      return acc;
+    }, new Set());
+    const typesArr: string[] = Array.from(typesSet.values());
+    typesArr.sort();
+    return ['<None>'].concat(typesArr);
+  }
+
   public timePickerStep(minutes: number): boolean {
     return minutes % 30 === 0;
   }
@@ -342,9 +381,11 @@ export default class EventsList extends Vue {
     return (
       (!this.hideFilled || !event.filled) &&
       (!this.hideConflicting || !this.$store.state.agenda.events.some((se: Event) => se.conflicts(event))) &&
+      (this.hiTestFilter === null || this.hiTestFilter === undefined || this.hiTestFilter === event.hiTest) &&
       (this.categories.length < 1 || this.categories.includes(event.code[0])) &&
       (this.days.length < 1 || this.days.includes(event.startTime.format('dd'))) &&
       (this.filterStartTime ? event.startTime.format('H:mm') === this.filterStartTime : true) &&
+      (this.testTypes.length < 1 || this.testTypes.map((t) => t === '<None>' ? '' : t).includes(event.testType)) &&
       (!this.filter || [
           'code',
           'title',
