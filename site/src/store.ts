@@ -3,6 +3,11 @@ import Vuex from 'vuex';
 import Agenda from './models/agenda';
 import Event from './models/event';
 import axios from 'axios';
+import {
+    Stitch,
+    RemoteMongoClient,
+    AnonymousCredential,
+} from 'mongodb-stitch-browser-sdk';
 
 interface Schedule {
   [key: string]: Event;
@@ -17,6 +22,8 @@ const store = new Vuex.Store({
     userName: '',
     conName: '',
     conEmail: '',
+    stitchClient: null,
+    visitId: '',
   },
   mutations: {
     addEventToAgenda(state: any, code: string): void {
@@ -38,16 +45,32 @@ const store = new Vuex.Store({
       state.userName = userName;
       localStorage.userName = userName;
     },
+    setClient(state: any, client: any) {
+      state.stitchClient = client;
+    },
+    setVisitId(state: any, newId: string) {
+      state.visitId = newId;
+    },
   },
   actions: {
     loadSettings(context) {
-      return axios.get('/settings.json').then((response: any) => {
+      const client = Stitch.initializeDefaultAppClient('dextools-crjjz');
+      const creds = new AnonymousCredential();
+      const stitchPromise = client.auth.loginWithCredential(new AnonymousCredential())
+        .then((user: any) => {
+          context.commit('setClient', client);
+          return client.callFunction('startVisit', [{ referrer: document.referrer }]);
+        })
+        .then((result: any) => context.commit('setVisitId', result));
+
+      const axiosPromise = axios.get('/settings.json').then((response: any) => {
         const settings = response.data;
         context.commit('setConName', settings.conName);
         context.commit('setConEmail', settings.conEmail);
         const schedule = scheduleJsonToEvents(settings.schedule);
         context.commit('setSchedule', schedule);
       });
+      return Promise.all([stitchPromise, axiosPromise]);
     },
   },
 });
