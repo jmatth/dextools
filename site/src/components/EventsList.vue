@@ -397,7 +397,7 @@ export default class EventsList extends Vue {
     );
   }
 
-  public testTypeText(type: string): string {
+  public testTypeText(type?: string): string {
     switch (type) {
       case 'ALPHA TEST': {
         return 'α';
@@ -406,6 +406,9 @@ export default class EventsList extends Vue {
         return 'β';
       }
       case '': {
+        return '';
+      }
+      case undefined: {
         return '';
       }
     }
