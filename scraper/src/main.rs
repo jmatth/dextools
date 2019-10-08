@@ -14,6 +14,8 @@ extern crate lazy_static;
 
 use select::document::Document;
 use select::node::Node;
+use serde_json::{Value,json};
+use serde_json::map::Map;
 use std::fs::File;
 use select::predicate as pred;
 use clap::{Arg, App};
@@ -26,6 +28,8 @@ mod error;
 use error::Error;
 
 use crate::events::matchers::dateparse::DateParser;
+
+const SCHEDULE_KEY: &str = "schedule";
 
 
 fn main() -> Result<(), Error>{
@@ -61,23 +65,17 @@ fn main() -> Result<(), Error>{
              .help("First day of the convention in the format YYYY-mm-dd")
              .required(true)
              .takes_value(true))
-        .arg(Arg::with_name("con_name")
-             .short("n")
-             .long("conName")
-             .value_name("CON_NAME")
-             .help("The name of the convention, e.g. Dreamation 2019")
-             .required(true)
-             .takes_value(true))
-        .arg(Arg::with_name("con_email")
-             .short("e")
-             .long("conEmail")
-             .value_name("CON_EMAIL")
-             .help("The email address to send event registrations to, if available")
+        .arg(Arg::with_name("template_config")
+             .short("t")
+             .long("templateConfig")
+             .value_name("TEMPLATE_CONFIG_FILE")
+             .help("The base json config to insert the events array into")
              .required(false)
              .takes_value(true))
         .get_matches();
     let input = matches.value_of("input").ok_or("Missing required flag 'input'")?;
     let output = matches.value_of("output").unwrap_or("./schedule.json");
+    let config_template_path = matches.value_of("template_config").unwrap_or("");
     let cache = matches.value_of("cache").unwrap_or("./cache.json");
     let mut start_date_strs = matches.value_of("start_date").ok_or("Missing required flag 'start_date'")?.splitn(3, "-");
     let start_date_year = start_date_strs.next()
@@ -89,14 +87,12 @@ fn main() -> Result<(), Error>{
     let start_date_day = start_date_strs.next()
         .ok_or("Provided start_date is invalid: could not parse day")?
         .parse::<u32>().unwrap();
-    let con_name = matches.value_of("con_name").ok_or("Missing required flag 'con_name'")?;
-    let con_email = matches.value_of("con_email").unwrap_or("");
     let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 5 * 3600);
     let client = client::CachingClient::new(cache)?;
     if input.starts_with("http") {
         let scrape_result = client.scrape_site(input)?;
         match scrape_result {
-            Some(mut http_reader) => parse_events(&mut http_reader, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string()),
+            Some(mut http_reader) => parse_events(&mut http_reader, &output.to_string(), &date_parser, config_template_path),
             None => {
                 println!("Upstream not modified");
                 return Ok(());
@@ -106,11 +102,11 @@ fn main() -> Result<(), Error>{
         // This substring assumes the argument started with "file://"
         let path = &input[7..];
         let mut file_input = File::open(path)?;
-        parse_events(&mut file_input, &output.to_string(), &date_parser, con_name.to_string(), con_email.to_string())
+        parse_events(&mut file_input, &output.to_string(), &date_parser, config_template_path)
     }
 }
 
-fn parse_events<R: Read>(input: &mut R, output_path: &String, date_parser: &DateParser, con_name: String, con_email: String) -> Result<(), Error> {
+fn parse_events<R: Read>(input: &mut R, output_path: &String, date_parser: &DateParser, template_config_path: &str) -> Result<(), Error> {
     // let resp = reqwest::get(url).unwrap();
     // assert!(resp.status().is_success());
     let mut cache_dir = std::env::current_dir()?;
@@ -134,13 +130,16 @@ fn parse_events<R: Read>(input: &mut R, output_path: &String, date_parser: &Date
 
     let mut iter = event_children.iter().map(|n| *n);
     let schedule = events::parse_events(&mut iter, date_parser);
-    let output_object = Settings {
-        con_name,
-        con_email,
-        schedule,
+    let mut config_val: Value = if template_config_path.len() < 1 {
+        serde_json::from_str("{}")?
+    } else {
+        let template_config_file = File::open(template_config_path)?;
+        serde_json::from_reader(template_config_file)?
     };
-    let output = File::create(output_path).unwrap();
-    match serde_json::to_writer_pretty(output, &output_object) {
+    let config: &mut Map<String, Value> = config_val.as_object_mut()?;
+    config.insert(SCHEDULE_KEY.to_string(), json!(schedule));
+    let output = File::create(output_path)?;
+    match serde_json::to_writer_pretty(output, &config) {
         Ok(_) => Ok(()),
         Err(err) => Err(Error::JsonError(err)),
     }
@@ -153,13 +152,4 @@ fn filter_event_nodes<'a>(container: &'a Node) -> Vec<Node<'a>> {
             n.is(pred::Name("p"))
         })
         .collect()
-}
-
-
-#[derive(Default, Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Settings {
-    con_name: String,
-    con_email: String,
-    schedule: Vec<events::Event>,
 }
