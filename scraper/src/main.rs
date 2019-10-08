@@ -91,7 +91,7 @@ fn main() -> Result<(), Error>{
         .parse::<u32>().unwrap();
     let con_name = matches.value_of("con_name").ok_or("Missing required flag 'con_name'")?;
     let con_email = matches.value_of("con_email").unwrap_or("");
-    let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 4 * 3600);
+    let date_parser = DateParser::new(start_date_year, start_date_month, start_date_day, 5 * 3600);
     let client = client::CachingClient::new(cache)?;
     if input.starts_with("http") {
         let scrape_result = client.scrape_site(input)?;
