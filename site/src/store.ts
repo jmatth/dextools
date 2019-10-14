@@ -51,6 +51,9 @@ const store = new Vuex.Store({
     setVisitId(state: any, newId: string) {
       state.visitId = newId;
     },
+    setFeedbackUrl(state: any, newUrl: string) {
+      state.feedbackUrl = newUrl;
+    },
   },
   actions: {
     loadSettings(context) {
@@ -67,6 +70,7 @@ const store = new Vuex.Store({
         const settings = response.data;
         context.commit('setConName', settings.conName);
         context.commit('setConEmail', settings.conEmail);
+        context.commit('setFeedbackUrl', settings.feedbackUrl);
         const schedule = scheduleJsonToEvents(settings.schedule);
         context.commit('setSchedule', schedule);
       });

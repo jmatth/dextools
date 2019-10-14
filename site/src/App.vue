@@ -22,6 +22,41 @@
       <v-toolbar-title>Dextools</v-toolbar-title>
       <v-spacer/>
       <v-dialog
+        v-model="feedback"
+        width="500"
+      >
+        <v-btn
+          fab
+          depressed
+          flat
+          slot="activator"
+        >
+          <v-icon>
+            feedback
+          </v-icon>
+        </v-btn>
+        <v-card>
+          <v-card-title
+            class="headline grey lighten-2"
+            primary-title
+          >
+            Feedback
+          </v-card-title>
+          <v-card-text>
+            <p>
+            Have feedback about the site? I would love it if you could take a minute (literally a minute, I promise) to fill out <a :href="this.$store.state.feedbackUrl" target="_blank">this anonymous form</a>.
+            </p>
+          </v-card-text>
+          <v-divider/>
+          <v-spacer/>
+          <v-btn
+            @click="feedback = false"
+          >
+            Close
+          </v-btn>
+        </v-card>
+      </v-dialog>
+      <v-dialog
         v-model="about"
         width="500"
       >
@@ -92,7 +127,10 @@
             </ul>
             </p>
             <h2>Questions/bug reports/feedback?</h2>
-            <p>Please submit such things via an <a href="https://github.com/jmatth/dextools/issues/new" target="_blank">issue on the github repo</a>.</p>
+            <p>
+            Any feedback via <a href="this.$state.store.feedbackUrl" target="_blank">this anonymous form</a> is greatly appreciated.
+            If you are so inclined, you can also open issues directly <a href="https://github.com/jmatth/dextools/issues/new" target="_blank">on the github repo</a>.
+            </p>
             <h2>I should probably add...</h2>
             <p>
               This site is not associated with or endorsed by Double Exposure Inc.
@@ -154,6 +192,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 })
 export default class App extends Vue {
   public about = false;
+  public feedback = false;
   private workspaceHeight = 700;
   public display = {
         mode: 'split',
