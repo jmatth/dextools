@@ -128,7 +128,7 @@
             </p>
             <h2>Questions/bug reports/feedback?</h2>
             <p>
-            Any feedback via <a href="this.$state.store.feedbackUrl" target="_blank">this anonymous form</a> is greatly appreciated.
+            Any feedback via <a :href="this.$store.state.feedbackUrl" target="_blank">this anonymous form</a> is greatly appreciated.
             If you are so inclined, you can also open issues directly <a href="https://github.com/jmatth/dextools/issues/new" target="_blank">on the github repo</a>.
             </p>
             <h2>I should probably add...</h2>
