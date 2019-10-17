@@ -57,24 +57,28 @@ const store = new Vuex.Store({
   },
   actions: {
     loadSettings(context) {
-      const client = Stitch.initializeDefaultAppClient('dextools-crjjz');
-      const creds = new AnonymousCredential();
-      const stitchPromise = client.auth.loginWithCredential(new AnonymousCredential())
-        .then((user: any) => {
-          context.commit('setClient', client);
-          return client.callFunction('startVisit', [{ referrer: document.referrer }]);
-        })
-        .then((result: any) => context.commit('setVisitId', result));
-
-      const axiosPromise = axios.get('/settings.json').then((response: any) => {
+      return axios.get('/settings.json').then((response: any) => {
         const settings = response.data;
         context.commit('setConName', settings.conName);
         context.commit('setConEmail', settings.conEmail);
         context.commit('setFeedbackUrl', settings.feedbackUrl);
         const schedule = scheduleJsonToEvents(settings.schedule);
         context.commit('setSchedule', schedule);
+        return settings;
+      }).then((settings: any) => {
+        const stitchAppId = settings.stitchApp;
+        if (!stitchAppId) {
+          console.warn('No stitch app configured, not sending analytics.');
+          return;
+        }
+        const client = Stitch.initializeDefaultAppClient(stitchAppId);
+        return client.auth.loginWithCredential(new AnonymousCredential())
+          .then((user: any) => {
+            context.commit('setClient', client);
+            return client.callFunction('startVisit', [{ referrer: document.referrer }]);
+          })
+          .then((result: any) => context.commit('setVisitId', result));
       });
-      return Promise.all([stitchPromise, axiosPromise]);
     },
   },
 });
