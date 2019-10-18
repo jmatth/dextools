@@ -78,10 +78,9 @@ fn fix_day_overflow(hrs: u32) -> u32 {
 
 fn get_day_offset(day: &str) -> u32 {
     match day {
-        "Thursday" => 1,
-        "Friday" => 2,
-        "Saturday" => 3,
-        "Sunday" => 4,
+        "Friday" => 1,
+        "Saturday" => 2,
+        "Sunday" => 3,
         _ => 0,
     }
 }
