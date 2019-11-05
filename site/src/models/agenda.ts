@@ -53,8 +53,8 @@ export default class Agenda {
 
   public exportIcs(conName: string): void {
     const icsEventObjs = this.events.map((e) => {
-      const start = moment.utc(e.startTime).format('YYYY-M-D-H-m').split('-');
-      const end = moment.utc(e.endTime).format('YYYY-M-D-H-m').split('-');
+      const start = e.startTime.format('YYYY-M-D-H-m').split('-');
+      const end = e.endTime.format('YYYY-M-D-H-m').split('-');
       return {
         title: `${e.code} - ${e.title}`,
         description: e.description,
