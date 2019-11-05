@@ -2372,7 +2372,7 @@
     {
       "authors": "Leder Games",
       "code": "B170",
-      "description": "Be a kid again in this quick deck-building game. Grow your circle of friends, collect snacks, and build the coolest fort! In this game, your cards not only let you take actions, but also let you follow the other players' actions by taking miniature versions of your own. Will you devote yourself to your own posse or copy what the other kids are doing?",
+      "description": "Guide the course of history in an ancient land, whether as agents bolstering the old order or as schemers working to bring the kingdom to ruin. The consequences of one game ripple through those that follow, changing the resources and actions available to future players or even the game's victory conditions. If you seize control by courting anarchy and distrust, future players will have to contend with a land overrun by thieves and petty warlords. Or if you found a dynasty, your line of rulers might last generations or be crushed by the rise of a terrible, arcane cult.",
       "end_time": "Fri,  8 Nov 2019 16:00:00 -0500",
       "filled": false,
       "hi_test": true,
@@ -2381,7 +2381,7 @@
       "system": "",
       "tags": "",
       "test_type": "BETA TEST",
-      "title": "Fort"
+      "title": "Oath"
     },
     {
       "authors": "Cardboard Fortress Games",
@@ -2870,7 +2870,7 @@
       "start_time": "Fri,  8 Nov 2019 14:00:00 -0500",
       "system": "",
       "tags": "",
-      "test_type": "BETA TEST",
+      "test_type": "ALPHA TEST",
       "title": "The Badge"
     },
     {
@@ -6356,7 +6356,7 @@
       "start_time": "Sat,  9 Nov 2019 11:00:00 -0500",
       "system": "",
       "tags": "",
-      "test_type": "BETA TEST",
+      "test_type": "ALPHA TEST",
       "title": "The Badge"
     },
     {
@@ -6922,7 +6922,7 @@
     {
       "authors": "Bradley University",
       "code": "R495",
-      "description": "A game written in response to a book the designer never read set in occupied Paris during WWII. A German soldier and a resistance fighter tell their stories to the third person who connects them, the lover of the former and the sibling of the latter. The game is about information passing through this third person both ways, helping and betraying the other two.",
+      "description": "Make a bunch of characters and then try to smuggle them out of Kolastan. You'll be a passport procurer matching the right passports with the right folks as well as you can. This freeform game is somewhere between Papers Please and Jason Morningstar's The Line.",
       "end_time": "Sat,  9 Nov 2019 16:00:00 -0500",
       "filled": false,
       "hi_test": true,
@@ -10212,7 +10212,7 @@
     {
       "authors": "Bradley University",
       "code": "R730",
-      "description": "A game written in response to a book the designer never read set in occupied Paris during WWII. A German soldier and a resistance fighter tell their stories to the third person who connects them, the lover of the former and the sibling of the latter. The game is about information passing through this third person both ways, helping and betraying the other two.",
+      "description": "Make a bunch of characters and then try to smuggle them out of Kolastan. You'll be a passport procurer matching the right passports with the right folks as well as you can. This freeform game is somewhere between Papers Please and Jason Morningstar's The Line.",
       "end_time": "Sun, 10 Nov 2019 14:00:00 -0500",
       "filled": false,
       "hi_test": false,
