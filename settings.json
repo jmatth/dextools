@@ -398,6 +398,20 @@
     {
       "authors": "",
       "code": "D029",
+      "description": "The Golden Cobra Challenge is a friendly contest open to anyone interested in writing and playing freeform games that ran through the month of October. Now we're ready to discuss our methodology, submission trends, and what we've learned about freeform in the process. And, of course, announce the winners! Join us for an informal discussion and awards ceremony. The winning games will be offered throughout METATOPIA, so come play with the judges as well.",
+      "end_time": "Fri,  8 Nov 2019 21:00:00 -0500",
+      "filled": false,
+      "hi_test": false,
+      "presenters": "Jason Morningstar, Banana Chan",
+      "start_time": "Fri,  8 Nov 2019 20:00:00 -0500",
+      "system": "",
+      "tags": "",
+      "test_type": "",
+      "title": "Golden Cobra Announcement"
+    },
+    {
+      "authors": "",
+      "code": "D030",
       "description": "The details surrounding firearms in RPGs are as varied as the arguments about what is the best gun. As closet simulationists we wanted to represent all the characteristics of firearms that matter, but do so in a way that is streamlined and rules light as possible. The result of this research is an understanding for what matters most when modeling this type of violence.",
       "end_time": "Fri,  8 Nov 2019 21:00:00 -0500",
       "filled": false,
@@ -411,7 +425,7 @@
     },
     {
       "authors": "",
-      "code": "D030",
+      "code": "D031",
       "description": "Role playing allows participants to explore sensitive topics. Debriefing not only adds closure to the game or event, but it allows participants to express their feelings, and begin the process of stepping away from the world or the story. During this session, debrief topics, tools, and resources, will be presented and discussed. Participants will leave this session feeling they can add debriefing tools to any game session.",
       "end_time": "Fri,  8 Nov 2019 21:00:00 -0500",
       "filled": false,
@@ -425,7 +439,7 @@
     },
     {
       "authors": "",
-      "code": "D031",
+      "code": "D032",
       "description": "Mysteries are among the hardest genres to run successfully in tabletop games. How can designers structure stories to meaningfully involve players, guide them to clues and help them put them together to solve a crime without spoonfeeding them? How can GMs control pacing to duplicate the feel of classic whodunits?",
       "end_time": "Fri,  8 Nov 2019 22:00:00 -0500",
       "filled": false,
@@ -439,7 +453,7 @@
     },
     {
       "authors": "",
-      "code": "D032",
+      "code": "D033",
       "description": "Death is a common element in nearly every kind of game, but it is not often portrayed accurately. We'll talk about the surprisingly broad range of experiences people have with death, dying, and grieving, and how understanding them can enrich and deepen your experiences as a player, gamemaster, and designer. (Content Warning: Frank and direct descriptions of real-life death, coping with lifelong emotional trauma.)",
       "end_time": "Fri,  8 Nov 2019 22:00:00 -0500",
       "filled": false,
@@ -453,7 +467,7 @@
     },
     {
       "authors": "",
-      "code": "D033",
+      "code": "D034",
       "description": "If you're a game designer or runner, one of the things you can do to increase your game's accessibility is to talk to your disabled players about it. But a lot of people don't know how to have that dialogue, and sometimes it feels easier just to ignore it. Join us in this workshop to learn new communication methods, get some background on a few common disabled experiences, and talk through practicing some scenarios. If you've taken the first steps towards designing for accessibility but are feeling a little lost, this is for you!",
       "end_time": "Fri,  8 Nov 2019 22:00:00 -0500",
       "filled": false,
@@ -467,7 +481,7 @@
     },
     {
       "authors": "",
-      "code": "D034",
+      "code": "D035",
       "description": "Want to learn how to create safety tools that fit your game and are baked into the mechanics instead of just adding pre-established tools on top? This panel dives into the creative and mechanical process of understanding safety and support and integrating it into your ttrpg designs.",
       "end_time": "Fri,  8 Nov 2019 23:00:00 -0500",
       "filled": false,
@@ -481,7 +495,7 @@
     },
     {
       "authors": "",
-      "code": "D035",
+      "code": "D036",
       "description": "In today's world, having fun without some deeper message or intention feels wrong. We have bigger problems to solve, and no time to waste. But the truth is, now more than ever, simple fun is a noble goal. Bringing happiness to yourself and others through art is a crucial act of self-care, and even resistance. Let's talk about why that is, and how we can put it into practice.",
       "end_time": "Fri,  8 Nov 2019 23:00:00 -0500",
       "filled": false,
@@ -495,7 +509,7 @@
     },
     {
       "authors": "",
-      "code": "D036",
+      "code": "D037",
       "description": "Starting in 2020, part of FREE RPG day will be an anthology book of indie RPGS, story games, and related material. Our goal is to have a diverse, independent, and interesting anthology of games that speaks to RPG fans and the retail community. Come out to hear what they have planned, and how YOU CAN BE A PART OF IT. Christopher and Heather of 9th Level Games are acting as editors and producers.",
       "end_time": "Fri,  8 Nov 2019 23:00:00 -0500",
       "filled": false,
@@ -509,7 +523,7 @@
     },
     {
       "authors": "",
-      "code": "D037",
+      "code": "D038",
       "description": "Some of the best games deal with heavy topics and challenging subject matter. Creators who look to design or publish games addressing sensitive subject matter need to do due diligence to reduce the chance their work could do harm. In this panel, we will discuss how creators can ethically do the legwork and research to tackle issues of race, sexuality, identity, and trauma.",
       "end_time": "Sat,  9 Nov 2019 00:00:00 -0500",
       "filled": false,
@@ -523,7 +537,7 @@
     },
     {
       "authors": "",
-      "code": "D038",
+      "code": "D039",
       "description": "Many tabletop players voice the same issue: I'd love to run a game, but I can't get five people together every week. The solution, of course is not to enlist five people, but fifteen, and instead of an adventuring party, create an adventuring community. We'll show you how.",
       "end_time": "Sat,  9 Nov 2019 00:00:00 -0500",
       "filled": false,
@@ -537,7 +551,7 @@
     },
     {
       "authors": "",
-      "code": "D039",
+      "code": "D040",
       "description": "When mainstream media presents queer stories, the focus is inevitably on tragedy, grief, and oppression. In this panel, the speakers will discuss how we can design games about other elements of the queer experience. How can we design hopeful and emotionally uplifting games about queer content?",
       "end_time": "Sat,  9 Nov 2019 00:00:00 -0500",
       "filled": false,
@@ -551,7 +565,7 @@
     },
     {
       "authors": "",
-      "code": "D040",
+      "code": "D041",
       "description": "The lean coffee is a structured but informal method of conversation. I'll be doing this in lieu of my normal breakfast, and anyone is welcome - if we have more people, we'll spawn more tables. Each table proposes and votes on topics to discuss, and discussion continues as long as there's interest. This is a great way to get a quick but interesting discussion about a topic that has interested you.",
       "end_time": "Sat,  9 Nov 2019 09:00:00 -0500",
       "filled": false,
@@ -565,7 +579,7 @@
     },
     {
       "authors": "",
-      "code": "D041",
+      "code": "D042",
       "description": "Your game's ready for Kickstarter! So how much will you be asking for? What's the absolute minimum you need to get your game made? What is the floor number for success? How will you handle unexpected levels of success? Let's get practical about your numbers.",
       "end_time": "Sat,  9 Nov 2019 10:00:00 -0500",
       "filled": false,
@@ -579,7 +593,7 @@
     },
     {
       "authors": "",
-      "code": "D042",
+      "code": "D043",
       "description": "Former Kubert School Teacher Fabio Redivo and Illustrator Scott Bowmanchester will talk about the jump between traditional and digital and the pros and cons of both media. There will be a short demo of the \"Procreate\" program for the iPad as well.",
       "end_time": "Sat,  9 Nov 2019 10:00:00 -0500",
       "filled": false,
@@ -593,7 +607,7 @@
     },
     {
       "authors": "",
-      "code": "D043",
+      "code": "D044",
       "description": "The Indie Game Developer Network is a professional trade organization focused on networking publishers, designers, freelancers, and gaming professionals and helping create diversity and inclusion within the gaming industry. Join part of the leadership team in hearing about what the IGDN is, what we do, our mission, and why we believe we can make a difference.",
       "end_time": "Sat,  9 Nov 2019 10:00:00 -0500",
       "filled": false,
@@ -607,7 +621,7 @@
     },
     {
       "authors": "",
-      "code": "D044",
+      "code": "D045",
       "description": "It's easy to equate protecting your game to protecting the pieces that make your game, but they are two different things. Having a core that you can return to, no matter how much you add or take away from your game helps with some of the fear that comes along with making big changes to your game. We'll discuss mental tools you can use to combat that fear, as well as the mental blocks that come from not knowing what to do next.",
       "end_time": "Sat,  9 Nov 2019 11:00:00 -0500",
       "filled": false,
@@ -621,7 +635,7 @@
     },
     {
       "authors": "",
-      "code": "D045",
+      "code": "D046",
       "description": "Tabletop games are great, but how would you create a class to teach someone what a tabletop game was and how to design it? Have you thought about how you would teach rules, the \"magic circle\", goals, decisions, balance, and the all important social aspect? Join Dr. Dave Eng (Professor of Practice, Tabletop Game Design) as he discusses his project in creating a table top game design program from the ground up.",
       "end_time": "Sat,  9 Nov 2019 11:00:00 -0500",
       "filled": false,
@@ -635,7 +649,7 @@
     },
     {
       "authors": "",
-      "code": "D046",
+      "code": "D047",
       "description": "Our panelists have a range of experiences in gaming - as a hobby, as an industry, as a labor of love. Bring your questions, and they'll try to answer them as best they can.",
       "end_time": "Sat,  9 Nov 2019 11:00:00 -0500",
       "filled": false,
@@ -649,7 +663,7 @@
     },
     {
       "authors": "",
-      "code": "D047",
+      "code": "D048",
       "description": "Design a board game, and strike it rich! Or review games, 1M Twitter followers means big money! Right? Talk with folks who run companies in the game industry and learn about ways people actually make a living wage. From retail stores and game cafes, to publishing games, to popups and conventions, to media- there are a lot of misconceptions on where the money is in the game industry.",
       "end_time": "Sat,  9 Nov 2019 12:00:00 -0500",
       "filled": false,
@@ -663,7 +677,7 @@
     },
     {
       "authors": "",
-      "code": "D048",
+      "code": "D049",
       "description": "LARPs have been making great strides recently, having been featured on everything from movies to TV to the Ninja Turtles. However, it eludes a mainstream audience - or does it? We'll explain what LARP runners can learn from the fad of Escape Rooms popping up all over the country.",
       "end_time": "Sat,  9 Nov 2019 12:00:00 -0500",
       "filled": false,
@@ -677,7 +691,7 @@
     },
     {
       "authors": "",
-      "code": "D049",
+      "code": "D050",
       "description": "We are four designers who make games that explore non-violent design from different angles. In a hobby that originally evolved from war gaming, RPGs without mechanics for violence are still seen as \"weird\" or \"niche\" games, to the point that people often have trouble imagining what games without violence could look like.",
       "end_time": "Sat,  9 Nov 2019 12:00:00 -0500",
       "filled": false,
@@ -691,7 +705,7 @@
     },
     {
       "authors": "",
-      "code": "D050",
+      "code": "D051",
       "description": "Publishing your game doesn't need to be daunting. There's work involved, but with a diverse tool box and a clear understanding of your publishing goals, publishing might be more attainable than you imagine.",
       "end_time": "Sat,  9 Nov 2019 13:00:00 -0500",
       "filled": false,
@@ -705,7 +719,7 @@
     },
     {
       "authors": "",
-      "code": "D051",
+      "code": "D052",
       "description": "We'll talk about the difficulties and workarounds for making games when you live outside of developed countries like the United States, Canada or Western Europe.",
       "end_time": "Sat,  9 Nov 2019 13:00:00 -0500",
       "filled": false,
@@ -719,7 +733,7 @@
     },
     {
       "authors": "",
-      "code": "D052",
+      "code": "D053",
       "description": "Social skills can be a very broad term, let us clarify what that means and how to sell your product to educators and therapists. Join us as we talk about using tabletop roleplaying games, storytelling and map making games to teach kids how relate to one another better.",
       "end_time": "Sat,  9 Nov 2019 13:00:00 -0500",
       "filled": false,
@@ -733,7 +747,7 @@
     },
     {
       "authors": "",
-      "code": "D053",
+      "code": "D054",
       "description": "Blades in the Dark has led to a new generation of game designs such as Scum and Villainy, Band of Blades, and Mutants in the Night. In this panel, we dig into the toolset and what sets it apart from similar design traditions. What are the core principles behind designing games Forged in the Dark? Where can we grow and diverge from the core?",
       "end_time": "Sat,  9 Nov 2019 14:00:00 -0500",
       "filled": false,
@@ -747,7 +761,7 @@
     },
     {
       "authors": "",
-      "code": "D054",
+      "code": "D055",
       "description": "Getting high-quality art is key to making a product look professional. How do publishers do it without breaking the bank? Our panel makes with the tips and tricks.",
       "end_time": "Sat,  9 Nov 2019 14:00:00 -0500",
       "filled": false,
@@ -761,7 +775,7 @@
     },
     {
       "authors": "",
-      "code": "D055",
+      "code": "D056",
       "description": "Marketing is essential to the success of your business. In the first half of this 2-hour workshop, we'll explain key marketing principles and then in the second half we'll work with you in small groups to help you apply this information to your business so you can create your own basic marketing plan and discuss it with the group.",
       "end_time": "Sat,  9 Nov 2019 14:00:00 -0500",
       "filled": false,
@@ -775,7 +789,7 @@
     },
     {
       "authors": "",
-      "code": "D056",
+      "code": "D057",
       "description": "\"Most victory points\" is the default victory condition for most board games, and why shouldn't they be? They solve most problems you encounter while designing - balance, investment, rewarding people for doing what you want them to be. Well, unfortunately, most everyone has worked out the same thing, and now the market is flooded with Victory Point win conditions. Want to make your game stand out? Try something else.",
       "end_time": "Sat,  9 Nov 2019 15:00:00 -0500",
       "filled": false,
@@ -789,7 +803,7 @@
     },
     {
       "authors": "",
-      "code": "D057",
+      "code": "D058",
       "description": "Imagine your brand new game universe - does it have its own pantheon of gods? Would you like it to? On this panel we'll discuss building the cosmology of your world from the blank slate up, including archetypes and creation myths and how to create a unique pantheon that fits your games.",
       "end_time": "Sat,  9 Nov 2019 15:00:00 -0500",
       "filled": false,
@@ -803,7 +817,7 @@
     },
     {
       "authors": "",
-      "code": "D058",
+      "code": "D059",
       "description": "Get answers to your specific marketing questions. Beth Rimmels and Mike Roberts work for Efferent Media, a digital marketing agency, and are experts in social media marketing and SEO (how people find you on Google). This interactive workshop will also include live analysis of game industry websites, and what they can do to improve their Google search rankings. Bring your questions to learn how to get the word out about your product and establish a professional presence online. This is part two of a two-hour workshop with a break in the middle so you can attend part or all of it.",
       "end_time": "Sat,  9 Nov 2019 15:00:00 -0500",
       "filled": false,
@@ -817,7 +831,7 @@
     },
     {
       "authors": "",
-      "code": "D059",
+      "code": "D060",
       "description": "There's something satisfying about taking ownership of a piece of the world as a player and watching it flourish (or not). There have been various approaches to this over the years (Ars Magica, MIcroscope, The Quiet Year, even D&D!) Let's discuss what player involvement of world building really means and different approaches for incorporating it into traditional RPGs.",
       "end_time": "Sat,  9 Nov 2019 16:00:00 -0500",
       "filled": false,
@@ -831,7 +845,7 @@
     },
     {
       "authors": "",
-      "code": "D060",
+      "code": "D061",
       "description": "So you're ready to start promoting your game, but where do you start? Our panelists will walk you through the basics of media outreach, from identifying the right media to writing a compelling pitch. We'll discuss the basics of working with traditional media, bloggers and game reviewers and how to determine the right timing and approach for your game.",
       "end_time": "Sat,  9 Nov 2019 16:00:00 -0500",
       "filled": false,
@@ -845,7 +859,7 @@
     },
     {
       "authors": "",
-      "code": "D061",
+      "code": "D062",
       "description": "Earlier this month, I led a two-hour game design crash course at NC State University. During this talk I'll describe my methods of exposing a group to tabletop game design in a short format.",
       "end_time": "Sat,  9 Nov 2019 16:00:00 -0500",
       "filled": false,
@@ -859,7 +873,7 @@
     },
     {
       "authors": "",
-      "code": "D062",
+      "code": "D063",
       "description": "The 'turn' is a fundamental concept for games of all types, and there are a wide variety of approaches the designer can take to structure them. The structure chosen has a major impact on the play experience, and should be carefully considered. This talk is a deep dive into turn options both common and rare, and discusses what each brings to the table.",
       "end_time": "Sat,  9 Nov 2019 17:00:00 -0500",
       "filled": false,
@@ -873,7 +887,7 @@
     },
     {
       "authors": "",
-      "code": "D063",
+      "code": "D064",
       "description": "So much of our culture is informed by what we consume - by food, drink, and intoxicating substances. People interact with the flora and fauna of their environments in a myriad of ways, with importance (and taboos) placed on particular objects for cultural, religious, and socio-political reasons. This panel will explore these concepts in both real and fictional worlds, as well as how to include such details as part of an in-depth world building strategy that can help bring fictional cultures to life in relatable, realistic ways.",
       "end_time": "Sat,  9 Nov 2019 17:00:00 -0500",
       "filled": false,
@@ -887,7 +901,7 @@
     },
     {
       "authors": "",
-      "code": "D064",
+      "code": "D065",
       "description": "Weekend game jams have become a fixture in the video game development community: Small teams of friends and strangers coming together to make a brand new game in just a day or two. They encourage creativity, experimentation, and design for the fun of it, all of which make participants better and more fulfilled designers when the weekend ends. Learn about organizing game jams for tabletop games and best practices for getting the most out your event.",
       "end_time": "Sat,  9 Nov 2019 17:00:00 -0500",
       "filled": false,
@@ -901,7 +915,7 @@
     },
     {
       "authors": "",
-      "code": "D065",
+      "code": "D066",
       "description": "Role playing as a HOBBY continues to evolve and mature. Has role-playing now gotten big enough to be considered a MEDIUM? Join us for a lively and passionate discussion on the concept that role-playing has become more than just games, but a medium - a channel for communication, information, and entertainment. In this panel, we will look at whether role-playing is a medium, and if so, what that means for our hobby. The panelists all represent different aspects of designing and publishing role playing games and bring diverse and interesting points of view around the topic.",
       "end_time": "Sat,  9 Nov 2019 18:00:00 -0500",
       "filled": false,
@@ -915,7 +929,7 @@
     },
     {
       "authors": "",
-      "code": "D066",
+      "code": "D067",
       "description": "For decades, web technologies like HTML and CSS have developed with a focus on accessibility and a low barrier to entry. Today, they present powerful options for layout and interactivity. We'll discuss using these technologies in your game publishing, both digitally and in print.",
       "end_time": "Sat,  9 Nov 2019 18:00:00 -0500",
       "filled": false,
@@ -929,7 +943,7 @@
     },
     {
       "authors": "",
-      "code": "D067",
+      "code": "D068",
       "description": "Now that we've chatted about why game jams are valuable, let's put theory into practice. Even if you missed our earlier session, you're invited to join us to spend an hour putting together a playable game.",
       "end_time": "Sat,  9 Nov 2019 18:00:00 -0500",
       "filled": false,
@@ -943,7 +957,7 @@
     },
     {
       "authors": "",
-      "code": "D068",
+      "code": "D069",
       "description": "A METATOPIA tradition - Kenneth Hite rambling about game design. In this case the notion of scope: How big should your setting be? How can you design a setting to contain multiple core game activities, and should you? As always, Ken has notions and questions, and hopes you have more of both as we explore Bigness (and un-Bigness) in games.",
       "end_time": "Sat,  9 Nov 2019 19:00:00 -0500",
       "filled": false,
@@ -957,7 +971,7 @@
     },
     {
       "authors": "",
-      "code": "D069",
+      "code": "D070",
       "description": "Melissa Lewis-Gentry of Avalon Games Cafe and Jim Crocker of Jim Likes Games are on-hand to share some insight about the state of analog games retail. When Modern Myths closed, Melissa and Jim went on to navigate two different paths.",
       "end_time": "Sat,  9 Nov 2019 20:00:00 -0500",
       "filled": false,
@@ -971,7 +985,7 @@
     },
     {
       "authors": "",
-      "code": "D070",
+      "code": "D071",
       "description": "Teenagers bring innovation, creativity and hard questions to the game table. Our panelists will talk about how to hold space for everything that makes gaming with them magical.",
       "end_time": "Sat,  9 Nov 2019 21:00:00 -0500",
       "filled": false,
@@ -982,20 +996,6 @@
       "tags": "",
       "test_type": "",
       "title": "Gaming With and Holding Space For Teens"
-    },
-    {
-      "authors": "",
-      "code": "D071",
-      "description": "The Golden Cobra Challenge is a friendly contest open to anyone interested in writing and playing freeform games that ran through the month of October. Now we're ready to discuss our methodology, submission trends, and what we've learned about freeform in the process. And, of course, announce the winners! Join us for an informal discussion and awards ceremony. The winning games will be offered throughout METATOPIA, so come play with the judges as well.",
-      "end_time": "Sat,  9 Nov 2019 21:00:00 -0500",
-      "filled": false,
-      "hi_test": false,
-      "presenters": "Jason Morningstar, Banana Chan",
-      "start_time": "Sat,  9 Nov 2019 20:00:00 -0500",
-      "system": "",
-      "tags": "",
-      "test_type": "",
-      "title": "Golden Cobra Announcement"
     },
     {
       "authors": "",
@@ -1436,7 +1436,7 @@
       "code": "R103",
       "description": "We imagine this as the \"Love child of Highway to Heaven and Sailor Moon born into the Chernobyl Exclusion Zone, flavored with Street Hawk.\" We've got a handful of ideas, some interesting development goals, and a lot of question marks. Come help us figure this thing out!",
       "end_time": "Fri,  8 Nov 2019 11:00:00 -0500",
-      "filled": false,
+      "filled": true,
       "hi_test": false,
       "presenters": "Tim Rodriguez",
       "start_time": "Fri,  8 Nov 2019 09:00:00 -0500",
@@ -3396,7 +3396,7 @@
       "code": "R243",
       "description": "We know you have questions, recruit. \"Where are we? Why is this bag on my head? What do you mean ‘quasi-governmental organization that conscripts cryptids and occultists to investigate paranormal threats'?\" Rest assured, we only accepts recruits with at least 33.3% chance of surviving their first mission. This session will test an introductory module inspired by \"Hellboy\" and \"Planetary,\" with attention to character creation and equipment options adapted from \"Into the Odd.\" Content warning: May contain violence against human or inhuman beings, and may contain references to figures from real-world religious texts.",
       "end_time": "Fri,  8 Nov 2019 18:00:00 -0500",
-      "filled": false,
+      "filled": true,
       "hi_test": false,
       "presenters": "Jason Tocci",
       "start_time": "Fri,  8 Nov 2019 16:00:00 -0500",
@@ -4150,7 +4150,7 @@
     {
       "authors": "",
       "code": "L297",
-      "description": "The winners are in. The judges have explained the contest. Now, let's play some games! Due to the nature of the contest, we won't know until just before the convention what will be running. We encourage you to be flexible when you show up for this event. Based on audience preference, number of players who arrive and various other factors (entirely left to the discretion of our crack facilitator team!), any or all games of each winning category might run. Categories include: Most Convention-Ready, Most Appealing to Newcomers, Cleverest Design and Game We're Most Eager to Play. Each game will run a minimum of once during the convention.",
+      "description": "This event has been canceled by the Designer.",
       "end_time": "Fri,  8 Nov 2019 22:00:00 -0500",
       "filled": false,
       "hi_test": false,
@@ -4159,7 +4159,7 @@
       "system": "",
       "tags": "",
       "test_type": "",
-      "title": "The Golden Cobra Contest Winner Showcase"
+      "title": "CANCELED"
     },
     {
       "authors": "Geoffquest",
@@ -5412,7 +5412,7 @@
       "code": "R387",
       "description": "Death, Time, War, and the rest have disappeared, leaving holes in reality that it is your responsibility to fill. This is a PbtA game where those mortals have to solve problems in an afterlife bureaucracy and an Earth that is stranger than they realized. Inspired by Garth Nix's The Keys to the Kingdom, Pratchett and Gaiman's Good Omens, and Terry Pratchett's Death series.",
       "end_time": "Sat,  9 Nov 2019 11:00:00 -0500",
-      "filled": false,
+      "filled": true,
       "hi_test": true,
       "presenters": "Noel Warford",
       "start_time": "Sat,  9 Nov 2019 09:00:00 -0500",
@@ -8416,6 +8416,20 @@
       "tags": "",
       "test_type": "ALPHA TEST",
       "title": "Halloween Honobono"
+    },
+    {
+      "authors": "",
+      "code": "L602",
+      "description": "The winners are in. The judges have explained the contest. Now, let's play some games! Due to the nature of the contest, we won't know until just before the convention what will be running. We encourage you to be flexible when you show up for this event. Based on audience preference, number of players who arrive and various other factors (entirely left to the discretion of our crack facilitator team!), any or all games of each winning category might run. Categories include: Most Convention-Ready, Most Appealing to Newcomers, Cleverest Design and Game We're Most Eager to Play. Each game will run a minimum of once during the convention.",
+      "end_time": "Sat,  9 Nov 2019 22:00:00 -0500",
+      "filled": false,
+      "hi_test": false,
+      "presenters": "",
+      "start_time": "Sat,  9 Nov 2019 20:00:00 -0500",
+      "system": "",
+      "tags": "",
+      "test_type": "",
+      "title": "The Golden Cobra Contest Winner Showcase"
     },
     {
       "authors": "",
