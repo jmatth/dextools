@@ -79,7 +79,7 @@ where
             continue
         };
 
-        match MATCHERS.into_iter().find_map(|f| f(&body, date_parser)) {
+        match MATCHERS.iter().find_map(|f| f(&body, date_parser)) {
             None => {
                 // if body.len() > 0 {
                 //     println!("<{}>", body);
