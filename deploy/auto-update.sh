@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 if [ "$#" -ne 3 ]; then
-  echo "Usage: $0 URL BACKUP_URL YYYY-mm-dd"
+  echo "Usage: $0 URL BACKUP_URL YYYY-mm-dd [Wednesday|Thursday]"
   exit 1
 fi
 
@@ -17,8 +17,8 @@ trap panic ERR
 
 echo '=================================='
 
-dexposure-scraper -d "$3" -i "$1" -t settings_primary.json -o settings.json &> /dev/null || \
-dexposure-scraper -d "$3" -i "$2" -t settings_backup.json  -o settings.json &> /dev/null
+dexposure-scraper -d "$3" -w "$4" -i "$1" -t settings_primary.json -o settings.json &> /dev/null || \
+dexposure-scraper -d "$3" -w "$4" -i "$2" -t settings_backup.json  -o settings.json &> /dev/null
 
 if /usr/bin/diff -q settings.json ../site/dist/settings.json; then
   echo "No changes detected at $(date)."

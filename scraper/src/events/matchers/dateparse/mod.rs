@@ -1,3 +1,7 @@
+extern crate strum;
+extern crate strum_macros;
+use strum_macros::{EnumString,EnumCount};
+
 use regex::Regex;
 
 use chrono::FixedOffset;
@@ -13,12 +17,25 @@ pub struct DateParser {
     y: i32,
     m: u32,
     d: u32,
+    base_day: Day,
     tz: FixedOffset,
 }
 
+// #[derive(EnumString)]
+#[derive(Debug, Copy, Clone, EnumString, EnumCount)]
+pub enum Day {
+    Monday = 0,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+    Sunday,
+}
+
 impl DateParser {
-    pub fn new(y: i32, m: u32, d: u32, off: i32) -> DateParser {
-        DateParser{ y, m, d, tz: FixedOffset::west(off) }
+    pub fn new(y: i32, m: u32, d: u32, base_day: Day, off: i32) -> DateParser {
+        DateParser{ y, m, d, base_day, tz: FixedOffset::west(off) }
     }
 
     pub fn parse_time_slot(&self, slot: &String) -> Option<(String, String)> {
@@ -59,12 +76,17 @@ impl DateParser {
             Ok(num) => num,
         };
         let day = captures.name("day")?.as_str();
-        let start_offset = get_day_offset(&day);
+        let start_offset = self.get_day_offset(&day);
         let end_offset = start_offset + if start_is_pm && !end_is_pm { 1 } else { 0 };
         let start_time = self.tz.ymd(self.y, self.m, self.d + start_offset).and_hms(start_hrs, start_mins, 0);
         let end_time = self.tz.ymd(self.y, self.m, self.d + end_offset).and_hms(end_hrs, end_mins, 0);
         Some((start_time.to_rfc2822(), end_time.to_rfc2822()))
 
+    }
+
+    fn get_day_offset(&self, day: &str) -> u32 {
+        let parsed_day: Day = day.parse().unwrap();
+        ((parsed_day as i32 - self.base_day as i32) % DAY_COUNT as i32) as u32
     }
 }
 
@@ -73,14 +95,5 @@ fn fix_day_overflow(hrs: u32) -> u32 {
         hrs - 24
     } else {
         hrs
-    }
-}
-
-fn get_day_offset(day: &str) -> u32 {
-    match day {
-        "Friday" => 1,
-        "Saturday" => 2,
-        "Sunday" => 3,
-        _ => 0,
     }
 }
