@@ -1,26 +1,24 @@
 use regex::Regex;
 
-use chrono::FixedOffset;
 use chrono::TimeZone;
 use chrono::Weekday;
+use chrono_tz::Tz;
 
 mod tests;
 
 const TIME_REGEX: &str = "(?P<day>Wednesday|Thursday|Friday|Saturday|Sunday), (?P<startHrs>[0-9]{1,2}):(?P<startMins>[0-9]{2})(?P<startAmPm>AM|PM) - (?P<endHrs>[0-9]{1,2}):(?P<endMins>[0-9]{2})(?P<endAmPm>AM|PM)";
-
-// pub const BASE_DAY: Date<FixedOffset> = FixedOffset::west(-5 * 3600).ymd(2018, 2, 22);
 
 pub struct DateParser {
     y: i32,
     m: u32,
     d: u32,
     base_day: Weekday,
-    tz: FixedOffset,
+    tz: Tz,
 }
 
 impl DateParser {
-    pub fn new(y: i32, m: u32, d: u32, base_day: Weekday, off: i32) -> DateParser {
-        DateParser{ y, m, d, base_day, tz: FixedOffset::west(off) }
+    pub fn new(y: i32, m: u32, d: u32, base_day: Weekday, tz: Tz) -> DateParser {
+        DateParser{ y, m, d, base_day, tz }
     }
 
     pub fn parse_time_slot(&self, slot: &String) -> Option<(String, String)> {

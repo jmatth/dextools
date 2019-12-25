@@ -1,6 +1,6 @@
 #[cfg(test)]
 fn get_parser() -> DateParser {
-    DateParser::new(2018, 2, 22, 5 * 3600)
+    DateParser::new(2018, 2, 22)
 }
 
 #[cfg(test)]

@@ -30,6 +30,7 @@ use error::Error;
 use crate::events::matchers::dateparse::DateParser;
 
 const SCHEDULE_KEY: &str = "schedule";
+const CON_TIMEZONE: chrono_tz::Tz = chrono_tz::America::New_York;
 
 
 fn main() -> Result<(), Error>{
@@ -100,7 +101,8 @@ fn main() -> Result<(), Error>{
         start_date_month,
         start_date_day,
         start_day,
-        5 * 3600);
+        CON_TIMEZONE,
+    );
     let client = client::CachingClient::new(cache)?;
     if input.starts_with("http") {
         let scrape_result = client.scrape_site(input)?;
