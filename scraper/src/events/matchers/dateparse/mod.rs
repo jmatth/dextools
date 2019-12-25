@@ -1,11 +1,8 @@
-extern crate strum;
-extern crate strum_macros;
-use strum_macros::{EnumString,EnumCount};
-
 use regex::Regex;
 
 use chrono::FixedOffset;
 use chrono::TimeZone;
+use chrono::Weekday;
 
 mod tests;
 
@@ -17,24 +14,12 @@ pub struct DateParser {
     y: i32,
     m: u32,
     d: u32,
-    base_day: Day,
+    base_day: Weekday,
     tz: FixedOffset,
 }
 
-// #[derive(EnumString)]
-#[derive(Debug, Copy, Clone, EnumString, EnumCount)]
-pub enum Day {
-    Monday = 0,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-    Sunday,
-}
-
 impl DateParser {
-    pub fn new(y: i32, m: u32, d: u32, base_day: Day, off: i32) -> DateParser {
+    pub fn new(y: i32, m: u32, d: u32, base_day: Weekday, off: i32) -> DateParser {
         DateParser{ y, m, d, base_day, tz: FixedOffset::west(off) }
     }
 
@@ -85,8 +70,8 @@ impl DateParser {
     }
 
     fn get_day_offset(&self, day: &str) -> u32 {
-        let parsed_day: Day = day.parse().unwrap();
-        ((parsed_day as i32 - self.base_day as i32) % DAY_COUNT as i32) as u32
+        let parsed_day: Weekday = day.parse().unwrap();
+        ((parsed_day as i32 - self.base_day as i32) % 7 as i32) as u32
     }
 }
 

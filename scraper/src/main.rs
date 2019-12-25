@@ -27,7 +27,6 @@ mod error;
 
 use error::Error;
 
-use crate::events::matchers::dateparse;
 use crate::events::matchers::dateparse::DateParser;
 
 const SCHEDULE_KEY: &str = "schedule";
@@ -95,7 +94,7 @@ fn main() -> Result<(), Error>{
     let start_date_day = start_date_strs.next()
         .ok_or("Provided start_date is invalid: could not parse day")?
         .parse::<u32>().unwrap();
-    let start_day: dateparse::Day = matches.value_of("start_day").unwrap().parse().unwrap();
+    let start_day: chrono::Weekday = matches.value_of("start_day").unwrap().parse().unwrap();
     let date_parser = DateParser::new(
         start_date_year,
         start_date_month,
