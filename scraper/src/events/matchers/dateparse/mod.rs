@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use regex::Regex;
 
 use chrono::naive::NaiveDate;
@@ -13,13 +15,25 @@ pub struct DateParser {
     y: i32,
     m: u32,
     d: u32,
-    base_day: Weekday,
     tz: Tz,
+    day_offset_map: HashMap<Weekday, u32>,
 }
 
 impl DateParser {
     pub fn new(y: i32, m: u32, d: u32, base_day: Weekday, tz: Tz) -> DateParser {
-        DateParser{ y, m, d, base_day, tz }
+        // Trying to reason about enum entries as indexes in Rust is hard, with only seven days to
+        // deal with let's just build a lookup table instead.
+        let mut day_offset_map: HashMap<Weekday, u32> = HashMap::with_capacity(7);
+        day_offset_map.insert(base_day, 0);
+        let mut day = base_day.succ();
+        let mut offset = 1;
+        while day != base_day {
+            day_offset_map.insert(day, offset);
+            day = day.succ();
+            offset += 1;
+        }
+
+        DateParser{ y, m, d, tz, day_offset_map }
     }
 
     pub fn parse_time_slot(&self, slot: &String) -> Option<(String, String)> {
@@ -60,7 +74,8 @@ impl DateParser {
             Ok(num) => num,
         };
         let day = captures.name("day")?.as_str();
-        let start_offset = self.get_day_offset(&day);
+        let parsed_day: Weekday = day.parse().unwrap();
+        let start_offset = self.day_offset_map.get(&parsed_day).unwrap();
         let end_offset = start_offset + if start_is_pm && !end_is_pm { 1 } else { 0 };
         let start_time_naive = NaiveDate::from_ymd(
             self.y,
@@ -95,11 +110,6 @@ impl DateParser {
         };
 
         Some((start_time.to_rfc2822(), end_time.to_rfc2822()))
-    }
-
-    fn get_day_offset(&self, day: &str) -> u32 {
-        let parsed_day: Weekday = day.parse().unwrap();
-        ((parsed_day as i32 - self.base_day as i32) % 7 as i32) as u32
     }
 }
 
@@ -167,6 +177,13 @@ mod tests {
         test_parser(&"Thursday, 10:00PM - 02:00AM",
                     &"Thu, 22 Feb 2018 22:00:00 -0500",
                     &"Fri, 23 Feb 2018 02:00:00 -0500",);
+    }
+
+    #[test]
+    fn test_day_offset() {
+        test_parser(&"Friday, 1:00PM - 5:00PM",
+                    &"Fri, 23 Feb 2018 13:00:00 -0500",
+                    &"Fri, 23 Feb 2018 17:00:00 -0500",);
     }
 
     #[test]
