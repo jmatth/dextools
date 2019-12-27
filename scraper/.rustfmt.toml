@@ -1,0 +1,3 @@
+hard_tabs = true
+edition = "2018"
+print_misformatted_file_names = true

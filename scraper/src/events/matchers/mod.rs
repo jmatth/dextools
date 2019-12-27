@@ -1,7 +1,7 @@
-pub mod rpg;
+pub mod canceled;
 pub mod game;
 pub mod metatopia;
-pub mod canceled;
+pub mod rpg;
 
 pub mod dateparse;
 
