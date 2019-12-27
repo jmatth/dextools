@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use regex::Regex;
 
 use chrono::naive::NaiveDate;
+use chrono::Duration;
 use chrono::Datelike;
 use chrono::LocalResult;
 use chrono::TimeZone;
@@ -17,15 +18,17 @@ pub struct DateParser {
     m: u32,
     d: u32,
     tz: Tz,
-    day_offset_map: HashMap<Weekday, u32>,
+    base_date: NaiveDate,
+    day_offset_map: HashMap<Weekday, i64>,
 }
 
 impl DateParser {
     pub fn new(y: i32, m: u32, d: u32, tz: Tz) -> DateParser {
         // Trying to reason about enum entries as indexes in Rust is hard, with only seven days to
         // deal with let's just build a lookup table instead.
-        let base_day = tz.ymd(y, m, d).weekday();
-        let mut day_offset_map: HashMap<Weekday, u32> = HashMap::with_capacity(7);
+        let base_date = NaiveDate::from_ymd(y, m, d);
+        let base_day = base_date.weekday();
+        let mut day_offset_map: HashMap<Weekday, i64> = HashMap::with_capacity(7);
         day_offset_map.insert(base_day, 0);
         let mut day = base_day.succ();
         let mut offset = 1;
@@ -35,7 +38,7 @@ impl DateParser {
             offset += 1;
         }
 
-        DateParser{ y, m, d, tz, day_offset_map }
+        DateParser{ y, m, d, tz, base_date, day_offset_map }
     }
 
     pub fn parse_time_slot(&self, slot: &String) -> Option<(String, String)> {
@@ -77,27 +80,11 @@ impl DateParser {
         };
         let day = captures.name("day")?.as_str();
         let parsed_day: Weekday = day.parse().unwrap();
-        let start_offset = self.day_offset_map.get(&parsed_day).unwrap();
+        let start_offset = *self.day_offset_map.get(&parsed_day).unwrap();
         let end_offset = start_offset + if start_is_pm && !end_is_pm { 1 } else { 0 };
-        let start_time_naive = NaiveDate::from_ymd(
-            self.y,
-            self.m,
-            self.d + start_offset,
-        ).and_hms(
-            start_hrs,
-            start_mins,
-            0,
-        );
+        let start_time_naive = (self.base_date + Duration::days(start_offset)).and_hms(start_hrs, start_mins, 0);
         let start_time_opt = self.tz.from_local_datetime(&start_time_naive);
-        let end_time_naive = NaiveDate::from_ymd(
-            self.y,
-            self.m,
-            self.d + end_offset,
-        ).and_hms(
-            end_hrs,
-            end_mins,
-            0,
-        );
+        let end_time_naive = (self.base_date + Duration::days(end_offset)).and_hms(end_hrs, end_mins, 0);
         let end_time_opt = self.tz.from_local_datetime(&end_time_naive);
 
         let start_time = match start_time_opt {
