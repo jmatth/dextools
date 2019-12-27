@@ -66,13 +66,6 @@ fn main() -> Result<(), Error>{
              .help("First day of the convention in the format YYYY-mm-dd")
              .required(true)
              .takes_value(true))
-        .arg(Arg::with_name("start_day")
-             .short("w")
-             .long("startDay")
-             .value_name("START_DAY")
-             .help("First day of the week of the convention (e.g. Wednesday, Thursday)")
-             .required(true)
-             .takes_value(true))
         .arg(Arg::with_name("template_config")
              .short("t")
              .long("templateConfig")
@@ -95,12 +88,10 @@ fn main() -> Result<(), Error>{
     let start_date_day = start_date_strs.next()
         .ok_or("Provided start_date is invalid: could not parse day")?
         .parse::<u32>().unwrap();
-    let start_day: chrono::Weekday = matches.value_of("start_day").unwrap().parse().unwrap();
     let date_parser = DateParser::new(
         start_date_year,
         start_date_month,
         start_date_day,
-        start_day,
         CON_TIMEZONE,
     );
     let client = client::CachingClient::new(cache)?;

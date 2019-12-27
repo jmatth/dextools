@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use regex::Regex;
 
 use chrono::naive::NaiveDate;
+use chrono::Datelike;
 use chrono::LocalResult;
 use chrono::TimeZone;
 use chrono::Weekday;
@@ -20,9 +21,10 @@ pub struct DateParser {
 }
 
 impl DateParser {
-    pub fn new(y: i32, m: u32, d: u32, base_day: Weekday, tz: Tz) -> DateParser {
+    pub fn new(y: i32, m: u32, d: u32, tz: Tz) -> DateParser {
         // Trying to reason about enum entries as indexes in Rust is hard, with only seven days to
         // deal with let's just build a lookup table instead.
+        let base_day = tz.ymd(y, m, d).weekday();
         let mut day_offset_map: HashMap<Weekday, u32> = HashMap::with_capacity(7);
         day_offset_map.insert(base_day, 0);
         let mut day = base_day.succ();
@@ -131,7 +133,6 @@ mod tests {
             2018,
             2,
             22,
-            chrono::Weekday::Thu,
             chrono_tz::America::New_York,
         )
     }
@@ -206,7 +207,6 @@ mod tests {
             2019,
             11,
             1,
-            chrono::Weekday::Fri,
             chrono_tz::America::New_York,
         );
         {
