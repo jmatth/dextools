@@ -31,6 +31,8 @@ impl DateParser {
         lazy_static! {
             static ref RE: Regex = Regex::new(TIME_REGEX).unwrap();
         }
+
+        // Parse the relevant values from the input string
         let captures = RE.captures(slot)?;
         let start_is_pm = captures.name("startAmPm")?.as_str() == "PM";
         let end_is_pm = captures.name("endAmPm")?.as_str() == "PM";
@@ -65,6 +67,8 @@ impl DateParser {
             Ok(num) => num,
         };
         let day = captures.name("day")?.as_str();
+
+        // Construct date objects from the extracted values
         let parsed_day: Weekday = day.parse().unwrap();
         let start_offset: i64 = self.get_day_offset(&parsed_day).try_into().unwrap();
         let end_offset = start_offset + if start_is_pm && !end_is_pm { 1 } else { 0 };
@@ -73,6 +77,7 @@ impl DateParser {
         let end_time_naive = (self.base_date + Duration::days(end_offset)).and_hms(end_hrs, end_mins, 0);
         let end_time_opt = self.tz.from_local_datetime(&end_time_naive);
 
+        // Resolve any times that may be ambiguous due to daylight savings
         let start_time = match start_time_opt {
             LocalResult::None => panic!("Got None for start_time"),
             LocalResult::Ambiguous(earlier, _) => earlier,
