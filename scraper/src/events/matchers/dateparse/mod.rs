@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::convert::TryInto;
 
 use regex::Regex;
 
@@ -10,7 +10,7 @@ use chrono::TimeZone;
 use chrono::Weekday;
 use chrono_tz::Tz;
 
-const TIME_REGEX: &str = "(?P<day>Wednesday|Thursday|Friday|Saturday|Sunday), (?P<startHrs>[0-9]{1,2}):(?P<startMins>[0-9]{2})(?P<startAmPm>AM|PM) - (?P<endHrs>[0-9]{1,2}):(?P<endMins>[0-9]{2})(?P<endAmPm>AM|PM)";
+const TIME_REGEX: &str = "(?P<day>Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?P<startHrs>[0-9]{1,2}):(?P<startMins>[0-9]{2})(?P<startAmPm>AM|PM) - (?P<endHrs>[0-9]{1,2}):(?P<endMins>[0-9]{2})(?P<endAmPm>AM|PM)";
 
 #[derive(Debug)]
 pub struct DateParser {
@@ -19,26 +19,12 @@ pub struct DateParser {
     d: u32,
     tz: Tz,
     base_date: NaiveDate,
-    day_offset_map: HashMap<Weekday, i64>,
 }
 
 impl DateParser {
     pub fn new(y: i32, m: u32, d: u32, tz: Tz) -> DateParser {
-        // Trying to reason about enum entries as indexes in Rust is hard, with only seven days to
-        // deal with let's just build a lookup table instead.
         let base_date = NaiveDate::from_ymd(y, m, d);
-        let base_day = base_date.weekday();
-        let mut day_offset_map: HashMap<Weekday, i64> = HashMap::with_capacity(7);
-        day_offset_map.insert(base_day, 0);
-        let mut day = base_day.succ();
-        let mut offset = 1;
-        while day != base_day {
-            day_offset_map.insert(day, offset);
-            day = day.succ();
-            offset += 1;
-        }
-
-        DateParser{ y, m, d, tz, base_date, day_offset_map }
+        DateParser{ y, m, d, tz, base_date }
     }
 
     pub fn parse_time_slot(&self, slot: &String) -> Option<(String, String)> {
@@ -80,7 +66,7 @@ impl DateParser {
         };
         let day = captures.name("day")?.as_str();
         let parsed_day: Weekday = day.parse().unwrap();
-        let start_offset = *self.day_offset_map.get(&parsed_day).unwrap();
+        let start_offset: i64 = self.get_day_offset(&parsed_day).try_into().unwrap();
         let end_offset = start_offset + if start_is_pm && !end_is_pm { 1 } else { 0 };
         let start_time_naive = (self.base_date + Duration::days(start_offset)).and_hms(start_hrs, start_mins, 0);
         let start_time_opt = self.tz.from_local_datetime(&start_time_naive);
@@ -99,6 +85,16 @@ impl DateParser {
         };
 
         Some((start_time.to_rfc2822(), end_time.to_rfc2822()))
+    }
+
+    fn get_day_offset(&self, day: &Weekday) -> u32 {
+        let base_day_num = self.base_date.weekday().number_from_monday();
+        let target_day_num = day.number_from_monday();
+        if base_day_num <= target_day_num {
+            target_day_num - base_day_num
+        } else {
+            Weekday::Sun.number_from_monday() - base_day_num + target_day_num
+        }
     }
 }
 
@@ -186,6 +182,13 @@ mod tests {
         test_parser(&"Thursday, 10:00PM - 12:00AM",
                     &"Thu, 22 Feb 2018 22:00:00 -0500",
                     &"Fri, 23 Feb 2018 00:00:00 -0500",);
+    }
+
+    #[test]
+    fn test_last_into_next_week() {
+        test_parser(&"Tuesday, 10:00AM - 11:00AM",
+                    &"Tue, 27 Feb 2018 10:00:00 -0500",
+                    &"Tue, 27 Feb 2018 11:00:00 -0500",);
     }
 
     #[test]
