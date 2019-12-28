@@ -115,7 +115,7 @@ fn main() -> Result<(), Error> {
 		CON_TIMEZONE,
 	);
 	let client = client::CachingClient::new(cache)?;
-	if input.starts_with("http") {
+	if input.starts_with("http://") || input.starts_with("https://") {
 		let scrape_result = client.scrape_site(input)?;
 		match scrape_result {
 			Some(mut http_reader) => parse_events(
@@ -129,7 +129,7 @@ fn main() -> Result<(), Error> {
 				return Ok(());
 			}
 		}
-	} else {
+	} else if input.starts_with("file") {
 		// This substring assumes the argument started with "file://"
 		let path = &input[7..];
 		let mut file_input = File::open(path)?;
@@ -139,6 +139,10 @@ fn main() -> Result<(), Error> {
 			&date_parser,
 			config_template_path,
 		)
+	} else {
+		Err(Error::StringError(
+			"Invalid input, must start with https://, http://, or file://".to_string(),
+		))
 	}
 }
 
