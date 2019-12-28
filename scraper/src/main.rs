@@ -152,12 +152,6 @@ fn parse_events<R: Read>(
 	date_parser: &DateParser,
 	template_config_path: &str,
 ) -> Result<(), Error> {
-	// let resp = reqwest::get(url).unwrap();
-	// assert!(resp.status().is_success());
-	let mut cache_dir = std::env::current_dir()?;
-	cache_dir.push(".client_cache_headers");
-	let cache_dir = cache_dir.to_str()?;
-	let _client = client::CachingClient::new(cache_dir);
 	let doc = Document::from_read(input).unwrap();
 	let mut bg3_nodes = doc.find(pred::And(pred::Name("td"), pred::Class("bg3")));
 	let container = bg3_nodes.next().unwrap();
