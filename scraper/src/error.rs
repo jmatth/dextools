@@ -14,6 +14,7 @@ pub enum Error {
 	StringError(String),
 	JsonError(serde_json::Error),
 	NoneError(),
+	ChronoParseError(chrono::ParseError),
 }
 
 impl fmt::Display for Error {
@@ -27,6 +28,7 @@ impl fmt::Display for Error {
 			}
 			Error::StringError(err) => write!(f, "Unknown error: {}", err),
 			Error::JsonError(err) => write!(f, "JSON error: {:?}", err),
+			Error::ChronoParseError(err) => write!(f, "Chrono parse error: {}", err),
 		}
 	}
 }
@@ -76,5 +78,11 @@ impl From<String> for Error {
 impl From<&str> for Error {
 	fn from(error: &str) -> Self {
 		Error::StringError(error.to_string())
+	}
+}
+
+impl From<chrono::ParseError> for Error {
+	fn from(error: chrono::ParseError) -> Self {
+		Error::ChronoParseError(error)
 	}
 }
