@@ -196,7 +196,7 @@ fn get_start_date<'a>(container: &'a Node) -> Result<(i32, u32, u32), Error> {
 			pred::Name("center"),
 			pred::Or(pred::Name("h2"), pred::Name("h3")),
 		),
-		pred::Text,
+		pred::Any,
 	));
 
 	for date_node in date_node_candidates {
