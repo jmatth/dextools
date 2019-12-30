@@ -5,12 +5,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@types/bson": "^4.0.0",
     "axios": "^0.18.1",
+    "core-js": "^3.4.4",
     "file-saver": "^2.0.1",
     "ics": "^2.13.1",
     "lodash": "^4.17.13",
@@ -32,11 +33,11 @@
     "@types/lodash": "^4.14.121",
     "@types/mocha": "^5.2.6",
     "@types/moment-timezone": "^0.5.10",
-    "@vue/cli-plugin-babel": "^3.4.1",
-    "@vue/cli-plugin-pwa": "^3.5.1",
-    "@vue/cli-plugin-typescript": "^3.4.1",
-    "@vue/cli-plugin-unit-mocha": "^3.9.0",
-    "@vue/cli-service": "^3.8.0",
+    "@vue/cli-plugin-babel": "^4.1.2",
+    "@vue/cli-plugin-pwa": "^4.1.2",
+    "@vue/cli-plugin-typescript": "^4.1.2",
+    "@vue/cli-plugin-unit-mocha": "^4.1.2",
+    "@vue/cli-service": "^4.1.2",
     "@vue/test-utils": "^1.0.0-beta.29",
     "chai": "^4.1.2",
     "node-sass": "^4.9.0",
@@ -44,7 +45,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "typescript": "^3.3.3333",
-    "vue-cli-plugin-vuetify": "^0.4.6",
+    "vue-cli-plugin-vuetify": "^2.0.2",
     "vue-template-compiler": "^2.6.8",
     "vuetify-loader": "^1.2.1"
   }
