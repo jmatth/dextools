@@ -44,7 +44,9 @@
       <v-spacer/>
       <ExportDialogue/>
     </v-toolbar>
+    <v-divider/>
     <v-calendar
+      class="my-calendar"
       :height="calendarHeight + 'px'"
       ref="calendar"
       v-model="currDate"
@@ -279,6 +281,10 @@ export default class AgendaCalendar extends Vue {
 
 .theme--light.v-calendar-daily {
   border-left: none;
+}
+
+div.v-calendar.v-calendar-daily.my-calendar {
+  border-top: none;
 }
 
 div.v-calendar-daily__day-container > div.v-calendar-daily__day:last-child,
