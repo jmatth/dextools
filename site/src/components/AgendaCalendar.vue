@@ -3,12 +3,12 @@
     <v-toolbar flat>
       <v-btn
         v-if="calType === 'day'"
-        fab
         small
         depressed
         :disabled="prevDisabled"
         left
         color="primary"
+        class="mr-1"
         @click="prevDay()"
       >
         <v-icon>
@@ -17,12 +17,12 @@
       </v-btn>
       <v-btn
         v-if="calType === 'day'"
-        fab
         small
         depressed
         :disabled="nextDisabled"
         left
         color="primary"
+        class="mr-2"
         @click="nextDay()"
       >
         <v-icon>
@@ -31,7 +31,6 @@
       </v-btn>
       <v-btn
         v-show="allowResizing"
-        fab
         small
         depressed
         left
