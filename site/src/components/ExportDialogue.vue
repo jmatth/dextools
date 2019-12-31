@@ -5,7 +5,6 @@
   >
     <template v-slot:activator="{ on }">
       <v-btn
-        dark
         depressed
         small
         color="primary"

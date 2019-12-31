@@ -1,12 +1,13 @@
 <template>
   <v-card :style="{ height: height + 'px' }">
-    <v-toolbar dark>
+    <v-toolbar flat>
       <v-text-field
         label="Filter"
-        single-line
-        single
-        dark
+        outlined
+        dense
         clearable
+        hide-details
+        single-line
         @input="updateSearch"
       />
 
@@ -18,14 +19,13 @@
         label="Categories"
         multiple
         chips
-        solo
+        small-chips
+        outlined
         dense
         clearable
-        text
-        background-color="rgba(0,0,0,0)"
-        :style="{ maxWidth: (Math.max(47 * availableCodes.length, 130)) + 'px' }"
+        hide-details
+        single-line
       />
-
 
       <v-dialog v-model="showAdvancedFilter">
         <template v-slot:activator="{ on }">
@@ -52,16 +52,31 @@
                     label="Days"
                     multiple
                     chips
-                    solo
+                    small-chips
+                    outlined
                     dense
                     clearable
+                    hide-details
+                    single-line
                   />
                 </v-flex>
                 <v-flex sm6 md3>
-                  <v-checkbox label="Hide filled" v-model="hideFilled"/>
+                  <v-switch
+                    class="force-tiny-input"
+                    label="Hide filled"
+                    v-model="hideFilled"
+                    dense
+                    hide-details
+                  />
                 </v-flex>
                 <v-flex sm6 md3>
-                  <v-checkbox label="Hide conflicting" v-model="hideConflicting"/>
+                  <v-switch
+                    class="force-tiny-input"
+                    label="Hide conflicting"
+                    v-model="hideConflicting"
+                    dense
+                    hide-details
+                  />
                 </v-flex>
                 <v-flex sm12>
                   <v-menu
@@ -81,6 +96,10 @@
                         label="Start at"
                         readonly
                         clearable
+                        outlined
+                        dense
+                        single-line
+                        hide-details
                         v-on="on"
                       />
                     </template>
@@ -100,9 +119,12 @@
                     label="Test Types"
                     multiple
                     chips
-                    solo
+                    small-chips
+                    outlined
                     dense
                     clearable
+                    hide-details
+                    single-line
                   />
                 </v-flex>
                 <v-flex sm6 md3>
@@ -110,9 +132,11 @@
                     v-model.lazy="hiTestFilter"
                     :items="hiTestFilterOptions"
                     label="HI-Tests"
-                    solo
+                    outlined
                     dense
                     clearable
+                    single-line
+                    hide-details
                   />
                 </v-flex>
               </v-layout>
@@ -432,6 +456,15 @@ export default class EventsList extends Vue {
 
   &-body {
     padding: 0px 24px 12px 24px;
+  }
+}
+
+.force-tiny-input {
+  padding-left: 5px;
+  padding-top: 0px;
+  margin-top: 8px;
+  div.v-input__slot {
+    margin-bottom: 0px;
   }
 }
 </style>

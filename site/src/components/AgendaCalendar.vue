@@ -1,7 +1,7 @@
 <template>
   <v-layout :height="height">
     <v-flex>
-      <v-toolbar dark>
+      <v-toolbar>
         <v-btn
           v-if="calType === 'day'"
           fab
@@ -12,7 +12,7 @@
           color="primary"
           @click="prevDay()"
         >
-          <v-icon dark>
+          <v-icon>
             keyboard_arrow_left
           </v-icon>
         </v-btn>
@@ -26,7 +26,7 @@
           color="primary"
           @click="nextDay()"
         >
-          <v-icon dark>
+          <v-icon>
             keyboard_arrow_right
           </v-icon>
         </v-btn>
@@ -39,7 +39,7 @@
           color="primary"
           @click="toggleDisplay()"
         >
-          <v-icon dark>
+          <v-icon>
             {{ calType === 'day' ? 'horizontal_split' : 'vertical_split' }}
           </v-icon>
         </v-btn>
@@ -74,12 +74,10 @@
                       <v-icon
                         v-if="event.filled"
                         small
-                        dark
                       >lock</v-icon>
                       <v-icon
                         v-if="event.hiTest"
                         small
-                        dark
                       >error_outline</v-icon>
                   </div>
                 </template>

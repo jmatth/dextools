@@ -14,9 +14,9 @@
     <!-- </v&#45;dialog> -->
     <v-app-bar
       color="indigo"
-      dark
       fixed
       app
+      dark
       :dense="onMobile"
     >
       <v-toolbar-title>Dextools</v-toolbar-title>
