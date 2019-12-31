@@ -39,9 +39,10 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-title class="headline grey darken-4 grey--text">
+          <v-card-title>
             Advanced Search
           </v-card-title>
+          <v-divider/>
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
@@ -143,13 +144,15 @@
             </v-container>
           </v-card-text>
           <v-divider/>
-          <v-spacer/>
-          <v-btn @click="showAdvancedFilter = false" color="primary">
-            Apply
-          </v-btn>
-          <v-btn @click="clearAdvancedFilter">
-            clear
-          </v-btn>
+          <v-card-actions>
+            <v-spacer/>
+            <v-btn @click="clearAdvancedFilter">
+              Clear
+            </v-btn>
+            <v-btn @click="showAdvancedFilter = false" color="primary">
+              Apply
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
     </v-toolbar>

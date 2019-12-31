@@ -38,10 +38,7 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-title
-            class="headline grey lighten-2"
-            primary-title
-          >
+          <v-card-title primary-title>
             Feedback
           </v-card-title>
           <v-card-text>
@@ -50,15 +47,16 @@
             </p>
           </v-card-text>
           <v-divider/>
-          <v-spacer/>
-          <v-btn
-            @click="feedback = false"
-          >
-            Close
-          </v-btn>
+          <v-card-actions>
+            <v-btn
+              @click="feedback = false"
+            >
+              Close
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="about" width="500">
+      <v-dialog v-model="about" scrollable width="500">
         <template v-slot:activator="{ on }">
           <v-btn
             fab
@@ -72,10 +70,7 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-title
-            class="headline grey lighten-2"
-            primary-title
-          >
+          <v-card-title primary-title>
             About
           </v-card-title>
           <v-card-text>
@@ -105,7 +100,7 @@
               </li>
               <li>
                 The <b>Filter</b> box can be used to type an arbitrary query.
-                Events that contains that string in any of their fields will be included in the results.
+                Events that contain that string in any of their fields will be included in the results.
               </li>
             </ul>
             By clicking the eye icon, you can view advanced search options:
@@ -138,12 +133,13 @@
             </p>
           </v-card-text>
           <v-divider/>
-          <v-spacer/>
-          <v-btn
-            @click="about = false"
-          >
-            Close
-          </v-btn>
+          <v-card-actions>
+            <v-btn
+              @click="about = false"
+            >
+              Close
+            </v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
     </v-app-bar>

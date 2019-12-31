@@ -14,10 +14,7 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-title
-        class="headline grey lighten-2"
-        primary-title
-      >
+      <v-card-title primary-title>
         Export
       </v-card-title>
       <v-card-text>
@@ -35,7 +32,14 @@
         <v-divider style="margin-bottom:5px; margin-top: 2px;"/>
         <pre>{{ emailText }}</pre>
       </v-card-text>
+      <v-divider/>
       <v-card-actions>
+        <v-btn
+          @click="exportDialogue = false"
+        >
+          Close
+        </v-btn>
+        <v-spacer/>
         <v-btn
           @click="$store.state.agenda.exportIcs($store.state.conName)"
         >
@@ -67,12 +71,6 @@
           </template>
           <span>{{ this.copyMessage }}</span>
         </v-tooltip>
-        <v-spacer/>
-        <v-btn
-          @click="exportDialogue = false"
-        >
-          Close
-        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
