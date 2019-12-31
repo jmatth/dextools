@@ -2,7 +2,7 @@
   <v-card :style="{ height: height + 'px' }">
     <v-toolbar flat>
       <v-container class="toolbar-container">
-        <v-row dense align-content="center">
+        <v-row dense align="center" justify="space-between">
           <v-col cols="5">
             <v-text-field
               label="Filter"
@@ -32,7 +32,7 @@
           <v-col cols="1">
             <v-dialog v-model="showAdvancedFilter">
               <template v-slot:activator="{ on }">
-                <v-btn icon small v-on="on" class="ml-2 toolbar-btn">
+                <v-btn icon small v-on="on" class="float-right">
                   <v-icon>remove_red_eye</v-icon>
                 </v-btn>
               </template>
@@ -479,6 +479,7 @@ export default class EventsList extends Vue {
 
 .container.toolbar-container {
   padding: 0px;
+  max-width: none;
 }
 
 button.toolbar-btn {
