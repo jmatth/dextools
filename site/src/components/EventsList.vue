@@ -145,6 +145,9 @@
           </v-card-text>
           <v-divider/>
           <v-card-actions>
+            <v-btn @click="showAdvancedFilter = false">
+              Close
+            </v-btn>
             <v-spacer/>
             <v-btn @click="clearAdvancedFilter">
               Clear
