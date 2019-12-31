@@ -1,163 +1,164 @@
 <template>
   <v-card :style="{ height: height + 'px' }">
     <v-toolbar flat>
-      <v-text-field
-        label="Filter"
-        outlined
-        dense
-        clearable
-        hide-details
-        single-line
-        @input="updateSearch"
-      />
-
-      <v-spacer/>
-
-      <v-select
-        v-model.lazy="categories"
-        :items="availableCodes"
-        label="Categories"
-        multiple
-        chips
-        small-chips
-        outlined
-        dense
-        clearable
-        hide-details
-        single-line
-      />
-
-      <v-dialog v-model="showAdvancedFilter">
-        <template v-slot:activator="{ on }">
-          <v-btn
-            fab
-            depressed
-            text
-            v-on="on"
-          >
-            <v-icon>remove_red_eye</v-icon>
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-title>
-            Advanced Search
-          </v-card-title>
-          <v-divider/>
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex sm12 md6>
-                  <v-select
-                    v-model.lazy="days"
-                    :items="availableDays"
-                    label="Days"
-                    multiple
-                    chips
-                    small-chips
-                    outlined
-                    dense
-                    clearable
-                    hide-details
-                    single-line
-                  />
-                </v-flex>
-                <v-flex sm6 md3>
-                  <v-switch
-                    class="force-tiny-input"
-                    label="Hide filled"
-                    v-model="hideFilled"
-                    dense
-                    hide-details
-                  />
-                </v-flex>
-                <v-flex sm6 md3>
-                  <v-switch
-                    class="force-tiny-input"
-                    label="Hide conflicting"
-                    v-model="hideConflicting"
-                    dense
-                    hide-details
-                  />
-                </v-flex>
-                <v-flex sm12>
-                  <v-menu
-                    ref="startTimeMenu"
-                    v-model="filterStartTimeMenu"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    :return-value.sync="filterStartTime"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="290px"
-                    >
-                    <template v-slot:activator="{ on }">
-                      <v-text-field
-                        v-model="filterStartTime"
-                        label="Start at"
-                        readonly
-                        clearable
-                        outlined
-                        dense
-                        single-line
-                        hide-details
-                        v-on="on"
-                      />
-                    </template>
-                    <v-time-picker
-                      v-if="filterStartTimeMenu"
-                      v-model="filterStartTime"
-                      format="24hr"
-                      :allowed-minutes="timePickerStep"
-                      @click:hour="$refs.startTimeMenu.save($event + ':00')"
-                    />
-                  </v-menu>
-                </v-flex>
-                <v-flex sm12 md6>
-                  <v-select
-                    v-model.lazy="testTypes"
-                    :items="availableTestTypes"
-                    label="Test Types"
-                    multiple
-                    chips
-                    small-chips
-                    outlined
-                    dense
-                    clearable
-                    hide-details
-                    single-line
-                  />
-                </v-flex>
-                <v-flex sm6 md3>
-                  <v-select
-                    v-model.lazy="hiTestFilter"
-                    :items="hiTestFilterOptions"
-                    label="HI-Tests"
-                    outlined
-                    dense
-                    clearable
-                    single-line
-                    hide-details
-                  />
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <v-divider/>
-          <v-card-actions>
-            <v-btn @click="showAdvancedFilter = false">
-              Close
-            </v-btn>
-            <v-spacer/>
-            <v-btn @click="clearAdvancedFilter">
-              Clear
-            </v-btn>
-            <v-btn @click="showAdvancedFilter = false" color="primary">
-              Apply
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <v-container class="toolbar-container">
+        <v-row dense align-content="center">
+          <v-col cols="5">
+            <v-text-field
+              label="Filter"
+              outlined
+              dense
+              clearable
+              hide-details
+              single-line
+              @input="updateSearch"
+            />
+          </v-col>
+          <v-col cols="6">
+            <v-select
+              v-model.lazy="categories"
+              :items="availableCodes"
+              label="Categories"
+              multiple
+              chips
+              small-chips
+              outlined
+              dense
+              clearable
+              hide-details
+              single-line
+            />
+          </v-col>
+          <v-col cols="1">
+            <v-dialog v-model="showAdvancedFilter">
+              <template v-slot:activator="{ on }">
+                <v-btn icon small v-on="on" class="ml-2 toolbar-btn">
+                  <v-icon>remove_red_eye</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  Advanced Search
+                </v-card-title>
+                <v-divider/>
+                <v-card-text>
+                  <v-container grid-list-md>
+                    <v-layout wrap>
+                      <v-flex sm12 md6>
+                        <v-select
+                          v-model.lazy="days"
+                          :items="availableDays"
+                          label="Days"
+                          multiple
+                          chips
+                          small-chips
+                          outlined
+                          dense
+                          clearable
+                          hide-details
+                          single-line
+                        />
+                      </v-flex>
+                      <v-flex sm6 md3>
+                        <v-switch
+                          class="force-tiny-input"
+                          label="Hide filled"
+                          v-model="hideFilled"
+                          dense
+                          hide-details
+                        />
+                      </v-flex>
+                      <v-flex sm6 md3>
+                        <v-switch
+                          class="force-tiny-input"
+                          label="Hide conflicting"
+                          v-model="hideConflicting"
+                          dense
+                          hide-details
+                        />
+                      </v-flex>
+                      <v-flex sm12>
+                        <v-menu
+                          ref="startTimeMenu"
+                          v-model="filterStartTimeMenu"
+                          :close-on-content-click="false"
+                          :nudge-right="40"
+                          :return-value.sync="filterStartTime"
+                          transition="scale-transition"
+                          offset-y
+                          max-width="290px"
+                          min-width="290px"
+                          >
+                          <template v-slot:activator="{ on }">
+                            <v-text-field
+                              v-model="filterStartTime"
+                              label="Start at"
+                              readonly
+                              clearable
+                              outlined
+                              dense
+                              single-line
+                              hide-details
+                              v-on="on"
+                            />
+                          </template>
+                          <v-time-picker
+                            v-if="filterStartTimeMenu"
+                            v-model="filterStartTime"
+                            format="24hr"
+                            :allowed-minutes="timePickerStep"
+                            @click:hour="$refs.startTimeMenu.save($event + ':00')"
+                          />
+                        </v-menu>
+                      </v-flex>
+                      <v-flex sm12 md6>
+                        <v-select
+                          v-model.lazy="testTypes"
+                          :items="availableTestTypes"
+                          label="Test Types"
+                          multiple
+                          chips
+                          small-chips
+                          outlined
+                          dense
+                          clearable
+                          hide-details
+                          single-line
+                        />
+                      </v-flex>
+                      <v-flex sm6 md3>
+                        <v-select
+                          v-model.lazy="hiTestFilter"
+                          :items="hiTestFilterOptions"
+                          label="HI-Tests"
+                          outlined
+                          dense
+                          clearable
+                          single-line
+                          hide-details
+                        />
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card-text>
+                <v-divider/>
+                <v-card-actions>
+                  <v-btn @click="showAdvancedFilter = false">
+                    Close
+                  </v-btn>
+                  <v-spacer/>
+                  <v-btn @click="clearAdvancedFilter">
+                    Clear
+                  </v-btn>
+                  <v-btn @click="showAdvancedFilter = false" color="primary">
+                    Apply
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-toolbar>
 
     <v-divider/>
@@ -474,5 +475,13 @@ export default class EventsList extends Vue {
   div.v-input__slot {
     margin-bottom: 0px;
   }
+}
+
+.container.toolbar-container {
+  padding: 0px;
+}
+
+button.toolbar-btn {
+  margin-top: 6px;
 }
 </style>
