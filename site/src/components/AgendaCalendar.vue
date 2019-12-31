@@ -1,93 +1,90 @@
 <template>
-  <v-layout :height="height">
-    <v-flex>
-      <v-toolbar>
-        <v-btn
-          v-if="calType === 'day'"
-          fab
-          small
-          depressed
-          :disabled="prevDisabled"
-          left
-          color="primary"
-          @click="prevDay()"
-        >
-          <v-icon>
-            keyboard_arrow_left
-          </v-icon>
-        </v-btn>
-        <v-btn
-          v-if="calType === 'day'"
-          fab
-          small
-          depressed
-          :disabled="nextDisabled"
-          left
-          color="primary"
-          @click="nextDay()"
-        >
-          <v-icon>
-            keyboard_arrow_right
-          </v-icon>
-        </v-btn>
-        <v-btn
-          v-show="allowResizing"
-          fab
-          small
-          depressed
-          left
-          color="primary"
-          @click="toggleDisplay()"
-        >
-          <v-icon>
-            {{ calType === 'day' ? 'horizontal_split' : 'vertical_split' }}
-          </v-icon>
-        </v-btn>
-        <v-spacer/>
-        <ExportDialogue/>
-      </v-toolbar>
-      <v-card :height="calendarHeight + 'px'">
-        <!-- now is normally calculated by itself, but to keep the calendar in this date range to view events -->
-        <v-calendar
-          ref="calendar"
-          v-model="currDate"
-          color="primary"
-          :interval-height="intervalHeight"
-          :type="calType"
-          :start='startCal'
-          :end='endCal'
-        >
-          <template v-slot:day-body="{ date, timeToY, minutesToPixels }">
-            <template v-for="(startWithEvents, startIndex) in eventsByStartTime">
-              <template v-if="startDateMatchesDate(startWithEvents[0], date)">
-                <template v-for="(event, index) in startWithEvents[1]">
-                  <div
-                    :key="event.code"
-                    :style="{
-                      top: (timeToY(event.startTime.format('HH:MM')) - 2) + 'px',
-                      height: minutesToPixels(getEventMinutes(event)) + 'px',
-                      marginLeft: overlappingEventsCount(event) * 5 + 100/startWithEvents[1].length * index + '%'}"
-                    class="my-event with-time"
-                    @click="$store.commit('removeEventFromAgenda', event.code)"
-                    >
-                      {{ `${event.code}: ${event.title}` }}
-                      <v-icon
-                        v-if="event.filled"
-                        small
-                      >lock</v-icon>
-                      <v-icon
-                        v-if="event.hiTest"
-                        small
-                      >error_outline</v-icon>
-                  </div>
-                </template>
-              </template>
+  <v-card :style="{ height }">
+    <v-toolbar flat>
+      <v-btn
+        v-if="calType === 'day'"
+        fab
+        small
+        depressed
+        :disabled="prevDisabled"
+        left
+        color="primary"
+        @click="prevDay()"
+      >
+        <v-icon>
+          keyboard_arrow_left
+        </v-icon>
+      </v-btn>
+      <v-btn
+        v-if="calType === 'day'"
+        fab
+        small
+        depressed
+        :disabled="nextDisabled"
+        left
+        color="primary"
+        @click="nextDay()"
+      >
+        <v-icon>
+          keyboard_arrow_right
+        </v-icon>
+      </v-btn>
+      <v-btn
+        v-show="allowResizing"
+        fab
+        small
+        depressed
+        left
+        color="primary"
+        @click="toggleDisplay()"
+      >
+        <v-icon>
+          {{ calType === 'day' ? 'horizontal_split' : 'vertical_split' }}
+        </v-icon>
+      </v-btn>
+      <v-spacer/>
+      <ExportDialogue/>
+    </v-toolbar>
+    <v-calendar
+      :height="calendarHeight + 'px'"
+      ref="calendar"
+      v-model="currDate"
+      color="primary"
+      :interval-height="intervalHeight"
+      :type="calType"
+      :start='startCal'
+      :end='endCal'
+    >
+      <template v-slot:day-body="{ date, timeToY, minutesToPixels }">
+        <template v-for="(startWithEvents, startIndex) in eventsByStartTime">
+          <template v-if="startDateMatchesDate(startWithEvents[0], date)">
+            <template v-for="(event, index) in startWithEvents[1]">
+              <div
+                :key="event.code"
+                :style="{
+                  top: (timeToY(event.startTime.format('HH:MM')) - 2) + 'px',
+                  height: minutesToPixels(getEventMinutes(event)) + 'px',
+                  marginLeft: overlappingEventsCount(event) * 5 + 100/startWithEvents[1].length * index + '%'}"
+                class="my-event with-time"
+                @click="$store.commit('removeEventFromAgenda', event.code)"
+                >
+                  {{ `${event.code}: ${event.title}` }}
+                  <v-icon
+                    v-if="event.filled"
+                    small
+                  >lock</v-icon>
+                  <v-icon
+                    v-if="event.hiTest"
+                    small
+                  >error_outline</v-icon>
+              </div>
             </template>
           </template>
-        </v-calendar>
-      </v-card>
-    </v-flex>
-  </v-layout>
+        </template>
+      </template>
+    </v-calendar>
+    </div>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -280,4 +277,17 @@ export default class AgendaCalendar extends Vue {
     border-color: white;
   }
 }
+
+.theme--light.v-calendar-daily {
+  border-left: none;
+}
+
+div.v-calendar-daily__day-container > div.v-calendar-daily__day:last-child,
+div.v-calendar-daily__head > div.v-calendar-daily_head-day:last-child {
+  border-right: none;
+}
+/* .cal-hide-right-margin div.v-calendar-daily__day-container > div.v-calendar-daily__day, */
+/* .cal-hide-right-margin div.v-calendar-daily__head > div.v-calendar-daily_head-day { */
+/*   border-right: none; */
+/* } */
 </style>
