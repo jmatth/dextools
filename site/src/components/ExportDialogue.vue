@@ -41,6 +41,7 @@
         </v-btn>
         <v-spacer/>
         <v-btn
+          class="mr-2"
           @click="$store.state.agenda.exportIcs($store.state.conName)"
         >
           ICS
@@ -49,6 +50,7 @@
           <template v-slot:activator="{ on }">
             <a :href="mailtoLink" v-on="on">
               <v-btn
+                class="mr-2"
                 @click="exportDialogue = false"
                 :disabled="disableEmail"
               >
