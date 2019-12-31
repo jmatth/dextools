@@ -57,10 +57,7 @@
           :start='startCal'
           :end='endCal'
         >
-          <template
-            slot="dayBody"
-            slot-scope="{ date, timeToY, minutesToPixels }"
-          >
+          <template v-slot:day-body="{ date, timeToY, minutesToPixels }">
             <template v-for="(startWithEvents, startIndex) in eventsByStartTime">
               <template v-if="startDateMatchesDate(startWithEvents[0], date)">
                 <template v-for="(event, index) in startWithEvents[1]">
@@ -131,7 +128,7 @@ export default class AgendaCalendar extends Vue {
 
   private updateComputedHeights() {
     // @ts-ignore
-    const toolbarHeight = this.$el.querySelector('nav.v-toolbar').offsetHeight;
+    const toolbarHeight = this.$el.querySelector('div#app div header.v-sheet').offsetHeight;
     this.calendarHeight = this.height - toolbarHeight;
     // @ts-ignore
     const headerHeight = this.$el.querySelector('div.v-calendar-daily__head')!.offsetHeight;

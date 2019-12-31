@@ -3,17 +3,16 @@
     v-model="exportDialogue"
     width="500"
   >
-    <template slot="activator">
-      <slot>
-        <v-btn
-          dark
-          depressed
-          small
-          color="primary"
-        >
-          Export
-        </v-btn>
-      </slot>
+    <template v-slot:activator="{ on }">
+      <v-btn
+        dark
+        depressed
+        small
+        color="primary"
+        v-on="on"
+      >
+        Export
+      </v-btn>
     </template>
     <v-card>
       <v-card-title

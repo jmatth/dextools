@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'moment-timezone';
 import './registerServiceWorker';
 import store from './store';
+import vuetify from './plugins/vuetify';
 
 moment.tz.setDefault('America/New_York');
 
@@ -15,5 +16,7 @@ Vue.config.productionTip = false;
 
 new Vue({
   store,
+  // @ts-ignore
+  vuetify,
   render: (h) => h(App),
 }).$mount('#app');

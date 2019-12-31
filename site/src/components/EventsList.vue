@@ -21,21 +21,23 @@
         solo
         dense
         clearable
-        flat
+        text
         background-color="rgba(0,0,0,0)"
         :style="{ maxWidth: (Math.max(47 * availableCodes.length, 130)) + 'px' }"
       />
 
 
       <v-dialog v-model="showAdvancedFilter">
-        <v-btn
-          fab
-          depressed
-          flat
-          slot="activator"
-        >
-          <v-icon>remove_red_eye</v-icon>
-        </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            fab
+            depressed
+            text
+            v-on="on"
+          >
+            <v-icon>remove_red_eye</v-icon>
+          </v-btn>
+        </template>
         <v-card>
           <v-card-title class="headline grey darken-4 grey--text">
             Advanced Search
@@ -68,10 +70,8 @@
                     :close-on-content-click="false"
                     :nudge-right="40"
                     :return-value.sync="filterStartTime"
-                    lazy
                     transition="scale-transition"
                     offset-y
-                    full-width
                     max-width="290px"
                     min-width="290px"
                     >
@@ -87,7 +87,6 @@
                     <v-time-picker
                       v-if="filterStartTimeMenu"
                       v-model="filterStartTime"
-                      full-width
                       format="24hr"
                       :allowed-minutes="timePickerStep"
                       @click:hour="$refs.startTimeMenu.save($event + ':00')"
@@ -222,7 +221,7 @@
             <v-layout row wrap>
               <v-flex xs12 order-xs2 sm6 order-sm1>
                 <v-btn
-                  flat
+                  text
                   icon
                   depressed
                 >
@@ -231,7 +230,7 @@
               </v-flex>
               <v-flex xs12 order-xs1 sm6 order-sm2>
                 <v-btn
-                  flat
+                  text
                   icon
                   @click.stop="$store.commit('addEventToAgenda', item.code)"
                 >
@@ -373,7 +372,7 @@ export default class EventsList extends Vue {
 
   private updateDynamicScrollerHeight() {
     // @ts-ignore
-    const toolbarHeight = this.$el.querySelector('nav.v-toolbar').offsetHeight;
+    const toolbarHeight = this.$el.querySelector('div#app div header.v-sheet').offsetHeight;
     this.dynamicScrollerHeight = (this.height - toolbarHeight) + 'px';
   }
 

@@ -1,18 +1,18 @@
 <template>
-  <v-app id="inspire">
-    <v-dialog :value="scheduleLoading" width="130" hide-overlay persistent>
-      <v-card color="primary" dark>
-        <v-card-text>
-          Loading...
-          <v-progress-circular
-            indeterminate
-            color="white"
-            class="mb-0"
-          />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-toolbar
+  <v-app>
+    <!-- <v&#45;dialog :value="scheduleLoading" width="130" hide&#45;overlay persistent> -->
+    <!--   <v&#45;card color="primary" dark> -->
+    <!--     <v&#45;card&#45;text> -->
+    <!--       Loading... -->
+    <!--       <v&#45;progress&#45;circular -->
+    <!--         indeterminate -->
+    <!--         color="white" -->
+    <!--         class="mb&#45;0" -->
+    <!--       /> -->
+    <!--     </v&#45;card&#45;text> -->
+    <!--   </v&#45;card> -->
+    <!-- </v&#45;dialog> -->
+    <v-app-bar
       color="indigo"
       dark
       fixed
@@ -25,16 +25,18 @@
         v-model="feedback"
         width="500"
       >
-        <v-btn
-          fab
-          depressed
-          flat
-          slot="activator"
-        >
-          <v-icon>
-            feedback
-          </v-icon>
-        </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            fab
+            depressed
+            text
+            v-on="on"
+          >
+            <v-icon>
+              feedback
+            </v-icon>
+          </v-btn>
+        </template>
         <v-card>
           <v-card-title
             class="headline grey lighten-2"
@@ -56,20 +58,19 @@
           </v-btn>
         </v-card>
       </v-dialog>
-      <v-dialog
-        v-model="about"
-        width="500"
-      >
-        <v-btn
-          fab
-          depressed
-          flat
-          slot="activator"
-        >
-          <v-icon>
-            help_outline
-          </v-icon>
-        </v-btn>
+      <v-dialog v-model="about" width="500">
+        <template v-slot:activator="{ on }">
+          <v-btn
+            fab
+            depressed
+            text
+            v-on="on"
+          >
+            <v-icon>
+              help_outline
+            </v-icon>
+          </v-btn>
+        </template>
         <v-card>
           <v-card-title
             class="headline grey lighten-2"
@@ -145,7 +146,7 @@
           </v-btn>
         </v-card>
       </v-dialog>
-    </v-toolbar>
+    </v-app-bar>
     <v-content>
       <v-container fluid grid-list-md>
         <v-layout
@@ -223,7 +224,7 @@ export default class App extends Vue {
       ? parseInt(workspacePaddingStr.substring(0, workspacePaddingStr.length - 2), 10)
       : 16;
     // @ts-ignore
-    const headerHeight = document.querySelector('nav.v-toolbar')!.offsetHeight;
+    const headerHeight = document.querySelector('div#app div header.v-sheet')!.offsetHeight;
     this.workspaceHeight = windowHeight - (workspacePadding * 2 + headerHeight);
   }
 
