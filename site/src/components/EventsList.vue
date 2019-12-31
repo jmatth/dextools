@@ -1,6 +1,6 @@
 <template>
   <v-card :style="{ height: height + 'px' }">
-    <v-toolbar flat>
+    <v-toolbar flat class="scroller-toolbar">
       <v-text-field
         label="Filter"
         outlined
@@ -466,5 +466,10 @@ export default class EventsList extends Vue {
   div.v-input__slot {
     margin-bottom: 0px;
   }
+}
+
+.scroller-toolbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  margin-bottom: -1px;
 }
 </style>
