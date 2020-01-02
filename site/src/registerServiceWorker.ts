@@ -12,7 +12,6 @@ if (process.env.NODE_ENV === 'production') {
     },
     registered(registration) {
       console.log('Service worker has been registered.');
-      console.log(registration);
       setInterval(() => {
         registration.update();
       }, 1000 * 60 * 30);
