@@ -55,6 +55,7 @@
       :type="calType"
       :start='startCal'
       :end='endCal'
+      :weekday-format="formatDayHeader"
     >
       <template v-slot:day-body="{ date, timeToY, minutesToPixels }">
         <template v-for="(startWithEvents, startIndex) in eventsByStartTime">
@@ -109,6 +110,16 @@ export default class AgendaCalendar extends Vue {
   public currDate = '';
   public calendarHeight = 300;
   public intervalHeight = 10;
+
+  private weekdayStrMap: string[] = [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+  ];
 
   public created() {
     this.currDate = this.startCal;
@@ -251,6 +262,12 @@ export default class AgendaCalendar extends Vue {
     // @ts-ignore
     return !this.$vuetify.breakpoint.smAndDown;
   }
+
+  public formatDayHeader(dayObj: any): string {
+    const weekdayStr = this.weekdayStrMap[dayObj.weekday];
+    const day = dayObj.day;
+    return `${weekdayStr} ${day}`;
+  }
 }
 </script>
 <style lang="scss">
@@ -291,6 +308,11 @@ div.v-calendar-daily__day-container > div.v-calendar-daily__day:last-child,
 div.v-calendar-daily__head > div.v-calendar-daily_head-day:last-child {
   border-right: none;
 }
+
+.v-calendar-daily_head-day-label {
+  display: none;
+}
+
 /* .cal-hide-right-margin div.v-calendar-daily__day-container > div.v-calendar-daily__day, */
 /* .cal-hide-right-margin div.v-calendar-daily__head > div.v-calendar-daily_head-day { */
 /*   border-right: none; */
