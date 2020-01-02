@@ -1,5 +1,6 @@
 module.exports = {
   pwa: {
+    name: "Dextools",
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {
       swSrc: './src/sw.js',
