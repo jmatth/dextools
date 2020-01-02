@@ -30,7 +30,7 @@
             />
           </v-col>
           <v-col cols="1">
-            <v-dialog v-model="showAdvancedFilter">
+            <v-dialog v-model="showAdvancedFilter" max-width="700px">
               <template v-slot:activator="{ on }">
                 <v-btn icon small v-on="on" class="float-right">
                   <v-icon>remove_red_eye</v-icon>
@@ -43,8 +43,11 @@
                 <v-divider/>
                 <v-card-text>
                   <v-container fluid>
-                    <v-row dense>
-                      <v-col cols="12" md="6">
+                    <v-row dense align="center">
+                      <v-col
+                        cols="12" order="1"
+                        sm="7" order-sm="1"
+                      >
                         <v-select
                           v-model.lazy="days"
                           :items="availableDays"
@@ -59,7 +62,10 @@
                           single-line
                         />
                       </v-col>
-                      <v-col cols="12" md="6">
+                      <v-col
+                        cols="12" order="2"
+                        sm="7" order-sm="3"
+                      >
                         <v-menu
                           ref="startTimeMenu"
                           v-model="filterStartTimeMenu"
@@ -93,7 +99,10 @@
                           />
                         </v-menu>
                       </v-col>
-                      <v-col md="3">
+                      <v-col
+                        cols="6" order="3"
+                        sm="4" order-sm="2"
+                      >
                         <v-switch
                           class="force-tiny-input"
                           label="Hide filled"
@@ -102,7 +111,10 @@
                           hide-details
                         />
                       </v-col>
-                      <v-col md="3">
+                      <v-col
+                        cols="6" order="4"
+                        sm="4" order-sm="4"
+                      >
                         <v-switch
                           class="force-tiny-input"
                           label="Hide conflicting"
@@ -112,8 +124,8 @@
                         />
                       </v-col>
                     </v-row>
-                    <v-row dense v-if="includeMetatopiaFilters">
-                      <v-col cols="12" md="6">
+                    <v-row dense align="center" v-if="includeMetatopiaFilters">
+                      <v-col cols="12" sm="7">
                         <v-select
                           v-model.lazy="testTypes"
                           :items="availableTestTypes"
@@ -128,7 +140,7 @@
                           single-line
                         />
                       </v-col>
-                      <v-col cols="6" md="3">
+                      <v-col cols="12" sm="4">
                         <v-select
                           v-model.lazy="hiTestFilter"
                           :items="hiTestFilterOptions"
