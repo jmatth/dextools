@@ -30,146 +30,13 @@
             />
           </v-col>
           <v-col cols="1">
-            <v-dialog v-model="showAdvancedFilter" max-width="700px">
-              <template v-slot:activator="{ on }">
-                <v-btn icon small v-on="on" class="float-right">
-                  <v-icon>remove_red_eye</v-icon>
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  Advanced Search
-                </v-card-title>
-                <v-divider/>
-                <v-card-text>
-                  <v-container fluid>
-                    <v-row dense align="center">
-                      <v-col
-                        cols="12" order="1"
-                        sm="7" order-sm="1"
-                      >
-                        <v-select
-                          v-model.lazy="days"
-                          :items="availableDays"
-                          label="Days"
-                          multiple
-                          chips
-                          small-chips
-                          outlined
-                          dense
-                          clearable
-                          hide-details
-                          single-line
-                        />
-                      </v-col>
-                      <v-col
-                        cols="12" order="2"
-                        sm="7" order-sm="3"
-                      >
-                        <v-menu
-                          ref="startTimeMenu"
-                          v-model="filterStartTimeMenu"
-                          :close-on-content-click="false"
-                          :nudge-right="40"
-                          :return-value.sync="filterStartTime"
-                          transition="scale-transition"
-                          offset-y
-                          max-width="290px"
-                          min-width="290px"
-                          >
-                          <template v-slot:activator="{ on }">
-                            <v-text-field
-                              v-model="filterStartTime"
-                              label="Start at"
-                              readonly
-                              clearable
-                              outlined
-                              dense
-                              single-line
-                              hide-details
-                              v-on="on"
-                            />
-                          </template>
-                          <v-time-picker
-                            v-if="filterStartTimeMenu"
-                            v-model="filterStartTime"
-                            format="24hr"
-                            :allowed-minutes="timePickerStep"
-                            @click:hour="$refs.startTimeMenu.save($event + ':00')"
-                          />
-                        </v-menu>
-                      </v-col>
-                      <v-col
-                        cols="6" order="3"
-                        sm="4" order-sm="2"
-                      >
-                        <v-switch
-                          class="force-tiny-input"
-                          label="Hide filled"
-                          v-model="hideFilled"
-                          dense
-                          hide-details
-                        />
-                      </v-col>
-                      <v-col
-                        cols="6" order="4"
-                        sm="4" order-sm="4"
-                      >
-                        <v-switch
-                          class="force-tiny-input"
-                          label="Hide conflicting"
-                          v-model="hideConflicting"
-                          dense
-                          hide-details
-                        />
-                      </v-col>
-                    </v-row>
-                    <v-row dense align="center" v-if="includeMetatopiaFilters">
-                      <v-col cols="12" sm="7">
-                        <v-select
-                          v-model.lazy="testTypes"
-                          :items="availableTestTypes"
-                          label="Test Types"
-                          multiple
-                          chips
-                          small-chips
-                          outlined
-                          dense
-                          clearable
-                          hide-details
-                          single-line
-                        />
-                      </v-col>
-                      <v-col cols="12" sm="4">
-                        <v-select
-                          v-model.lazy="hiTestFilter"
-                          :items="hiTestFilterOptions"
-                          label="HI-Tests"
-                          outlined
-                          dense
-                          clearable
-                          single-line
-                          hide-details
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-                <v-divider/>
-                <v-card-actions>
-                  <v-btn @click="showAdvancedFilter = false">
-                    Close
-                  </v-btn>
-                  <v-spacer/>
-                  <v-btn @click="clearAdvancedFilter">
-                    Clear
-                  </v-btn>
-                  <v-btn @click="showAdvancedFilter = false" color="primary">
-                    Apply
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <AdvancedFilterDialog
+              @apply="applyAdvancedSearch"
+              :availableDays="availableDays"
+              :availableTestTypes="availableTestTypes"
+              :includeMetatopiaFilters="includeMetatopiaFilters"
+              :parentFilter="advancedFilter"
+            />
           </v-col>
         </v-row>
       </v-container>
@@ -299,38 +166,47 @@
 <script lang="ts">
 import Agenda from '../models/agenda';
 import Event from '../models/event';
+import AdvancedFilterDialog from './AdvancedFilterDialog.vue';
 import { Moment } from 'moment';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { debounce } from 'lodash';
 
-@Component
+export interface AdvancedFilter {
+  days: string[];
+  filterStartTime?: any;
+  hideFilled: boolean;
+  hideConflicting: boolean;
+  hiTestFilter: boolean | null;
+  testTypes: string[];
+}
+
+export const emptyAdvancedFilter: AdvancedFilter = {
+  days: [],
+    filterStartTime: undefined,
+    hideFilled: false,
+    hideConflicting: false,
+    hiTestFilter: null,
+    testTypes: [],
+};
+
+@Component({
+  components: {
+    AdvancedFilterDialog,
+  },
+})
 export default class EventsList extends Vue {
   @Prop() private height!: number;
 
   public categories: string[] = [];
-  public days: string[] = [];
-  public testTypes: string[] = [];
   public filter: string = '';
   public items?: Event[] = undefined;
-  public hideFilled: boolean = false;
-  public hideConflicting: boolean = false;
-  public hiTestFilter: boolean | null = null;
+  public advancedFilter: AdvancedFilter = Object.assign({}, emptyAdvancedFilter);
   public hiTestFilterOptions: any = [
     { text: 'Hide HI-Tests', value: false },
     { text: 'Only HI-Tests', value: true },
   ];
-  public filterStartTime?: any = null;
-  public filterStartTimeMenu: boolean = false;
-  public showAdvancedFilter: boolean = false;
   public expandedCode: string = '';
   public dynamicScrollerHeight: string = '300px';
-
-  // public expansionPanel: any = {
-  //   panelClick(): any {
-  //     console.log('panel clicked');
-  //     console.log(arguments);
-  //   },
-  // };
 
   constructor() {
     super();
@@ -369,7 +245,7 @@ export default class EventsList extends Vue {
     }, []);
   }
 
-  get availableDays() {
+  get availableDays(): string[] {
     const days = this.scheduleEvents.reduce((acc: any, event: Event) => {
       const day = event.startTime.clone();
       if (!acc.includes(day.format('dd'))) {
@@ -397,18 +273,6 @@ export default class EventsList extends Vue {
     return !!this.$store.state.isMetatopia;
   }
 
-  public timePickerStep(minutes: number): boolean {
-    return minutes % 30 === 0;
-  }
-
-  public clearAdvancedFilter(): void {
-    this.filterStartTime = null;
-    this.days = [];
-    this.hideFilled = false;
-    this.hideConflicting = false;
-    this.showAdvancedFilter = false;
-  }
-
   get filteredItems(): Event[] {
     return this.items ? this.items.filter((e: Event) => this.shouldShow(e)) : [];
   }
@@ -427,15 +291,25 @@ export default class EventsList extends Vue {
     this.dynamicScrollerHeight = (this.height - toolbarHeight) + 'px';
   }
 
+  public applyAdvancedSearch(updated: AdvancedFilter): void {
+    this.advancedFilter = Object.assign({}, this.advancedFilter, updated);
+  }
+
   public shouldShow(event: Event): boolean {
     return (
-      (!this.hideFilled || !event.filled) &&
-      (!this.hideConflicting || !this.$store.state.agenda.events.some((se: Event) => se.conflicts(event))) &&
-      (this.hiTestFilter === null || this.hiTestFilter === undefined || this.hiTestFilter === event.hiTest) &&
+      (!this.advancedFilter.hideFilled || !event.filled) &&
+      (!this.advancedFilter.hideConflicting
+        || !this.$store.state.agenda.events.some((se: Event) => se.conflicts(event))) &&
+      (this.advancedFilter.hiTestFilter === null
+        || this.advancedFilter.hiTestFilter === undefined
+        || this.advancedFilter.hiTestFilter === event.hiTest) &&
       (this.categories.length < 1 || this.categories.includes(event.code[0])) &&
-      (this.days.length < 1 || this.days.includes(event.startTime.format('dd'))) &&
-      (this.filterStartTime ? event.startTime.format('H:mm') === this.filterStartTime : true) &&
-      (this.testTypes.length < 1 || this.testTypes.map((t) => t === '<None>' ? '' : t).includes(event.testType)) &&
+      (this.advancedFilter.days.length < 1 || this.advancedFilter.days.includes(event.startTime.format('dd'))) &&
+      (this.advancedFilter.filterStartTime
+        ? event.startTime.format('H:mm') === this.advancedFilter.filterStartTime
+        : true) &&
+      (this.advancedFilter.testTypes.length < 1
+        || this.advancedFilter.testTypes.map((t) => t === '<None>' ? '' : t).includes(event.testType)) &&
       (!this.filter || [
           'code',
           'title',
@@ -483,15 +357,6 @@ export default class EventsList extends Vue {
 
   &-body {
     padding: 0px 24px 12px 24px;
-  }
-}
-
-.force-tiny-input {
-  padding-left: 5px;
-  padding-top: 0px;
-  margin-top: 8px;
-  div.v-input__slot {
-    margin-bottom: 0px;
   }
 }
 
