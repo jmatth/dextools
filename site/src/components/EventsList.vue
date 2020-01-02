@@ -42,9 +42,9 @@
                 </v-card-title>
                 <v-divider/>
                 <v-card-text>
-                  <v-container grid-list-md>
-                    <v-layout wrap>
-                      <v-flex sm12 md6>
+                  <v-container fluid>
+                    <v-row dense>
+                      <v-col cols="12" md="6">
                         <v-select
                           v-model.lazy="days"
                           :items="availableDays"
@@ -58,26 +58,8 @@
                           hide-details
                           single-line
                         />
-                      </v-flex>
-                      <v-flex sm6 md3>
-                        <v-switch
-                          class="force-tiny-input"
-                          label="Hide filled"
-                          v-model="hideFilled"
-                          dense
-                          hide-details
-                        />
-                      </v-flex>
-                      <v-flex sm6 md3>
-                        <v-switch
-                          class="force-tiny-input"
-                          label="Hide conflicting"
-                          v-model="hideConflicting"
-                          dense
-                          hide-details
-                        />
-                      </v-flex>
-                      <v-flex sm12>
+                      </v-col>
+                      <v-col cols="12" md="6">
                         <v-menu
                           ref="startTimeMenu"
                           v-model="filterStartTimeMenu"
@@ -110,8 +92,28 @@
                             @click:hour="$refs.startTimeMenu.save($event + ':00')"
                           />
                         </v-menu>
-                      </v-flex>
-                      <v-flex sm12 md6>
+                      </v-col>
+                      <v-col md="3">
+                        <v-switch
+                          class="force-tiny-input"
+                          label="Hide filled"
+                          v-model="hideFilled"
+                          dense
+                          hide-details
+                        />
+                      </v-col>
+                      <v-col md="3">
+                        <v-switch
+                          class="force-tiny-input"
+                          label="Hide conflicting"
+                          v-model="hideConflicting"
+                          dense
+                          hide-details
+                        />
+                      </v-col>
+                    </v-row>
+                    <v-row dense v-if="includeMetatopiaFilters">
+                      <v-col cols="12" md="6">
                         <v-select
                           v-model.lazy="testTypes"
                           :items="availableTestTypes"
@@ -125,8 +127,8 @@
                           hide-details
                           single-line
                         />
-                      </v-flex>
-                      <v-flex sm6 md3>
+                      </v-col>
+                      <v-col cols="6" md="3">
                         <v-select
                           v-model.lazy="hiTestFilter"
                           :items="hiTestFilterOptions"
@@ -137,8 +139,8 @@
                           single-line
                           hide-details
                         />
-                      </v-flex>
-                    </v-layout>
+                      </v-col>
+                    </v-row>
                   </v-container>
                 </v-card-text>
                 <v-divider/>
@@ -377,6 +379,10 @@ export default class EventsList extends Vue {
     const typesArr: string[] = Array.from(typesSet.values());
     typesArr.sort();
     return ['<None>'].concat(typesArr);
+  }
+
+  get includeMetatopiaFilters(): boolean {
+    return !!this.$store.state.isMetatopia;
   }
 
   public timePickerStep(minutes: number): boolean {

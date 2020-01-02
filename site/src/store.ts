@@ -22,6 +22,7 @@ const store = new Vuex.Store({
     userName: '',
     conName: '',
     conEmail: '',
+    isMetatopia: false,
     stitchClient: null,
     visitId: '',
   },
@@ -54,6 +55,9 @@ const store = new Vuex.Store({
     setFeedbackUrl(state: any, newUrl: string) {
       state.feedbackUrl = newUrl;
     },
+    setIsMetatopia(state: any, isMetatopia: boolean) {
+      state.isMetatopia = isMetatopia;
+    },
   },
   actions: {
     loadSettings(context) {
@@ -62,6 +66,7 @@ const store = new Vuex.Store({
         context.commit('setConName', settings.conName);
         context.commit('setConEmail', settings.conEmail);
         context.commit('setFeedbackUrl', settings.feedbackUrl);
+        context.commit('setIsMetatopia', settings.isMetatopia);
         const schedule = scheduleJsonToEvents(settings.schedule);
         context.commit('setSchedule', schedule);
         return settings;
