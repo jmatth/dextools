@@ -149,7 +149,7 @@ import { AdvancedFilter, emptyAdvancedFilter } from './EventsList.vue';
 
 @Component
 export default class AdvancedFilterDialog extends Vue {
-  private static readonly hiTestFilterOptions: any = [
+  public readonly hiTestFilterOptions: any = [
     { text: 'Hide HI-Tests', value: false },
     { text: 'Only HI-Tests', value: true },
   ];
