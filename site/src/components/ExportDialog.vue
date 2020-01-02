@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="exportDialogue"
+    v-model="exportDialog"
     width="500"
   >
     <template v-slot:activator="{ on }">
@@ -35,7 +35,7 @@
       <v-divider/>
       <v-card-actions>
         <v-btn
-          @click="exportDialogue = false"
+          @click="exportDialog = false"
         >
           Close
         </v-btn>
@@ -51,7 +51,7 @@
             <a :href="mailtoLink" v-on="on">
               <v-btn
                 class="mr-2"
-                @click="exportDialogue = false"
+                @click="exportDialog = false"
                 :disabled="disableEmail"
               >
                 Email
@@ -86,8 +86,8 @@ import moment, { Moment } from 'moment';
 import { debounce } from 'lodash';
 
 @Component
-export default class ExportDialogue extends Vue {
-  public exportDialogue: boolean = false;
+export default class ExportDialog extends Vue {
+  public exportDialog: boolean = false;
   public shouldShowCopyMessage: boolean = false;
   public copyMessage: string = '';
 

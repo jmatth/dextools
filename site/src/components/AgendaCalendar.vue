@@ -42,7 +42,7 @@
         </v-icon>
       </v-btn>
       <v-spacer/>
-      <ExportDialogue/>
+      <ExportDialog/>
     </v-toolbar>
     <v-divider/>
     <v-calendar
@@ -91,14 +91,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import ExportDialogue from './ExportDialogue.vue';
+import ExportDialog from './ExportDialog.vue';
 import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
 
 @Component({
   components: {
-    ExportDialogue,
+    ExportDialog,
   },
 })
 export default class AgendaCalendar extends Vue {
