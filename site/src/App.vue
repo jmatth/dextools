@@ -145,6 +145,16 @@
     </v-app-bar>
     <v-content>
       <v-container fluid grid-list-md>
+        <v-snackbar
+          color="warning"
+          bottom
+          v-model="updateExists"
+          :timeout="0"
+        >
+          A new version of this site is available.
+          <v-btn dark @click="refreshApp()">Refresh</v-btn>
+          <v-btn icon @click="updateExists = false"><v-icon>close</v-icon></v-btn>
+        </v-snackbar>
         <v-layout
           v-if="Object.keys($store.state.schedule).length > 0"
           row
@@ -190,7 +200,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class App extends Vue {
   public about = false;
   public feedback = false;
-  private workspaceHeight = 700;
+  public workspaceHeight = 700;
   public display = {
         mode: 'split',
         getHeight() {
@@ -200,6 +210,9 @@ export default class App extends Vue {
           this.mode = this.mode === 'split' ? 'full' : 'split';
         },
       };
+  private refreshing = false;
+  private registration: any = {};
+  private updateExists = false;
 
   constructor() {
     super();
@@ -222,6 +235,39 @@ export default class App extends Vue {
     // @ts-ignore
     const headerHeight = document.querySelector('div#app div header.v-sheet')!.offsetHeight;
     this.workspaceHeight = windowHeight - (workspacePadding * 2 + headerHeight);
+  }
+
+  public created(): void {
+    document.addEventListener(
+      'swUpdated', this.showRefreshUI, { once: true },
+    );
+    navigator.serviceWorker.addEventListener(
+      'controllerchange', () => {
+        if (this.refreshing) {
+          return;
+        }
+        console.log('Caught controllerchange, refreshing...');
+        this.refreshing = true;
+        window.location.reload();
+      },
+    );
+  }
+
+  private showRefreshUI(e: any) {
+    console.log('Caught swUpdated, update available.');
+    this.registration = e.detail;
+    console.log(e.detail);
+    this.updateExists = true;
+  }
+
+  public refreshApp(): void {
+    console.log('Refreshing app to update.');
+    this.updateExists = false;
+    if (!this.registration || !this.registration.waiting) {
+      console.log('Registration does not exist or is not waiting, bailing out of update.');
+      return;
+    }
+    this.registration.waiting.postMessage('skipWaiting');
   }
 
   public mounted(): void {
