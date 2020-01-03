@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-model="showAdvancedFilter" max-width="700px">
+  <v-dialog
+    v-model="showAdvancedFilter"
+    max-width="700px"
+    @input="e => !e && dialogClosed()"
+  >
     <template v-slot:activator="{ on }">
       <v-btn icon small v-on="on" class="float-right">
         <v-icon>remove_red_eye</v-icon>
@@ -185,6 +189,10 @@ export default class AdvancedFilterDialog extends Vue {
   private clearAdvancedFilter(): void {
     this.$emit('apply', Object.assign({}, emptyAdvancedFilter));
     this.showAdvancedFilter = false;
+  }
+
+  private dialogClosed(): void {
+    Object.assign(this.advancedFilterIndex, this.parentFilter);
   }
 }
 </script>
