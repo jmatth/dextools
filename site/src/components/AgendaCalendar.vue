@@ -61,12 +61,14 @@
     >
     </v-calendar>
     </div>
+    <EventInfoDialog :event="focusedEvent" @close="focusedEvent = null"/>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import ExportDialog from './ExportDialog.vue';
+import EventInfoDialog from './EventInfoDialog.vue';
 import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
@@ -74,17 +76,17 @@ import moment, { Moment } from 'moment';
 @Component({
   components: {
     ExportDialog,
+    EventInfoDialog,
   },
 })
 export default class AgendaCalendar extends Vue {
   @Prop() private display!: any;
   @Prop() private height!: number;
 
-  public categories: string[] = ['L', 'R'];
-  public filter: string = '';
   public currDate = '';
   public calendarHeight = 300;
   public intervalHeight = 10;
+  public focusedEvent: Event | null = null;
 
   private weekdayStrMap: string[] = [
     'Sun',
@@ -229,22 +231,6 @@ export default class AgendaCalendar extends Vue {
     return Array.from(ebt);
   }
 
-  get items() {
-    return this.$store.state.agenda.events
-      .filter((e: Event) => this.categories.includes(e.code[0]))
-      .filter((e: Event) => {
-        if (!this.filter) {
-          return true;
-        }
-        return [
-          'title',
-          'system',
-          'description',
-          'presenters',
-        ].some((field) => (e[field] as string).toLowerCase().includes(this.filter.toLowerCase()));
-      });
-  }
-
   get allowResizing() {
     // @ts-ignore
     return !this.$vuetify.breakpoint.smAndDown;
@@ -257,7 +243,7 @@ export default class AgendaCalendar extends Vue {
   }
 
   public eventClicked(vueEvent: any): void {
-    this.$store.commit('removeEventFromAgenda', vueEvent.event.code);
+    this.focusedEvent = this.$store.state.schedule[vueEvent.event.code];
   }
 }
 </script>

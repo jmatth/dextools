@@ -12,10 +12,14 @@ export default class Agenda {
     return this._lastAdded;
   }
 
+  public contains(code: string): boolean {
+    return this.events.find((e: Event) => e.code === code) !== undefined;
+  }
+
   public addEvent(event: Event): void {
     // Already added
     console.log(`Adding ${event.code} to agenda`);
-    if (this.events.find((e: Event) => e.code === event.code) !== undefined) {
+    if (this.contains(event.code)) {
       console.log(`${event.code} already in agenda, nopping`);
       return;
     }
