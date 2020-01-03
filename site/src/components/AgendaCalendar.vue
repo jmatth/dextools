@@ -56,34 +56,9 @@
       :start='startCal'
       :end='endCal'
       :weekday-format="formatDayHeader"
+      :events="calEvents"
+      @click:event="eventClicked"
     >
-      <template v-slot:day-body="{ date, timeToY, minutesToPixels }">
-        <template v-for="(startWithEvents, startIndex) in eventsByStartTime">
-          <template v-if="startDateMatchesDate(startWithEvents[0], date)">
-            <template v-for="(event, index) in startWithEvents[1]">
-              <div
-                :key="event.code"
-                :style="{
-                  top: (timeToY(event.startTime.format('HH:MM')) - 2) + 'px',
-                  height: minutesToPixels(getEventMinutes(event)) + 'px',
-                  marginLeft: overlappingEventsCount(event) * 5 + 100/startWithEvents[1].length * index + '%'}"
-                class="my-event with-time"
-                @click="$store.commit('removeEventFromAgenda', event.code)"
-                >
-                  {{ `${event.code}: ${event.title}` }}
-                  <v-icon
-                    v-if="event.filled"
-                    small
-                  >lock</v-icon>
-                  <v-icon
-                    v-if="event.hiTest"
-                    small
-                  >error_outline</v-icon>
-              </div>
-            </template>
-          </template>
-        </template>
-      </template>
     </v-calendar>
     </div>
   </v-card>
@@ -230,6 +205,18 @@ export default class AgendaCalendar extends Vue {
     this.display.toggle();
   }
 
+  get calEvents() {
+    const calEventFormat = 'YYYY-M-D H:m';
+    return this.$store.state.agenda.events.map((e: Event) => {
+      return {
+        code: e.code,
+        name: `${e.code}: ${e.title}`,
+        start: e.startTime.format(calEventFormat),
+        end: e.endTime.format(calEventFormat),
+      };
+    });
+  }
+
   get eventsByStartTime() {
     const ebt = new Map();
     this.$store.state.agenda.events.forEach((e: Event) => {
@@ -267,6 +254,10 @@ export default class AgendaCalendar extends Vue {
     const weekdayStr = this.weekdayStrMap[dayObj.weekday];
     const day = dayObj.day;
     return `${weekdayStr} ${day}`;
+  }
+
+  public eventClicked(vueEvent: any): void {
+    this.$store.commit('removeEventFromAgenda', vueEvent.event.code);
   }
 }
 </script>
@@ -312,9 +303,4 @@ div.v-calendar-daily__head > div.v-calendar-daily_head-day:last-child {
 .v-calendar-daily_head-day-label {
   display: none;
 }
-
-/* .cal-hide-right-margin div.v-calendar-daily__day-container > div.v-calendar-daily__day, */
-/* .cal-hide-right-margin div.v-calendar-daily__head > div.v-calendar-daily_head-day { */
-/*   border-right: none; */
-/* } */
 </style>
