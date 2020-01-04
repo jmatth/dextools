@@ -59,14 +59,6 @@
       :events="calEvents"
       @click:event="eventClicked"
     >
-      <template v-slot:event="{ event }">
-        <div class="pl-1">
-          <strong>{{ event.event.code }}: {{ event.event.title }}</strong>
-          <br v-if="event.event.endTime.diff(event.event.startTime, 'minutes') > 60"/>
-          <template v-else>,</template>
-          {{ formatEventTime(event.event.startTime) }} - {{ formatEventTime(event.event.endTime) }}
-        </div>
-      </template>
     </v-calendar>
     </div>
     <EventInfoDialog :event="focusedEvent" @close="focusedEvent = null"/>
@@ -215,25 +207,14 @@ export default class AgendaCalendar extends Vue {
     this.display.toggle();
   }
 
-  public formatEventTime(time: Moment): string {
-    return time.minute() === 0 ?
-      time.format('h A') :
-      time.format('h:mm A');
-  }
-
   get calEvents() {
     const calEventFormat = 'YYYY-M-D H:m';
     return this.$store.state.agenda.events.map((e: Event) => {
-      const start = e.startTime;
-      const end = e.endTime.clone();
-      if (end.get('hour') === 0) {
-        end.subtract(1, 'seconds');
-      }
       return {
-        event: e,
+        code: e.code,
         name: `${e.code}: ${e.title}`,
-        start: start.format(calEventFormat),
-        end: end.format(calEventFormat),
+        start: e.startTime.format(calEventFormat),
+        end: e.endTime.format(calEventFormat),
       };
     });
   }
@@ -262,7 +243,7 @@ export default class AgendaCalendar extends Vue {
   }
 
   public eventClicked(vueEvent: any): void {
-    this.focusedEvent = this.$store.state.schedule[vueEvent.event.event.code];
+    this.focusedEvent = this.$store.state.schedule[vueEvent.event.code];
   }
 }
 </script>
