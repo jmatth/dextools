@@ -41,6 +41,8 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
 			let filled = misc.to_lowercase().contains("this event has been filled!");
 			let (start_time, end_time) = parser.parse_time_slot(&raw_time)?;
 			Some(Event {
+				#[cfg(debug_assertions)]
+				matched_by: "game".to_string(),
 				code,
 				title,
 				description,

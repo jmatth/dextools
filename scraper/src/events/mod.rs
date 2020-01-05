@@ -10,14 +10,16 @@ use crate::events::matchers::dateparse::DateParser;
 const CODE_REGEX: &str = "^[A-Z][0-9]+$";
 
 const MATCHERS: [fn(&String, &DateParser) -> Option<Event>; 4] = [
-	matchers::metatopia::parse_event,
 	matchers::rpg::parse_event,
 	matchers::game::parse_event,
 	matchers::canceled::parse_event,
+	matchers::metatopia::parse_event,
 ];
 
 #[derive(Default, Debug, Serialize)]
 pub struct Event {
+	#[serde(skip_serializing_if = "String::is_empty")]
+	matched_by: String,
 	code: String,
 	title: String,
 	system: String,
@@ -30,6 +32,16 @@ pub struct Event {
 	tags: String,
 	test_type: String,
 	hi_test: bool,
+	round: String,
+	materials: String,
+	experience: String,
+	mood: String,
+	age: String,
+	related: String,
+	#[serde(skip_serializing_if = "String::is_empty")]
+	misc: String,
+	#[serde(skip_serializing_if = "String::is_empty")]
+	raw: String,
 }
 
 pub fn parse_events<'a, I>(nodes: &mut I, date_parser: &DateParser) -> Vec<Event>

@@ -40,6 +40,8 @@ pub fn parse_event(input: &String, parser: &DateParser) -> Option<Event> {
 			let raw_time = as_string(&captures, "time");
 			let (start_time, end_time) = parser.parse_time_slot(&raw_time)?;
 			Some(Event {
+				#[cfg(debug_assertions)]
+				matched_by: "metatopia".to_string(),
 				code,
 				title,
 				system,
