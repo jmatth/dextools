@@ -1,3 +1,5 @@
+use indexmap::IndexMap;
+
 use regex::Regex;
 use select::node::Node;
 use select::predicate as pred;
@@ -112,7 +114,7 @@ where
 		matchers::Matcher::new("cancelled", CANCELLED_REGEX, date_parser),
 		matchers::Matcher::new("metatopia", METATOPIA_REGEX, date_parser),
 	];
-	let mut events = Vec::new();
+	let mut events_map = IndexMap::with_capacity(1024);
 	let mut next = nodes.next();
 	while next.is_some() {
 		let node = next.unwrap();
@@ -159,16 +161,19 @@ where
 				// }
 			}
 			Some(event) => {
-				events.push(event);
+				events_map.insert(event.code.clone(), event);
 			}
 		}
 	}
 
-	println!("Successfully parsed {} events.", events.len());
-	if events.len() > 0 {
-		let mut e_iter = events.iter();
+	// TODO: post-processing stage to link related events
+
+	let events_vec: Vec<Event> = events_map.drain(..).map(|(_, v)| v).collect();
+	println!("Successfully parsed {} events.", events_vec.len());
+	if events_vec.len() > 0 {
+		let mut e_iter = events_vec.iter();
 		let mut prev_event: &Event = e_iter.next().unwrap();
-		let mut curr_event: Option<&Event> = e_iter.next();
+		let mut curr_event = e_iter.next();
 		while curr_event.is_some() {
 			let prev_num: usize = prev_event.code[1..].parse().unwrap();
 			let curr_num: usize = curr_event.unwrap().code[1..].parse().unwrap();
@@ -184,7 +189,7 @@ where
 		}
 	}
 
-	events
+	events_vec
 }
 
 fn extract_flat_event<'a, I>(initial: &Node, nodes: &mut I) -> (Option<String>, Option<Node<'a>>)
