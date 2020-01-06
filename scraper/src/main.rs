@@ -168,7 +168,7 @@ fn parse_events<R: Read>(
 	let event_children = filter_event_nodes(&container);
 
 	let mut iter = event_children.iter().map(|n| *n);
-	let schedule = events::parse_events(&mut iter, &date_parser);
+	let schedule = events::parse_events(&mut iter, date_parser);
 	let mut config_val: Value = if template_config_path.len() < 1 {
 		serde_json::from_str("{}")?
 	} else {

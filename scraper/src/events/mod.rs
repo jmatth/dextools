@@ -5,16 +5,9 @@ use select::predicate::*;
 
 pub mod matchers;
 
-use crate::events::matchers::dateparse::DateParser;
+use matchers::dateparse::DateParser;
 
 const CODE_REGEX: &str = "^[A-Z][0-9]+$";
-
-const MATCHERS: [fn(&String, &DateParser) -> Option<Event>; 4] = [
-	matchers::rpg::parse_event,
-	matchers::game::parse_event,
-	matchers::canceled::parse_event,
-	matchers::metatopia::parse_event,
-];
 
 #[derive(Default, Debug, Serialize)]
 pub struct Event {
@@ -44,13 +37,70 @@ pub struct Event {
 	raw: String,
 }
 
-pub fn parse_events<'a, I>(nodes: &mut I, date_parser: &DateParser) -> Vec<Event>
+const RPG_REGEX: &str = "^\
+                         (?P<code>[A-Z][0-9]+): \
+                         ((?P<system>.*); )?\
+                         \"(?P<title>.*?)\"\
+                         ( by (?P<authors>.*?))?\
+                         (( written and|;)? presented by (?P<presenters>(.*?(, )?)+))?\\. \
+                         (?P<description>.*) \
+                         (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM)); \
+                         (?P<round>[^;\\.]+)\
+                         (\
+                          ; \
+                          (?P<materials>[^\\.]+)\\. \
+                          (?P<experience>[^;]+); \
+                          (?P<mood>[^,]+), \
+                          (?P<age>[^\\.]+)\\. ?\
+                          |\
+                          \\. +\
+                         )\
+                         ((?P<related>(Next Round|Previous Round\\(s\\)|See Also): [^\\.]+)\\. ?)?\
+                         (?P<misc>.*)?\
+						 $";
+
+const GAME_REGEX: &str = "^\
+                          (?P<code>[A-Z][0-9]+): \
+                          (?P<title>.*?)\\. \
+                          (?P<description>.*) \
+                          (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
+                          (?P<misc>.*)\
+						  $";
+
+const CANCELLED_REGEX: &str = "^\
+                               ((?P<filled>\\[FILLED\\]) )?\
+                               (?P<code>[A-Z][0-9]+): \
+                               (\\[(?P<test_type>.*)\\] )?\
+                               (?P<title>CANCELED BY (DESIGNER|GAMEMASTER)). +\
+                               (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
+                               (?P<misc>.*)\
+							   $";
+
+const METATOPIA_REGEX: &str = "^\
+                               ((?P<filled>\\[FILLED\\]) )?\
+                               (?P<code>[A-Z][0-9]+): \
+                               (\\[(?P<test_type>.*)\\] )?\
+                               \"(?P<title>.*?)\"\
+                               ( by (?P<authors>.*?))?\
+                               (( written and|;)? presented by (?P<presenters>(.*?(, )?)+))?\\. \
+                               (?P<description>.*) \
+                               (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
+                               (?P<misc>.*)\
+							   $";
+
+pub fn parse_events<'a, I>(nodes: &mut I, date_parser: DateParser) -> Vec<Event>
 where
 	I: Iterator<Item = Node<'a>>,
 {
 	lazy_static! {
 		static ref CODE_RE: Regex = Regex::new(CODE_REGEX).unwrap();
 	}
+	let matchers = [
+		matchers::Matcher::new("rpg", RPG_REGEX, date_parser),
+		matchers::Matcher::new("game", GAME_REGEX, date_parser),
+		matchers::Matcher::new("cancelled", CANCELLED_REGEX, date_parser),
+		matchers::Matcher::new("metatopia", METATOPIA_REGEX, date_parser),
+	];
 	let mut events = Vec::new();
 	let mut next = nodes.next();
 	while next.is_some() {
@@ -91,7 +141,7 @@ where
 			continue;
 		};
 
-		match MATCHERS.iter().find_map(|f| f(&body, date_parser)) {
+		match matchers.iter().find_map(|m| m.parse_event(&body)) {
 			None => {
 				// if body.len() > 0 {
 				//     println!("<{}>", body);
