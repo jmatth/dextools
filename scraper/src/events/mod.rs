@@ -53,7 +53,7 @@ const RPG_REGEX: &str = "^\
                           (?P<mood>[^,]+), \
                           (?P<age>[^\\.]+)\\. ?\
                           |\
-                          \\. +\
+                          \\.( +)?\
                          )\
                          ((?P<related>(Next Round|Previous Round\\(s\\)|See Also): [^\\.]+)\\. ?)?\
                          (?P<misc>.*)?\
@@ -63,7 +63,18 @@ const GAME_REGEX: &str = "^\
                           (?P<code>[A-Z][0-9]+): \
                           (?P<title>.*?)\\. \
                           (?P<description>.*) \
-                          (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
+                          (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM)); \
+                          (?P<round>[^;\\.]+)\
+                          (\
+                           ; \
+                           (?P<materials>[^\\.]+)\\. \
+                           (?P<experience>[^;]+); \
+                           (?P<mood>[^,]+), \
+                           (?P<age>[^\\.]+)\\. ?\
+                           |\
+                           \\.( +)?\
+                          )\
+                          ((?P<related>(Next Round|Previous Round\\(s\\)|See Also): [^\\.]+)\\. ?)?\
                           (?P<misc>.*)\
 						  $";
 
@@ -152,7 +163,27 @@ where
 			}
 		}
 	}
+
 	println!("Successfully parsed {} events.", events.len());
+	if events.len() > 0 {
+		let mut e_iter = events.iter();
+		let mut prev_event: &Event = e_iter.next().unwrap();
+		let mut curr_event: Option<&Event> = e_iter.next();
+		while curr_event.is_some() {
+			let prev_num: usize = prev_event.code[1..].parse().unwrap();
+			let curr_num: usize = curr_event.unwrap().code[1..].parse().unwrap();
+			if prev_num != curr_num - 1 {
+				println!(
+					"WARING: possible missing event: {} -> {}",
+					prev_event.code,
+					curr_event.unwrap().code
+				);
+			}
+			prev_event = curr_event.unwrap();
+			curr_event = e_iter.next();
+		}
+	}
+
 	events
 }
 
