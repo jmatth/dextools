@@ -16,10 +16,10 @@ use serde_json::{json, Value};
 
 mod client;
 mod error;
-mod events;
+mod parser;
 
 use error::Error;
-use events::matchers::dateparse::DateParser;
+use parser::dateparse::DateParser;
 
 const SCHEDULE_KEY: &str = "schedule";
 const CON_TIMEZONE: chrono_tz::Tz = chrono_tz::America::New_York;
@@ -157,7 +157,7 @@ fn parse_events<R: Read>(
 	let event_children = filter_event_nodes(&container);
 
 	let mut iter = event_children.iter().map(|n| *n);
-	let schedule = events::parse_events(&mut iter, date_parser);
+	let schedule = parser::parse_events(&mut iter, date_parser);
 	let mut config_val: Value = if template_config_path.len() < 1 {
 		serde_json::from_str("{}")?
 	} else {

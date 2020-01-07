@@ -7,9 +7,10 @@ use select::predicate as pred;
 use select::predicate::*;
 use serde::Serialize;
 
-pub mod matchers;
+pub mod dateparse;
+pub mod matcher;
 
-use matchers::dateparse::DateParser;
+use dateparse::DateParser;
 
 const CODE_REGEX: &str = "^[A-Z][0-9]+$";
 
@@ -111,10 +112,10 @@ where
 		static ref CODE_RE: Regex = Regex::new(CODE_REGEX).unwrap();
 	}
 	let matchers = [
-		matchers::Matcher::new("rpg", RPG_REGEX, date_parser),
-		matchers::Matcher::new("game", GAME_REGEX, date_parser),
-		matchers::Matcher::new("cancelled", CANCELLED_REGEX, date_parser),
-		matchers::Matcher::new("metatopia", METATOPIA_REGEX, date_parser),
+		matcher::Matcher::new("rpg", RPG_REGEX, date_parser),
+		matcher::Matcher::new("game", GAME_REGEX, date_parser),
+		matcher::Matcher::new("cancelled", CANCELLED_REGEX, date_parser),
+		matcher::Matcher::new("metatopia", METATOPIA_REGEX, date_parser),
 	];
 	let mut events_map = IndexMap::with_capacity(1024);
 	let mut next = nodes.next();

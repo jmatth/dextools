@@ -1,10 +1,8 @@
 use regex::Match;
 use regex::Regex;
 
+use super::dateparse::DateParser;
 use super::Event;
-use dateparse::DateParser;
-
-pub mod dateparse;
 
 pub struct Matcher<'a> {
 	id: &'a str,
