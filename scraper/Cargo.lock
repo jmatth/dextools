@@ -304,7 +304,6 @@ dependencies = [
  "reqwest",
  "select",
  "serde",
- "serde_derive",
  "serde_json",
 ]
 

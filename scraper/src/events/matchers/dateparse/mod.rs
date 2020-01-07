@@ -9,6 +9,7 @@ use chrono::LocalResult;
 use chrono::TimeZone;
 use chrono::Weekday;
 use chrono_tz::Tz;
+use lazy_static::lazy_static;
 
 const TIME_REGEX: &str = "(?P<day>Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (?P<startHrs>[0-9]{1,2}):(?P<startMins>[0-9]{2})(?P<startAmPm>AM|PM) - (?P<endHrs>[0-9]{1,2}):(?P<endMins>[0-9]{2})(?P<endAmPm>AM|PM)";
 

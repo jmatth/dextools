@@ -1,9 +1,11 @@
 use indexmap::IndexMap;
 
+use lazy_static::lazy_static;
 use regex::Regex;
 use select::node::Node;
 use select::predicate as pred;
 use select::predicate::*;
+use serde::Serialize;
 
 pub mod matchers;
 

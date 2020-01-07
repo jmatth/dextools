@@ -10,10 +10,8 @@ select = "0.4.3"
 reqwest = "0.9.5"
 regex = "1"
 lazy_static = "1.2.0"
-serde = "1.0.83"
-serde_json.version = "1.0.34"
-serde_json.features = ["preserve_order"]
-serde_derive = "1.0.83"
+serde = { version = "1.0.83", features = ["derive"] }
+serde_json = { version = "1.0.34", features = ["preserve_order"] }
 chrono = "0.4"
 chrono-tz = "0.4"
 clap = "~2.32"

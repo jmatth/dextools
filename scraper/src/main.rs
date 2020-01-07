@@ -1,23 +1,12 @@
 #![feature(try_trait)]
 
-extern crate chrono;
-extern crate clap;
-extern crate reqwest;
-extern crate select;
-extern crate serde_json;
-
-#[macro_use]
-extern crate serde_derive;
-
-#[macro_use]
-extern crate lazy_static;
-
 use std::fs::File;
 use std::io::Read;
 
 use chrono::naive::NaiveDate;
 use chrono::Datelike;
 use clap::{App, Arg};
+use lazy_static::lazy_static;
 use regex::Regex;
 use select::document::Document;
 use select::node::Node;
