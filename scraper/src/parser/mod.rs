@@ -13,6 +13,8 @@ pub mod matcher;
 use dateparse::DateParser;
 
 const CODE_REGEX: &str = "^[A-Z][0-9]+$";
+const DESC_DEREF_MAX_LEN: usize = 25;
+const DESC_DEREF_REGEX: &str = "See (?P<code>[A-Z][0-9]+)\\.$";
 
 #[derive(Default, Debug, Serialize)]
 pub struct Event {
@@ -169,7 +171,24 @@ where
 		}
 	}
 
-	// TODO: post-processing stage to link related events
+	for mut event in events_map.values_mut() {
+		// If the event just references another, copy the description over
+		if event.description.len() <= DESC_DEREF_MAX_LEN {
+			lazy_static! {
+				static ref DESC_DEREF_RE: Regex = Regex::new(DESC_DEREF_REGEX).unwrap();
+			}
+			let captures = match DESC_DEREF_RE.captures(event.description.as_str()) {
+				None => continue,
+				Some(captures) => captures,
+			};
+			let deref_code = captures
+				.name("code")
+				.map(|m| m.as_str().to_string())
+				.unwrap();
+			let deref_event = events_map.get(&deref_code).unwrap();
+			event.description = deref_event.description.clone();
+		}
+	}
 
 	let events_vec: Vec<Event> = events_map.drain(..).map(|(_, v)| v).collect();
 	println!("Successfully parsed {} events.", events_vec.len());
