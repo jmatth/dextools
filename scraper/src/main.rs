@@ -87,7 +87,7 @@ fn main() -> Result<(), Error> {
 		.ok_or("Missing required flag 'input'")?;
 	let output = matches.value_of("output").unwrap_or("./schedule.json");
 	let config_template_path = matches.value_of("template_config").unwrap_or("");
-	let cache = matches.value_of("cache").unwrap_or("./cache.json");
+	let cache = matches.value_of("cache").unwrap_or("/dev/null");
 	// let mut start_date_strs = matches
 	// 	.value_of("start_date")
 	// 	.ok_or("Missing required flag 'start_date'")?
