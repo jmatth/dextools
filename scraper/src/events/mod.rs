@@ -175,19 +175,26 @@ where
 	if events_vec.len() > 0 {
 		let mut e_iter = events_vec.iter();
 		let mut prev_event: &Event = e_iter.next().unwrap();
-		let mut curr_event = e_iter.next();
-		while curr_event.is_some() {
-			let prev_num: usize = prev_event.code[1..].parse().unwrap();
-			let curr_num: usize = curr_event.unwrap().code[1..].parse().unwrap();
+		while let Some(curr_event) = e_iter.next() {
+			let curr_num: usize = match curr_event.code[1..].parse() {
+				Err(_) => {
+					println!("WARNING: invalid event code: {}", curr_event.code);
+					prev_event = curr_event;
+					continue;
+				}
+				Ok(c) => c,
+			};
+			let prev_num: usize = match prev_event.code[1..].parse() {
+				Err(_) => continue,
+				Ok(c) => c,
+			};
 			if prev_num != curr_num - 1 {
 				println!(
-					"WARING: possible missing event: {} -> {}",
-					prev_event.code,
-					curr_event.unwrap().code
+					"WARNING: possible missing event: {} -> {}",
+					prev_event.code, curr_event.code
 				);
 			}
-			prev_event = curr_event.unwrap();
-			curr_event = e_iter.next();
+			prev_event = curr_event;
 		}
 	}
 
