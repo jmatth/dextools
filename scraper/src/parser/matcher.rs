@@ -19,8 +19,8 @@ impl Matcher<'_> {
 		}
 	}
 
-	pub fn parse_event(&self, input: &String) -> Option<Event> {
-		match self.regex.captures(input.as_str()) {
+	pub fn parse_event(&self, input: &str) -> Option<Event> {
+		match self.regex.captures(input) {
 			None => None,
 			Some(captures) => {
 				let as_string = |m: Match| m.as_str().to_string();
