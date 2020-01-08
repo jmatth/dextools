@@ -119,7 +119,7 @@ where
 		matcher::Matcher::new("cancelled", CANCELLED_REGEX, date_parser),
 		matcher::Matcher::new("metatopia", METATOPIA_REGEX, date_parser),
 	];
-	let mut events_map = IndexMap::with_capacity(1024);
+	let mut events_map: IndexMap<String, Event> = IndexMap::with_capacity(1024);
 	let mut next = nodes.next();
 	while next.is_some() {
 		let node = next.unwrap();
@@ -171,13 +171,18 @@ where
 		}
 	}
 
-	for mut event in events_map.values_mut() {
+	let keys_vec = events_map
+		.keys()
+		.map(|k| k.clone())
+		.collect::<Vec<String>>();
+	for key in keys_vec.iter() {
 		// If the event just references another, copy the description over
-		if event.description.len() <= DESC_DEREF_MAX_LEN {
+		let event_description = events_map.get(key).unwrap().description.clone();
+		if event_description.len() <= DESC_DEREF_MAX_LEN {
 			lazy_static! {
 				static ref DESC_DEREF_RE: Regex = Regex::new(DESC_DEREF_REGEX).unwrap();
 			}
-			let captures = match DESC_DEREF_RE.captures(event.description.as_str()) {
+			let captures = match DESC_DEREF_RE.captures(event_description.as_str()) {
 				None => continue,
 				Some(captures) => captures,
 			};
@@ -185,8 +190,8 @@ where
 				.name("code")
 				.map(|m| m.as_str().to_string())
 				.unwrap();
-			let deref_event = events_map.get(&deref_code).unwrap();
-			event.description = deref_event.description.clone();
+			let deref_event_description = events_map.get(&deref_code).unwrap().description.clone();
+			events_map.get_mut(key).unwrap().description = deref_event_description;
 		}
 	}
 
