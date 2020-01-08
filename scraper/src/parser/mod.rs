@@ -37,6 +37,9 @@ pub struct Event {
 	experience: String,
 	mood: String,
 	age: String,
+	next_rounds: Vec<String>,
+	previous_rounds: Vec<String>,
+	see_also: Vec<String>,
 	related: String,
 	#[serde(skip_serializing_if = "String::is_empty")]
 	misc: String,

@@ -4,6 +4,10 @@ use regex::Regex;
 use super::dateparse::DateParser;
 use super::Event;
 
+const NEXT_ROUND_PREFIX: &str = "Next Round: ";
+const PREV_ROUND_PREFIX: &str = "Previous Round(s): ";
+const SEE_ALSO_PREFIX: &str = "See Also: ";
+
 pub struct Matcher<'a> {
 	id: &'a str,
 	regex: Regex,
@@ -76,6 +80,33 @@ impl Matcher<'_> {
 					.name("related")
 					.map(as_string)
 					.unwrap_or("".to_string());
+				let next_rounds = if related.starts_with(NEXT_ROUND_PREFIX) {
+					related
+						.replace(NEXT_ROUND_PREFIX, "")
+						.split(",")
+						.map(|s| s.trim().to_string())
+						.collect::<Vec<String>>()
+				} else {
+					Vec::new()
+				};
+				let previous_rounds = if related.starts_with(PREV_ROUND_PREFIX) {
+					related
+						.replace(PREV_ROUND_PREFIX, "")
+						.split(",")
+						.map(|s| s.trim().to_string())
+						.collect::<Vec<String>>()
+				} else {
+					Vec::new()
+				};
+				let see_also = if related.starts_with(SEE_ALSO_PREFIX) {
+					related
+						.replace(SEE_ALSO_PREFIX, "")
+						.split(",")
+						.map(|s| s.trim().to_string())
+						.collect::<Vec<String>>()
+				} else {
+					Vec::new()
+				};
 				let misc = captures
 					.name("misc")
 					.map(as_string)
@@ -99,7 +130,9 @@ impl Matcher<'_> {
 					experience,
 					mood,
 					age,
-					related,
+					next_rounds,
+					previous_rounds,
+					see_also,
 					#[cfg(debug_assertions)]
 					misc,
 					..Default::default()
