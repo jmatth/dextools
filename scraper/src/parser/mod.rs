@@ -180,7 +180,7 @@ where
 		.collect::<Vec<String>>();
 	for key in keys_vec.iter() {
 		// If the event just references another, copy the description over
-		let event_description = events_map.get(key).unwrap().description.clone();
+		let event_description = &events_map.get(key).unwrap().description;
 		if event_description.len() <= DESC_DEREF_MAX_LEN {
 			lazy_static! {
 				static ref DESC_DEREF_RE: Regex = Regex::new(DESC_DEREF_REGEX).unwrap();
