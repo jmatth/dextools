@@ -119,15 +119,9 @@ fn main() -> Result<(), Error> {
 				return Ok(());
 			}
 		}
-	} else if input.starts_with("file") {
-		// This substring assumes the argument started with "file://"
-		let path = &input[7..];
-		let mut file_input = File::open(path)?;
-		parse_events(&mut file_input, &output.to_string(), config_template_path)
 	} else {
-		Err(Error::StringError(
-			"Invalid input, must start with https://, http://, or file://".to_string(),
-		))
+		let mut file_input = File::open(&input)?;
+		parse_events(&mut file_input, &output.to_string(), config_template_path)
 	}
 }
 
