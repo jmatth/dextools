@@ -90,22 +90,25 @@ export default class ExportDialog extends Vue {
   public exportDialog: boolean = false;
   public shouldShowCopyMessage: boolean = false;
   public copyMessage: string = '';
+  private userName: string = '';
 
   constructor() {
     super();
-    this.updateUserName = debounce(this.updateUserName, 500);
+    this.updateUserNameStore = debounce(this.updateUserNameStore, 3000);
   }
 
-  get userName(): string {
-    return this.$store.state.userName;
+  public updateUserName(name: string) {
+    this.userName = name;
+    this.updateUserNameStore(name);
   }
 
-  public updateUserName(name: string): void {
+  public updateUserNameStore(name: string): void {
+    console.log(`Updating to ${name}`);
     this.$store.commit('setUserName', name);
   }
 
   get emailText(): string {
-    const userName: string = this.$store.state.userName || '<YOUR NAME>';
+    const userName: string = this.userName || '<YOUR NAME>';
     return this.$store.state.agenda.events.reduce(
       (text: string, event: Event) => text += `\n${event.code}`, `Name: ${userName}\n\nEvents:`);
   }
