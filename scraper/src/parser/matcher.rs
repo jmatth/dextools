@@ -1,8 +1,10 @@
 use regex::Match;
 use regex::Regex;
 
-use super::dateparse::DateParser;
-use super::Event;
+use lazy_static::lazy_static;
+
+use crate::parser::dateparse::DateParser;
+use crate::parser::Event;
 
 #[cfg(feature = "debug-json")]
 use super::EventDebug;
@@ -16,9 +18,6 @@ pub struct Matcher<'a> {
 	id: &'a str,
 	regex: Regex,
 	date_parser: DateParser,
-	// TODO: move these into lazy_static
-	next_round_re: Regex,
-	prev_round_re: Regex,
 }
 
 impl Matcher<'_> {
@@ -30,12 +29,14 @@ impl Matcher<'_> {
 			id: id,
 			regex: Regex::new(regex).unwrap(),
 			date_parser: parser,
-			next_round_re: Regex::new(NEXT_ROUND_REGEX).unwrap(),
-			prev_round_re: Regex::new(PREV_ROUND_REGEX).unwrap(),
 		}
 	}
 
 	pub fn parse_event(&self, input: &str) -> Option<Event> {
+		lazy_static! {
+			static ref NEXT_ROUND_RE: Regex = Regex::new(NEXT_ROUND_REGEX).unwrap();
+			static ref PREV_ROUND_RE: Regex = Regex::new(PREV_ROUND_REGEX).unwrap();
+		}
 		match self.regex.captures(input) {
 			None => None,
 			Some(captures) => {
@@ -92,18 +93,18 @@ impl Matcher<'_> {
 					.name("related")
 					.map(as_string)
 					.unwrap_or("".to_string());
-				let next_rounds = if related.starts_with(&self.next_round_re) {
+				let next_rounds = if related.starts_with(&*NEXT_ROUND_RE) {
 					related
-						.replace(&self.next_round_re, "")
+						.replace(&*NEXT_ROUND_RE, "")
 						.split(",")
 						.map(|s| s.trim().to_string())
 						.collect::<Vec<String>>()
 				} else {
 					Vec::new()
 				};
-				let previous_rounds = if related.starts_with(&self.prev_round_re) {
+				let previous_rounds = if related.starts_with(&*PREV_ROUND_RE) {
 					related
-						.replace(&self.prev_round_re, "")
+						.replace(&*PREV_ROUND_RE, "")
 						.split(",")
 						.map(|s| s.trim().to_string())
 						.collect::<Vec<String>>()
@@ -123,7 +124,9 @@ impl Matcher<'_> {
 					.name("remaining")
 					.map(as_string)
 					.unwrap_or("".to_string());
-				let filled = remaining.to_lowercase().contains("this event has been filled!");
+				let filled = remaining
+					.to_lowercase()
+					.contains("this event has been filled!");
 				let advancement = remaining
 					.to_lowercase()
 					.contains("this is an advancement session and cannot be selected.");
