@@ -16,10 +16,16 @@ const CODE_REGEX: &str = "^[A-Z][0-9]+$";
 const DESC_DEREF_MAX_LEN: usize = 25;
 const DESC_DEREF_REGEX: &str = "See (?P<code>[A-Z][0-9]+)\\.$";
 
+#[cfg(feature = "debug-json")]
+#[derive(Default, Debug, Serialize)]
+pub struct EventDebug {
+	matched_by: String,
+	remaining: String,
+	raw: String,
+}
+
 #[derive(Default, Debug, Serialize)]
 pub struct Event {
-	#[serde(skip_serializing_if = "String::is_empty")]
-	matched_by: String,
 	code: String,
 	title: String,
 	system: String,
@@ -42,10 +48,8 @@ pub struct Event {
 	previous_rounds: Vec<String>,
 	see_also: Vec<String>,
 	related: String,
-	#[serde(skip_serializing_if = "String::is_empty")]
-	misc: String,
-	#[serde(skip_serializing_if = "String::is_empty")]
-	raw: String,
+	#[cfg(feature = "debug-json")]
+	debug: EventDebug,
 }
 
 const RPG_REGEX: &str = "^\
@@ -67,7 +71,7 @@ const RPG_REGEX: &str = "^\
                           \\.( +)?\
                          )\
                          ((?P<related>(Next (Session|Round)|Previous (Session|Round)\\(s\\)|See Also): [^\\.]+)\\. ?)?\
-                         (?P<misc>.*)?\
+                         (?P<remaining>.*)?\
 						 $";
 
 const GAME_REGEX: &str = "^\
@@ -86,7 +90,7 @@ const GAME_REGEX: &str = "^\
                            \\.( +)?\
                           )\
                           ((?P<related>(Next (Session|Round)|Previous (Session|Round)\\(s\\)|See Also): [^\\.]+)\\. ?)?\
-                          (?P<misc>.*)\
+                          (?P<remaining>.*)\
 						  $";
 
 const CANCELLED_REGEX: &str = "^\
@@ -95,7 +99,7 @@ const CANCELLED_REGEX: &str = "^\
                                (\\[(?P<test_type>.*)\\] )?\
                                (?P<title>CANCELED BY (DESIGNER|GAMEMASTER)). +\
                                (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
-                               (?P<misc>.*)\
+                               (?P<remaining>.*)\
 							   $";
 
 const METATOPIA_REGEX: &str = "^\
@@ -107,7 +111,7 @@ const METATOPIA_REGEX: &str = "^\
                                (( written and|;)? presented by (?P<presenters>(.*?(, )?)+))?\\. \
                                (?P<description>.*) \
                                (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM))\
-                               (?P<misc>.*)\
+                               (?P<remaining>.*)\
 							   $";
 
 pub fn parse_events<'a, I>(nodes: &mut I, date_parser: DateParser) -> Vec<Event>
@@ -123,6 +127,7 @@ where
 		matcher::Matcher::new("cancelled", CANCELLED_REGEX, date_parser),
 		matcher::Matcher::new("metatopia", METATOPIA_REGEX, date_parser),
 	];
+
 	let mut events_map: IndexMap<String, Event> = IndexMap::with_capacity(1024);
 	let mut next = nodes.next();
 	while next.is_some() {

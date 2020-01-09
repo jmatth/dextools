@@ -5,6 +5,15 @@ version = "0.1.0"
 authors = ["Joshua Matthews <josh@jmatth.com>"]
 edition = "2018"
 
+[features]
+default = []
+
+# Include a debug field each json event with debug info.
+debug-json = []
+
+# Print the regexes used by the parser to the console.
+dump-regexes = []
+
 [dependencies]
 select = "0.4.3"
 reqwest = "0.9.5"

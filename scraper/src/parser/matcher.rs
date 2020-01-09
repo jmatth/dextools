@@ -4,11 +4,15 @@ use regex::Regex;
 use super::dateparse::DateParser;
 use super::Event;
 
+#[cfg(feature = "debug-json")]
+use super::EventDebug;
+
 const NEXT_ROUND_REGEX: &str = "Next (Session|Round): ";
 const PREV_ROUND_REGEX: &str = "Previous (Session|Round)\\(s\\): ";
 const SEE_ALSO_PREFIX: &str = "See Also: ";
 
 pub struct Matcher<'a> {
+	#[allow(dead_code)]
 	id: &'a str,
 	regex: Regex,
 	date_parser: DateParser,
@@ -18,10 +22,13 @@ pub struct Matcher<'a> {
 }
 
 impl Matcher<'_> {
-	pub fn new<'a>(id: &'a str, regex_string: &'a str, parser: DateParser) -> Matcher<'a> {
+	pub fn new<'a>(id: &'a str, regex: &'a str, parser: DateParser) -> Matcher<'a> {
+		#[cfg(feature = "dump-regexes")]
+		println!("matcher: {}\nregex:{}\n", id, regex);
+
 		Matcher {
 			id: id,
-			regex: Regex::new(regex_string).unwrap(),
+			regex: Regex::new(regex).unwrap(),
 			date_parser: parser,
 			next_round_re: Regex::new(NEXT_ROUND_REGEX).unwrap(),
 			prev_round_re: Regex::new(PREV_ROUND_REGEX).unwrap(),
@@ -112,18 +119,16 @@ impl Matcher<'_> {
 				} else {
 					Vec::new()
 				};
-				let misc = captures
-					.name("misc")
+				let remaining = captures
+					.name("remaining")
 					.map(as_string)
 					.unwrap_or("".to_string());
-				let filled = misc.to_lowercase().contains("this event has been filled!");
-				let advancement = misc
+				let filled = remaining.to_lowercase().contains("this event has been filled!");
+				let advancement = remaining
 					.to_lowercase()
 					.contains("this is an advancement session and cannot be selected.");
 				let (start_time, end_time) = self.date_parser.parse_time_slot(&raw_time)?;
 				Some(Event {
-					#[cfg(debug_assertions)]
-					matched_by: self.id.to_string(),
 					code,
 					title,
 					system,
@@ -142,8 +147,12 @@ impl Matcher<'_> {
 					next_rounds,
 					previous_rounds,
 					see_also,
-					#[cfg(debug_assertions)]
-					misc,
+					#[cfg(feature = "debug-json")]
+					debug: EventDebug {
+						matched_by: self.id.to_string(),
+						remaining,
+						raw: input.to_string(),
+					},
 					..Default::default()
 				})
 			}
