@@ -4,14 +4,17 @@ use regex::Regex;
 use super::dateparse::DateParser;
 use super::Event;
 
-const NEXT_ROUND_PREFIX: &str = "Next Round: ";
-const PREV_ROUND_PREFIX: &str = "Previous Round(s): ";
+const NEXT_ROUND_REGEX: &str = "Next (Session|Round): ";
+const PREV_ROUND_REGEX: &str = "Previous (Session|Round)\\(s\\): ";
 const SEE_ALSO_PREFIX: &str = "See Also: ";
 
 pub struct Matcher<'a> {
 	id: &'a str,
 	regex: Regex,
 	date_parser: DateParser,
+	// TODO: move these into lazy_static
+	next_round_re: Regex,
+	prev_round_re: Regex,
 }
 
 impl Matcher<'_> {
@@ -20,6 +23,8 @@ impl Matcher<'_> {
 			id: id,
 			regex: Regex::new(regex_string).unwrap(),
 			date_parser: parser,
+			next_round_re: Regex::new(NEXT_ROUND_REGEX).unwrap(),
+			prev_round_re: Regex::new(PREV_ROUND_REGEX).unwrap(),
 		}
 	}
 
@@ -80,18 +85,18 @@ impl Matcher<'_> {
 					.name("related")
 					.map(as_string)
 					.unwrap_or("".to_string());
-				let next_rounds = if related.starts_with(NEXT_ROUND_PREFIX) {
+				let next_rounds = if related.starts_with(&self.next_round_re) {
 					related
-						.replace(NEXT_ROUND_PREFIX, "")
+						.replace(&self.next_round_re, "")
 						.split(",")
 						.map(|s| s.trim().to_string())
 						.collect::<Vec<String>>()
 				} else {
 					Vec::new()
 				};
-				let previous_rounds = if related.starts_with(PREV_ROUND_PREFIX) {
+				let previous_rounds = if related.starts_with(&self.prev_round_re) {
 					related
-						.replace(PREV_ROUND_PREFIX, "")
+						.replace(&self.prev_round_re, "")
 						.split(",")
 						.map(|s| s.trim().to_string())
 						.collect::<Vec<String>>()
@@ -112,6 +117,9 @@ impl Matcher<'_> {
 					.map(as_string)
 					.unwrap_or("".to_string());
 				let filled = misc.to_lowercase().contains("this event has been filled!");
+				let advancement = misc
+					.to_lowercase()
+					.contains("this is an advancement session and cannot be selected.");
 				let (start_time, end_time) = self.date_parser.parse_time_slot(&raw_time)?;
 				Some(Event {
 					#[cfg(debug_assertions)]
@@ -125,6 +133,7 @@ impl Matcher<'_> {
 					start_time,
 					end_time,
 					filled,
+					advancement,
 					round,
 					materials,
 					experience,

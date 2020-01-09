@@ -8,7 +8,7 @@ edition = "2018"
 [dependencies]
 select = "0.4.3"
 reqwest = "0.9.5"
-regex = "1"
+regex = { version = "1", features = ["pattern"] }
 lazy_static = "1.2.0"
 serde = { version = "1.0.83", features = ["derive"] }
 serde_json = { version = "1.0.34", features = ["preserve_order"] }

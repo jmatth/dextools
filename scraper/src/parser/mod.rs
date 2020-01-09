@@ -29,6 +29,7 @@ pub struct Event {
 	start_time: String,
 	end_time: String,
 	filled: bool,
+	advancement: bool,
 	tags: String,
 	test_type: String,
 	hi_test: bool,
@@ -65,7 +66,7 @@ const RPG_REGEX: &str = "^\
                           |\
                           \\.( +)?\
                          )\
-                         ((?P<related>(Next Round|Previous Round\\(s\\)|See Also): [^\\.]+)\\. ?)?\
+                         ((?P<related>(Next (Session|Round)|Previous (Session|Round)\\(s\\)|See Also): [^\\.]+)\\. ?)?\
                          (?P<misc>.*)?\
 						 $";
 
@@ -84,7 +85,7 @@ const GAME_REGEX: &str = "^\
                            |\
                            \\.( +)?\
                           )\
-                          ((?P<related>(Next Round|Previous Round\\(s\\)|See Also): [^\\.]+)\\. ?)?\
+                          ((?P<related>(Next (Session|Round)|Previous (Session|Round)\\(s\\)|See Also): [^\\.]+)\\. ?)?\
                           (?P<misc>.*)\
 						  $";
 
