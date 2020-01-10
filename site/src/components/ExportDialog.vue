@@ -90,7 +90,7 @@ export default class ExportDialog extends Vue {
   public exportDialog: boolean = false;
   public shouldShowCopyMessage: boolean = false;
   public copyMessage: string = '';
-  private userName: string = '';
+  public userName: string = '';
 
   constructor() {
     super();
