@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { mount, createLocalVue, Wrapper } from '@vue/test-utils';
-import Vue from 'vue';
 import Vuex from 'vuex';
 import Vuetify from 'vuetify';
 import VueClipboard from 'vue-clipboard2';
@@ -12,6 +11,7 @@ import './setup';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
+localVue.use(VueClipboard);
 
 describe('ExportDialog.vue', () => {
   const actions: any = null;
