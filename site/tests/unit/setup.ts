@@ -5,3 +5,4 @@ Vue.use(Vuetify);
 
 declare const global: any;
 global.requestAnimationFrame = (cb: any) => cb();
+global.localStorage = window.localStorage;

@@ -14,7 +14,7 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueClipboard);
 
-describe('ExportDialog.vue', () => {
+describe('components/ExportDialog.vue', () => {
   const actions: any = null;
   let state: any;
   let store: any;

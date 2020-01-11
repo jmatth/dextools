@@ -19,8 +19,10 @@ export default class Agenda {
   public addEvent(event: Event): void {
     // Already added
     console.log(`Adding ${event.code} to agenda`);
-    if (this.contains(event.code)) {
-      console.log(`${event.code} already in agenda, nopping`);
+    const existingEvent = this.events.find((e: Event) => e.code === event.code);
+    if (!!existingEvent) {
+      console.log(`${event.code} already in agenda, only updating lastAdded`);
+      this._lastAdded = existingEvent;
       return;
     }
     this.events.push(event);

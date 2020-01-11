@@ -58,7 +58,6 @@ export default class Event {
   public conflicts(that: Event): boolean {
     // Let's just say events don't conflict with themselves
     if (this.code === that.code) { return false; }
-    return (this.startTime.isSameOrBefore(that.startTime) && this.endTime.isSameOrAfter(that.startTime)) ||
-           (this.startTime.isSameOrBefore(that.endTime) && this.endTime.isSameOrAfter(that.endTime));
+    return this.startTime.isSameOrBefore(that.endTime) && this.endTime.isSameOrAfter(that.startTime);
   }
 }
