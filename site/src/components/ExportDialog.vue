@@ -30,7 +30,7 @@
         </p>
         <span v-if="!disableEmail">To: <a :href="'mailto:' + conEmail">{{ conEmail }}</a></span>
         <v-divider style="margin-bottom:5px; margin-top: 2px;"/>
-        <pre>{{ emailText }}</pre>
+        <pre ref="emailText">{{ emailText }}</pre>
       </v-card-text>
       <v-divider/>
       <v-card-actions>
@@ -62,12 +62,7 @@
         </v-tooltip>
         <v-tooltip top v-model="shouldShowCopyMessage">
           <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="{ on }"
-              v-clipboard:copy="emailText"
-              v-clipboard:success="onCopy"
-              v-clipboard:error="onFailedCopy"
-            >
+            <v-btn v-on="{ on }" @click="copyEmailText">
               Copy
             </v-btn>
           </template>
@@ -137,6 +132,11 @@ export default class ExportDialog extends Vue {
       // @ts-ignore
       this.shouldShowCopyMessage = false;
     }.bind(this), 5000);
+  }
+
+  public copyEmailText(): void {
+    const container = this.$refs.emailText;
+    this.$copyText(this.emailText, container).then(this.onCopy, this.onFailedCopy);
   }
 
   public onCopy(): void {
