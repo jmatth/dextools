@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import moment, { Moment } from 'moment';
 
 import Agenda from '@/models/agenda';
-import Event from '@/models/Event';
+import Event from '@/models/event';
 import { createEvent } from './common';
 
 import '../setup';
