@@ -155,29 +155,21 @@
           <v-btn dark @click="refreshApp()">Refresh</v-btn>
           <v-btn icon @click="updateExists = false"><v-icon>close</v-icon></v-btn>
         </v-snackbar>
-        <v-layout
+        <v-row
           v-if="Object.keys($store.state.schedule).length > 0"
           row
           wrap
         >
-          <v-flex
-            :md12="display.mode === 'full'"
-            :md8="display.mode === 'split'"
+          <v-col cols="12" md="8">
+            <EventsList :height="workspaceHeight"/>
+          </v-col>
+          <v-col
+            v-if="!onMobile"
+            cols="4"
           >
-            <EventsList
-              :height="eventListHeight"
-            />
-          </v-flex>
-          <v-flex
-            :md12="display.mode === 'full'"
-            :md4="display.mode === 'split'"
-          >
-            <AgendaCalendar
-              :display='display'
-              :height="calendarHeight"
-            />
-          </v-flex>
-        </v-layout>
+            <AgendaCalendar calType='day' :height="workspaceHeight"/>
+          </v-col>
+        </v-row>
       </v-container>
     </v-content>
   </v-app>
@@ -201,15 +193,6 @@ export default class App extends Vue {
   public about = false;
   public feedback = false;
   public workspaceHeight = 700;
-  public display = {
-        mode: 'split',
-        getHeight() {
-          return this.mode === 'split' ? 700 : 350;
-        },
-        toggle() {
-          this.mode = this.mode === 'split' ? 'full' : 'split';
-        },
-      };
   private refreshing = false;
   private registration: any = {};
   private updateExists = false;
@@ -234,7 +217,7 @@ export default class App extends Vue {
       : 16;
     // @ts-ignore
     const headerHeight = document.querySelector('div#app div header.v-sheet')!.offsetHeight;
-    this.workspaceHeight = windowHeight - (workspacePadding * 2 + headerHeight);
+    this.workspaceHeight = windowHeight - (workspacePadding * 4 + headerHeight);
   }
 
   public created(): void {
@@ -273,9 +256,6 @@ export default class App extends Vue {
   public mounted(): void {
     // Start the request to load the schedule json file as soon as possible.
     const settingsLoaded = this.$store.dispatch('loadSettings');
-    if (this.onMobile) {
-      this.display.mode = 'full';
-    }
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     settingsLoaded.then(() => {
@@ -300,21 +280,6 @@ export default class App extends Vue {
 
   get scheduleLoading() {
     return Object.keys(this.$store.state.schedule).length < 1;
-  }
-
-  get calendarHeight(): number {
-    if (this.onMobile) {
-      return this.workspaceHeight;
-    }
-    return this.display.mode === 'split' ? this.workspaceHeight : (this.workspaceHeight * 0.6) - 5;
-  }
-
-  get eventListHeight(): number {
-    if (this.onMobile) {
-      // TODO: Calculate this offset rather than hardcode it
-      return this.workspaceHeight - 56;
-    }
-    return this.display.mode === 'split' ? this.workspaceHeight : (this.workspaceHeight * 0.4) - 5;
   }
 }
 </script>

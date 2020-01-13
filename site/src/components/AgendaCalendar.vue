@@ -2,7 +2,6 @@
   <v-card :style="{ height }">
     <v-toolbar flat>
       <v-btn
-        v-if="calType === 'day'"
         small
         depressed
         :disabled="prevDisabled"
@@ -16,7 +15,6 @@
         </v-icon>
       </v-btn>
       <v-btn
-        v-if="calType === 'day'"
         small
         depressed
         :disabled="nextDisabled"
@@ -27,18 +25,6 @@
       >
         <v-icon>
           keyboard_arrow_right
-        </v-icon>
-      </v-btn>
-      <v-btn
-        v-show="allowResizing"
-        small
-        depressed
-        left
-        color="primary"
-        @click="toggleDisplay()"
-      >
-        <v-icon>
-          {{ calType === 'day' ? 'horizontal_split' : 'vertical_split' }}
         </v-icon>
       </v-btn>
       <v-spacer/>
@@ -82,6 +68,7 @@ import moment, { Moment } from 'moment';
 export default class AgendaCalendar extends Vue {
   @Prop() private display!: any;
   @Prop() private height!: number;
+  @Prop() private calType!: string;
 
   public currDate = '';
   public calendarHeight = 300;
@@ -164,10 +151,6 @@ export default class AgendaCalendar extends Vue {
     return oldOverlappingCount;
   }
 
-  get calType(): string {
-    return this.display.mode === 'split' ? 'day' : 'custom-daily';
-  }
-
   get startCal(): string {
     return this.scheduleEvents
       .reduce((acc: Moment, e: Event) =>
@@ -201,10 +184,6 @@ export default class AgendaCalendar extends Vue {
     }
     // @ts-ignore
     this.$refs.calendar.prev();
-  }
-
-  public toggleDisplay() {
-    this.display.toggle();
   }
 
   get calEvents() {
