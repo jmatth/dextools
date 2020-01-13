@@ -39,7 +39,7 @@ jobs:
       env:
         CI: true
     - name: restore settings.json
-      run: git checkout origin/gh-pages:settings.json > settings.json
+      run: git show origin/gh-pages:settings.json > settings.json
       working-directory: site/dist
       env:
         CI: true
