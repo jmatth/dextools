@@ -1,14 +1,20 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
+import Schedule from '@/views/Schedule.vue';
+import Calendar from '@/views/Calendar.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home,
+    name: 'schedule',
+    component: Schedule,
+  },
+  {
+    path: '/calendar',
+    name: 'calendar',
+    component: Calendar,
   },
   // {
   //   path: '/about',

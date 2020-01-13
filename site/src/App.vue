@@ -2,6 +2,7 @@
   <v-app id="app">
     <v-navigation-drawer
       app
+      bottom
       clipped
       v-model="showNav"
     >
@@ -12,6 +13,14 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Schedule</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link to="/calendar">
+          <v-list-item-action>
+            <v-icon>calendar_today</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Calendar</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

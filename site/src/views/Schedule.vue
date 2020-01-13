@@ -31,7 +31,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
     AgendaCalendar,
   },
 })
-export default class Home extends Vue {
+export default class Schedule extends Vue {
   public workspaceHeight = 700;
 
   constructor() {

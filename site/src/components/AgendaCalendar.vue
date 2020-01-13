@@ -2,6 +2,7 @@
   <v-card :style="{ height }">
     <v-toolbar flat>
       <v-btn
+        v-if="calType === 'day'"
         small
         depressed
         :disabled="prevDisabled"
@@ -15,6 +16,7 @@
         </v-icon>
       </v-btn>
       <v-btn
+        v-if="calType === 'day'"
         small
         depressed
         :disabled="nextDisabled"
