@@ -24,6 +24,17 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-divider/>
+      <v-list>
+        <v-list-item>
+          <v-switch
+            class="mt-0 pt-0"
+            label="Dark Mode"
+            hide-details
+            v-model="$vuetify.theme.dark"
+          />
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
     <v-app-bar
       color="indigo"
