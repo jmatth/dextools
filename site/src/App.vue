@@ -1,10 +1,12 @@
 <template>
   <v-app id="app">
     <v-navigation-drawer
-      app
-      bottom
-      clipped
       v-model="showNav"
+      app
+      clipped
+      bottom
+      disable-resize-watcher
+      :mobile-break-point="$vuetify.breakpoint.thresholds.sm"
     >
       <v-list dense>
         <v-list-item link to="/">
@@ -188,7 +190,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({})
 export default class App extends Vue {
-  public showNav: boolean = false;
+  public showNav: boolean | null = null;
   public about = false;
   public feedback = false;
 
