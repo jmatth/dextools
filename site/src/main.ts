@@ -9,6 +9,7 @@ import 'moment-timezone';
 import './registerServiceWorker';
 import store from './store';
 import vuetify from './plugins/vuetify';
+import router from './router';
 
 moment.tz.setDefault('America/New_York');
 
@@ -18,5 +19,7 @@ new Vue({
   store,
   // @ts-ignore
   vuetify,
+  // @ts-ignore
+  router,
   render: (h) => h(App),
 }).$mount('#app');
