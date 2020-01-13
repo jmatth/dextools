@@ -8,7 +8,7 @@
         <EventsList :height="workspaceHeight"/>
       </v-col>
       <v-col
-        v-if="!onMobile"
+        v-show="$vuetify.breakpoint.mdAndUp"
         cols="4"
         >
         <AgendaCalendar calType='day' :height="workspaceHeight"/>
@@ -42,11 +42,6 @@ export default class Schedule extends Vue {
   public mounted(): void {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
-  }
-
-  get onMobile(): boolean {
-    // @ts-ignore
-    return this.$vuetify.breakpoint.smAndDown;
   }
 
   public handleResize() {
