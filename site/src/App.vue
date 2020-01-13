@@ -1,12 +1,28 @@
 <template>
   <v-app id="app">
+    <v-navigation-drawer
+      app
+      clipped
+      v-model="showNav"
+    >
+      <v-list dense>
+        <v-list-item link to="/">
+          <v-list-item-action>
+            <v-icon>list_alt</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Schedule</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <v-app-bar
       color="indigo"
-      fixed
       app
       dark
-      :dense="onMobile"
+      clipped-left
     >
+      <v-app-bar-nav-icon @click.stop="showNav = !showNav" />
       <v-toolbar-title>Dextools</v-toolbar-title>
       <v-spacer/>
       <v-dialog
@@ -146,3 +162,74 @@
     </v-content>
   </v-app>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component({})
+export default class App extends Vue {
+  public showNav: boolean = false;
+  public about = false;
+  public feedback = false;
+
+  // These are specific to the SW update process.
+  public updateExists = false;
+  public refreshing = false;
+  public registration: any = {};
+
+  public created(): void {
+    document.addEventListener(
+      'swUpdated', this.showRefreshUI, { once: true },
+    );
+    navigator.serviceWorker.addEventListener(
+      'controllerchange', () => {
+        if (this.refreshing) {
+          return;
+        }
+        console.log('Caught controllerchange, refreshing...');
+        this.refreshing = true;
+        window.location.reload();
+      },
+    );
+  }
+
+  private showRefreshUI(e: any) {
+    console.log('Caught swUpdated, update available.');
+    this.registration = e.detail;
+    console.log(e.detail);
+    this.updateExists = true;
+  }
+
+  public refreshApp(): void {
+    console.log('Refreshing app to update.');
+    this.updateExists = false;
+    if (!this.registration || !this.registration.waiting) {
+      console.log('Registration does not exist or is not waiting, bailing out of update.');
+      return;
+    }
+    this.registration.waiting.postMessage('skipWaiting');
+  }
+
+  public mounted(): void {
+    // Start the request to load the schedule json file as soon as possible.
+    this.$store.dispatch('loadSettings').then(() => {
+      // If the site has been updated for a new con, blow out the agenda cache.
+      if (localStorage.agendaConName !== this.$store.state.conName) {
+        // tslint:disable-next-line
+        console.log(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.state.conName}, resetting agenda.`);
+        localStorage.agendaEventCodes = [];
+        localStorage.agendaConName = this.$store.state.conName;
+      }
+      // Reload the user's name for email generation if it was set
+      if (localStorage.userName) {
+        this.$store.commit('setUserName', localStorage.userName);
+      }
+      // Reload the saved agenda if it exists.
+      // TODO: use a library to do this automatically.
+      if (localStorage.agendaEventCodes) {
+        JSON.parse(localStorage.agendaEventCodes).forEach((c: string) => this.$store.commit('addEventToAgenda', c));
+      }
+    });
+  }
+}
+</script>
