@@ -50,4 +50,4 @@ jobs:
         REPO: self
         BRANCH: gh-pages
         FOLDER: site/dist
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SSH_PRIVATE_KEY: ${{ secrets.PAGES_DEPLOY_KEY }}
