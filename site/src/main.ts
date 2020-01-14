@@ -6,12 +6,15 @@ import Event from './models/event';
 import App from './App.vue';
 import moment from 'moment';
 import 'moment-timezone';
-import './registerServiceWorker';
-import store from './store';
-import vuetify from './plugins/vuetify';
-import router from './router';
+import log from 'loglevel';
+import '@/registerServiceWorker';
+import store from '@/store';
+import vuetify from '@/plugins/vuetify';
+import router from '@/router';
 
 moment.tz.setDefault('America/New_York');
+
+log.setLevel(log.levels.INFO, false);
 
 Vue.config.productionTip = false;
 
