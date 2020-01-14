@@ -23,28 +23,28 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: install dependencies
+    - name: Install dependencies
       run: npm ci
       working-directory: site
       env:
         CI: true
-    - name: test
+    - name: Run tests
       run: npm run test:unit
       working-directory: site
       env:
         CI: true
-    - name: build
+    - name: Build site
       run: npm run build
       working-directory: site
       env:
         CI: true
-    - name: restore settings.json
+    - name: Restore settings.json
       run: git show origin/gh-pages:settings.json > settings.json
       working-directory: site/dist
       env:
         CI: true
         # Deploy to local repo
-    - name: deploy
+    - name: Deploy site
       uses: s0/git-publish-subdir-action@v2.0.0
       env:
         REPO: git@github.com:jmatth/dextools.git

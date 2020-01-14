@@ -5,8 +5,8 @@ on:
     branches:
       - master
     paths:
-      - scraper/**
-      - .github/workflows/scraper.yml
+      - 'scraper/**'
+      - '.github/workflows/scraper.yml'
 
 jobs:
   build:
@@ -15,14 +15,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Setup
-      working-directory: scraper
+    - name: Use rust nightly
       run: |
         rustup toolchain install nightly
         rustup default nightly
-    - name: Build
       working-directory: scraper
+    - name: Build scraper
       run: cargo build --verbose
-    - name: Run tests
       working-directory: scraper
+    - name: Run tests
       run: cargo test --verbose
+      working-directory: scraper
