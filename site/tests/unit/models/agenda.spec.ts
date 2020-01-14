@@ -5,8 +5,6 @@ import Agenda from '@/models/agenda';
 import Event from '@/models/event';
 import { createEvent } from './common';
 
-import '../setup';
-
 const eventToCode = (e: Event) => e.code;
 
 describe('models/agenda.ts', function() {

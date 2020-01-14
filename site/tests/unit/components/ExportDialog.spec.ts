@@ -8,8 +8,6 @@ import VueClipboard from 'vue-clipboard2';
 import Agenda from '@/models/agenda';
 import ExportDialog from '@/components/ExportDialog.vue';
 
-import '../setup';
-
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueClipboard);
