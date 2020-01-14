@@ -187,6 +187,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import log from 'loglevel';
 
 @Component({})
 export default class App extends Vue {
@@ -208,7 +209,7 @@ export default class App extends Vue {
         if (this.refreshing) {
           return;
         }
-        console.log('Caught controllerchange, refreshing...');
+        log.info('Caught controllerchange, refreshing...');
         this.refreshing = true;
         window.location.reload();
       },
@@ -216,17 +217,16 @@ export default class App extends Vue {
   }
 
   private showRefreshUI(e: any) {
-    console.log('Caught swUpdated, update available.');
+    log.info('Caught swUpdated, update available.');
     this.registration = e.detail;
-    console.log(e.detail);
     this.updateExists = true;
   }
 
   public refreshApp(): void {
-    console.log('Refreshing app to update.');
+    log.info('Refreshing app to update.');
     this.updateExists = false;
     if (!this.registration || !this.registration.waiting) {
-      console.log('Registration does not exist or is not waiting, bailing out of update.');
+      log.warn('Registration does not exist or is not waiting, bailing out of update.');
       return;
     }
     this.registration.waiting.postMessage('skipWaiting');
@@ -238,7 +238,7 @@ export default class App extends Vue {
       // If the site has been updated for a new con, blow out the agenda cache.
       if (localStorage.agendaConName !== this.$store.state.conName) {
         // tslint:disable-next-line
-        console.log(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.state.conName}, resetting agenda.`);
+        log.info(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.state.conName}, resetting agenda.`);
         localStorage.agendaEventCodes = [];
         localStorage.agendaConName = this.$store.state.conName;
       }

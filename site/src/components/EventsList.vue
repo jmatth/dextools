@@ -170,6 +170,7 @@ import AdvancedFilterDialog from './AdvancedFilterDialog.vue';
 import { Moment } from 'moment';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { debounce } from 'lodash';
+import log from 'loglevel';
 
 export interface AdvancedFilter {
   days: string[];
@@ -336,7 +337,7 @@ export default class EventsList extends Vue {
         return '';
       }
     }
-    console.error(`Found unknown test type ${type}`);
+    log.error(`Found unknown test type ${type}`);
     return '';
   }
 }

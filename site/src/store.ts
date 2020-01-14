@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import Agenda from './models/agenda';
 import Event from './models/event';
 import axios from 'axios';
+import log from 'loglevel';
 import {
     Stitch,
     RemoteMongoClient,
@@ -73,7 +74,7 @@ const store = new Vuex.Store({
       }).then((settings: any) => {
         const stitchAppId = settings.stitchApp;
         if (!stitchAppId) {
-          console.warn('No stitch app configured, not sending analytics.');
+          log.warn('No stitch app configured, not sending analytics.');
           return;
         }
         const client = Stitch.initializeDefaultAppClient(stitchAppId);
@@ -99,7 +100,7 @@ function scheduleJsonToEvents(jsonObject: any): any {
       const dereferencedCode = matches[matches.length - 1].substring(4, 8);
       const dereferencedEvent = scheduleObject[dereferencedCode];
       if (!dereferencedEvent) {
-        console.error(`Tried to dereference non-existent event ${dereferencedCode}.`);
+        log.error(`Tried to dereference non-existent event ${dereferencedCode}.`);
         return;
       }
       event.description += ` ${dereferencedEvent.description}`;

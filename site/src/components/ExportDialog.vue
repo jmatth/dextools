@@ -79,6 +79,7 @@ import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
 import { debounce } from 'lodash';
+import log from 'loglevel';
 
 @Component
 export default class ExportDialog extends Vue {
@@ -98,7 +99,7 @@ export default class ExportDialog extends Vue {
   }
 
   public updateUserNameStore(name: string): void {
-    console.log(`Updating to ${name}`);
+    log.info(`Updating userName to ${name}`);
     this.$store.commit('setUserName', name);
   }
 

@@ -2,6 +2,7 @@ import Event from './event';
 import * as ics from 'ics';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
+import log from 'loglevel';
 
 export default class Agenda {
   public readonly events: Event[] = [];
@@ -18,10 +19,10 @@ export default class Agenda {
 
   public addEvent(event: Event): void {
     // Already added
-    console.log(`Adding ${event.code} to agenda`);
+    log.info(`Adding ${event.code} to agenda`);
     const existingEvent = this.events.find((e: Event) => e.code === event.code);
     if (!!existingEvent) {
-      console.log(`${event.code} already in agenda, only updating lastAdded`);
+      log.info(`${event.code} already in agenda, only updating lastAdded`);
       this._lastAdded = existingEvent;
       return;
     }
@@ -46,7 +47,7 @@ export default class Agenda {
     const eventIndex = this.events.findIndex((e: Event) => e.code === code);
     // Couldn't find it
     if (eventIndex < 0) {
-      console.log(`Event code ${code} not found in agenda`);
+      log.info(`Event code ${code} not found in agenda`);
     }
     this.events.splice(eventIndex, 1);
     this._lastAdded = undefined;

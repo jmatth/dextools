@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* tslint:disable:no-console */
 
 import { register } from 'register-service-worker';
 
