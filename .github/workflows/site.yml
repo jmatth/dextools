@@ -47,7 +47,7 @@ jobs:
     - name: deploy
       uses: s0/git-publish-subdir-action@v2.0.0
       env:
-        REPO: self
+        REPO: git@github.com:jmatth/dextools.git
         BRANCH: gh-pages
         FOLDER: site/dist
         SSH_PRIVATE_KEY: ${{ secrets.PAGES_DEPLOY_KEY }}
