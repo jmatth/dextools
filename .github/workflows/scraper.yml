@@ -1,6 +1,12 @@
 name: Scraper CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - scraper/**
+      - .github/workflows/scraper.yml
 
 jobs:
   build:
@@ -9,9 +15,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Setup
+      working-directory: scraper
+      run: |
+        rustup toolchain install nightly
+        rustup default nightly
     - name: Build
+      working-directory: scraper
       run: cargo build --verbose
-      working-directory: scraper
     - name: Run tests
-      run: cargo test --verbose
       working-directory: scraper
+      run: cargo test --verbose
