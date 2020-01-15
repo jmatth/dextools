@@ -2,7 +2,13 @@
   <v-container fluid>
     <v-row dense>
       <v-col cols="12">
-        <AgendaCalendar calType="custom-daily" :height="workspaceHeight"/>
+        <v-skeleton-loader
+          type="table-tbody"
+          transition="scale-transition"
+          :loading="loading"
+        >
+          <AgendaCalendar calType="custom-daily" :height="workspaceHeight"/>
+        </v-skeleton-loader>
       </v-col>
     </v-row>
   </v-container>
@@ -33,6 +39,10 @@ export default class Calendar extends Vue {
   public mounted(): void {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
+  }
+
+  get loading(): boolean {
+    return Object.keys(this.$store.state.schedule).length < 1;
   }
 
   public handleResize() {
