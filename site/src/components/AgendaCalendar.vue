@@ -49,7 +49,7 @@
     >
     </v-calendar>
     </div>
-    <EventInfoDialog :event="focusedEvent" @close="focusedEvent = null"/>
+    <EventInfoDialog v-model="focusedEvent"/>
   </v-card>
 </template>
 

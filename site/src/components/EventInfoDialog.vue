@@ -2,8 +2,8 @@
   <v-dialog
     scrollable
     max-width="700px"
-    :value="!!event"
-    @input="e => !e && emitClose()">
+    v-model="show"
+  >
     <v-card v-if="!!event">
       <v-card-title>
         {{ event.code }}: {{ event.title }}
@@ -40,7 +40,7 @@
       </v-card-text>
       <v-divider/>
       <v-card-actions>
-        <v-btn @click="emitClose">
+        <v-btn @click="show = false">
           Close
         </v-btn>
         <v-spacer/>
@@ -57,14 +57,45 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
+import log from 'loglevel';
 
 @Component
 export default class EventInfoDialog extends Vue {
-  @Prop() private event!: Event;
+  @Prop() private value!: Event;
+
+  private event: Event = new Event({
+    code: '',
+    title: 'Placeholder',
+    description: 'Dummy event for unrendered dialog',
+    system: '',
+    presenters: '',
+    authors: '',
+    start_time: '2020-11-01 10:00',
+    end_time: '2020-11-01 12:00',
+    filled: false,
+    hi_test: false,
+    test_type: '',
+    tags: '',
+  });
+
+  @Watch('value')
+  private onValueChange(): void {
+    if (!!this.value) {
+      this.event = this.value;
+    }
+  }
+
+  get show(): boolean {
+    return !!this.value;
+  }
+
+  set show(update) {
+    this.$emit('input', null);
+  }
 
   get weekday(): string {
     return this.event.startTime.format('dddd');
@@ -100,11 +131,7 @@ export default class EventInfoDialog extends Vue {
     } else {
       this.$store.state.agenda.addEvent(this.event);
     }
-    this.emitClose();
-  }
-
-  private emitClose(): void {
-    this.$emit('close');
+    this.show = false;
   }
 }
 </script>
