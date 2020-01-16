@@ -5,7 +5,7 @@ on:
     branches: 
       - master
     paths:
-      - 'site/**/'
+      - 'site/**'
       - '.github/workflows/site.yml'
 
 jobs:
