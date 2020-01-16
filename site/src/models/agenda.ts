@@ -17,12 +17,20 @@ export default class Agenda {
     return this.events.find((e: Event) => e.code === code) !== undefined;
   }
 
+  public toggleEvent(event: Event) {
+    if (this.contains(event.code)) {
+      this.removeEvent(event.code);
+    } else {
+      this.addEvent(event);
+    }
+  }
+
   public addEvent(event: Event): void {
     // Already added
     log.info(`Adding ${event.code} to agenda`);
     const existingEvent = this.events.find((e: Event) => e.code === event.code);
     if (!!existingEvent) {
-      log.info(`${event.code} already in agenda, only updating lastAdded`);
+      log.warn(`${event.code} already in agenda, only updating lastAdded`);
       this._lastAdded = existingEvent;
       return;
     }
@@ -44,10 +52,11 @@ export default class Agenda {
   }
 
   public removeEvent(code: string): void {
+    log.info(`Removing ${code} from agenda`)
     const eventIndex = this.events.findIndex((e: Event) => e.code === code);
     // Couldn't find it
     if (eventIndex < 0) {
-      log.info(`Event code ${code} not found in agenda`);
+      log.warn(`Event code ${code} not found in agenda`);
     }
     this.events.splice(eventIndex, 1);
     this._lastAdded = undefined;

@@ -146,9 +146,14 @@
                 <v-btn
                   text
                   icon
-                  @click.stop="$store.commit('addEventToAgenda', item.code)"
+                  @click.stop="toggleEvent(item)"
                 >
-                  <v-icon size="20">add</v-icon>
+                  <v-icon
+                    size="20"
+                    :color="itemActionColor(item)"
+                  >
+                    {{ itemActionIcon(item) }}
+                  </v-icon>
                 </v-btn>
               </v-flex>
             </v-layout>
@@ -339,6 +344,22 @@ export default class EventsList extends Vue {
     }
     log.error(`Found unknown test type ${type}`);
     return '';
+  }
+
+  public itemActionIcon(event: Event) {
+    return this.$store.state.agenda.contains(event.code)
+      ? 'remove_circle'
+      : 'add_circle';
+  }
+
+  public itemActionColor(event: Event) {
+    return this.$store.state.agenda.contains(event.code)
+      ? 'red'
+      : 'green';
+  }
+
+  public toggleEvent(event: Event) {
+    this.$store.state.agenda.toggleEvent(event);
   }
 }
 </script>
