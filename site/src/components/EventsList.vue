@@ -59,106 +59,103 @@
           :size-dependencies="[ expandedCode ]"
           :class="{ 'event-item-row': true, 'event-item-row-expanded': isExpanded(item) }"
         >
-        <v-layout
-          row
-          wrap
+        <v-container
+          fluid
           class="event-item-row-header"
           @click="toggleExpanded(item)"
         >
-          <v-flex xs11>
-            <v-layout row wrap>
-              <v-flex xs12 sm5>
-                <!-- <v&#45;avatar color="red" size="20" class="mr&#45;1"> -->
-                <!--   <span class="white&#45;&#45;text">{{ item.code[0] }}</span> -->
-                <!-- </v&#45;avatar> -->
-                <span>{{ item.code }}: {{ item.title }}</span>
-              </v-flex>
-              <v-flex xs12 sm5>
-                {{ item.system }}
-              </v-flex>
-              <v-flex xs12 sm1>
-                <v-icon
-                  v-if="item.testType === 'FOCUS GROUP'"
-                  class="ml-1"
-                  size="20"
-                >
-                  group
-                </v-icon>
-                <span
-                  v-else
-                  class="ml-1"
-                >
-                  {{ testTypeText(item.testType) }}
-                </span>
-              </v-flex>
-              <v-flex xs12 sm5>
-                {{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('HH:mm') }}
-              </v-flex>
-              <v-flex xs12 sm5>
-                {{ item.presenters }}
-              </v-flex>
-              <v-flex xs12 sm1>
-                <v-tooltip
-                  bottom
-                  v-if="item.filled"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-icon
-                      class="ml-1"
-                      size="20"
-                      v-on="on"
-                    >
-                      lock
-                    </v-icon>
-                  </template>
-                  <span>This event has been filled, you may sign up as an alternate at the convention.</span>
-                </v-tooltip>
-                <v-tooltip
-                  bottom
-                  v-if="item.hiTest"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-icon
-                      class="ml-1"
-                      size="20"
-                      v-on="on"
-                    >
-                      error_outline
-                    </v-icon>
-                  </template>
-                  <span>This is a HI-TEST session.</span>
-                </v-tooltip>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-          <v-flex xs1>
-            <v-layout row wrap>
-              <v-flex xs12 order-xs2 sm6 order-sm1>
-                <v-btn
-                  text
-                  icon
-                  depressed
-                >
-                  <v-icon size="20">{{ isExpanded(item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
-                </v-btn>
-              </v-flex>
-              <v-flex xs12 order-xs1 sm6 order-sm2>
-                <v-btn
-                  text
-                  icon
-                  @click.stop="toggleEvent(item)"
-                >
+          <v-row no-gutters>
+            <v-col cols="11">
+              <v-row no-gutters>
+                <v-col cols="12" sm="5">
+                  <!-- <v&#45;avatar color="red" size="20" class="mr&#45;1"> -->
+                  <!--   <span class="white&#45;&#45;text">{{ item.code[0] }}</span> -->
+                  <!-- </v&#45;avatar> -->
+                  <span>{{ item.code }}: {{ item.title }}</span>
+                </v-col>
+                <v-col cols="12" sm="5">
+                  {{ item.system }}
+                </v-col>
+                <v-col cols="12" sm="1">
                   <v-icon
+                    v-if="item.testType === 'FOCUS GROUP'"
                     size="20"
-                    :color="itemActionColor(item)"
                   >
-                    {{ itemActionIcon(item) }}
+                    group
                   </v-icon>
-                </v-btn>
-              </v-flex>
-            </v-layout>
-          </v-flex>
-        </v-layout>
+                  <span
+                    v-else
+                  >
+                    {{ testTypeText(item.testType) }}
+                  </span>
+                </v-col>
+                <v-col cols="12" sm="5">
+                  {{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('HH:mm') }}
+                </v-col>
+                <v-col cols="12" sm="5">
+                  {{ item.presenters }}
+                </v-col>
+                <v-col cols="12" sm="1">
+                  <v-tooltip
+                    bottom
+                    v-if="item.filled"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        size="20"
+                        v-on="on"
+                      >
+                        lock
+                      </v-icon>
+                    </template>
+                    <span>This event has been filled, you may sign up as an alternate at the convention.</span>
+                  </v-tooltip>
+                  <v-tooltip
+                    bottom
+                    v-if="item.hiTest"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        size="20"
+                        v-on="on"
+                      >
+                        error_outline
+                      </v-icon>
+                    </template>
+                    <span>This is a HI-TEST session.</span>
+                  </v-tooltip>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="1">
+              <v-layout row wrap>
+                <v-col cols="12" order="2" sm="6" order-sm="1">
+                  <v-btn
+                    text
+                    icon
+                    depressed
+                  >
+                    <v-icon size="20">{{ isExpanded(item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" order="1" sm="6" order-sm="2">
+                  <v-btn
+                    text
+                    icon
+                    @click.stop="toggleEvent(item)"
+                  >
+                    <v-icon
+                      size="20"
+                      :color="itemActionColor(item)"
+                    >
+                      {{ itemActionIcon(item) }}
+                    </v-icon>
+                  </v-btn>
+                </v-col>
+              </v-layout>
+            </v-col>
+          </v-row>
+        </v-container>
         <div v-show="expandedCode === item.code" class="event-item-row-body">
           {{ item.description }}
         </div>

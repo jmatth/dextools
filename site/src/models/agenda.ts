@@ -52,7 +52,7 @@ export default class Agenda {
   }
 
   public removeEvent(code: string): void {
-    log.info(`Removing ${code} from agenda`)
+    log.info(`Removing ${code} from agenda`);
     const eventIndex = this.events.findIndex((e: Event) => e.code === code);
     // Couldn't find it
     if (eventIndex < 0) {
