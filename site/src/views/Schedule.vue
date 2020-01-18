@@ -1,11 +1,14 @@
 <template>
-  <v-container fluid grid-list-md>
+  <v-container fluid :style="{ height: containerHeight }">
     <v-row
+      align="stretch"
+      align-content="stretch"
       v-if="Object.keys($store.state.schedule).length > 0"
       dense
+      style="height: 100%"
     >
-      <v-col cols="12" md="8">
-        <EventsList :height="workspaceHeight"/>
+      <v-col cols="12" md="8" style="height: 100%">
+        <EventsList/>
       </v-col>
       <v-col
         v-show="$vuetify.breakpoint.mdAndUp"
@@ -55,6 +58,10 @@ export default class Schedule extends Vue {
     // @ts-ignore
     const headerHeight = document.querySelector('div#app div header.v-sheet')!.offsetHeight;
     this.workspaceHeight = windowHeight - (workspacePadding * 3 + headerHeight);
+  }
+
+  get containerHeight(): string {
+    return `calc(100vh - ${this.$vuetify.application.top}px`;
   }
 }
 </script>

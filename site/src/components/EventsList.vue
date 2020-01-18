@@ -1,5 +1,5 @@
 <template>
-  <v-card :style="{ height: height + 'px' }">
+  <v-card height="100%">
     <v-toolbar flat>
       <v-container class="toolbar-container">
         <v-row dense align="center" justify="space-between">
@@ -198,8 +198,6 @@ export const emptyAdvancedFilter: AdvancedFilter = {
   },
 })
 export default class EventsList extends Vue {
-  @Prop() private height!: number;
-
   public categories: string[] = [];
   public filter: string = '';
   public items?: Event[] = undefined;
@@ -209,7 +207,6 @@ export default class EventsList extends Vue {
     { text: 'Only HI-Tests', value: true },
   ];
   public expandedCode: string = '';
-  public dynamicScrollerHeight: string = '300px';
 
   constructor() {
     super();
@@ -280,18 +277,8 @@ export default class EventsList extends Vue {
     return this.items ? this.items.filter((e: Event) => this.shouldShow(e)) : [];
   }
 
-  public mounted() {
-    this.updateDynamicScrollerHeight();
-  }
-
-  public beforeUpdate() {
-    this.updateDynamicScrollerHeight();
-  }
-
-  private updateDynamicScrollerHeight() {
-    // @ts-ignore
-    const toolbarHeight = this.$el.querySelector('div#app div header.v-sheet').offsetHeight;
-    this.dynamicScrollerHeight = (this.height - toolbarHeight) + 'px';
+  get dynamicScrollerHeight(): string {
+    return `calc(100% - ${this.$vuetify.application.top}px)`;
   }
 
   public applyAdvancedSearch(updated: AdvancedFilter): void {
