@@ -1,43 +1,6 @@
 <template>
   <v-app id="app">
-    <v-navigation-drawer
-      v-model="showNav"
-      app
-      clipped
-      bottom
-      disable-resize-watcher
-      :mobile-break-point="$vuetify.breakpoint.thresholds.sm"
-    >
-      <v-list dense>
-        <v-list-item link to="/">
-          <v-list-item-action>
-            <v-icon>list_alt</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Schedule</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link to="/calendar">
-          <v-list-item-action>
-            <v-icon>calendar_today</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Calendar</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider/>
-      <v-list>
-        <v-list-item>
-          <v-switch
-            class="mt-0 pt-0"
-            label="Dark Mode"
-            hide-details
-            v-model="$vuetify.theme.dark"
-          />
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <NavDrawer v-model="showNav"/>
     <v-app-bar
       color="indigo"
       app
@@ -187,9 +150,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import NavDrawer from '@/components/NavDrawer.vue';
 import log from 'loglevel';
 
-@Component({})
+@Component({
+  components: {
+    NavDrawer,
+  },
+})
 export default class App extends Vue {
   public showNav: boolean | null = null;
   public about = false;
