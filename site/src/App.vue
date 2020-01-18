@@ -132,18 +132,18 @@
         </v-card>
       </v-dialog>
     </v-app-bar>
+    <v-snackbar
+      color="warning"
+      bottom
+      v-model="updateExists"
+      :timeout="0"
+    >
+      A new version of this site is available.
+      <v-btn dark @click="refreshApp()">Refresh</v-btn>
+      <v-btn icon @click="updateExists = false"><v-icon>close</v-icon></v-btn>
+    </v-snackbar>
     <v-content>
       <router-view/>
-      <v-snackbar
-        color="warning"
-        bottom
-        v-model="updateExists"
-        :timeout="0"
-      >
-        A new version of this site is available.
-        <v-btn dark @click="refreshApp()">Refresh</v-btn>
-        <v-btn icon @click="updateExists = false"><v-icon>close</v-icon></v-btn>
-      </v-snackbar>
     </v-content>
   </v-app>
 </template>
