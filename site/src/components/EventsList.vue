@@ -278,7 +278,7 @@ export default class EventsList extends Vue {
   }
 
   get dynamicScrollerHeight(): string {
-    return `calc(100% - ${this.$vuetify.application.top}px)`;
+    return `calc(100% - ${this.$vuetify.application.top + 1}px)`;
   }
 
   public applyAdvancedSearch(updated: AdvancedFilter): void {

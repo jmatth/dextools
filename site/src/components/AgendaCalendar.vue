@@ -235,40 +235,28 @@ export default class AgendaCalendar extends Vue {
 }
 </script>
 <style lang="scss">
-.my-event {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-radius: 2px;
-  background-color: #1867c0;
-  color: #ffffff;
-  border: 1px solid #1867c0;
-  font-size: 12px;
-  padding: 3px;
-  cursor: pointer;
-  margin-bottom: 1px;
-  left: 4px;
-  margin-right: 8px;
-  position: relative;
-
-  &.with-time {
-    position: absolute;
-    right: 4px;
-    margin-right: 0px;
-    borderwidth: 1px;
-    border-color: white;
-  }
-}
+@import '~vuetify/src/styles/styles.sass';
 
 .theme--light.v-calendar-daily {
   border-left: none;
 }
 
 div.v-calendar.v-calendar-daily.my-calendar {
-  border-top: none;
+  border: none;
+  border-bottom-left-radius: $border-radius-root;
+  border-bottom-right-radius: $border-radius-root;
+  background-color: revert;
 
   .v-calendar-daily__scroll-area {
     overflow-y: auto;
+  }
+
+  div.v-calendar-daily__day {
+    border-bottom: none;
+  }
+
+  .v-calendar-daily__interval:last-child:after {
+    border-top: none;
   }
 }
 
