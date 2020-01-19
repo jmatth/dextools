@@ -1,3 +1,6 @@
+[![](https://github.com/jmatth/dextools/workflows/Website%20deploy/badge.svg)](https://github.com/jmatth/dextools/actions?query=workflow%3A%22Website+deploy%22)
+[![](https://github.com/jmatth/dextools/workflows/Scraper%20CI/badge.svg)](https://github.com/jmatth/dextools/actions?query=workflow%3A%22Scraper+CI%22)
+
 Dextools
 ========
 Dextools is a collection of tools for parsing and displaying convention
