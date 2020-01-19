@@ -11,6 +11,7 @@
         <EventsList/>
       </v-col>
       <v-col
+        style="height: 100%"
         v-show="$vuetify.breakpoint.mdAndUp"
         cols="4"
         >

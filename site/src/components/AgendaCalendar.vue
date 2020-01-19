@@ -1,5 +1,5 @@
 <template>
-  <v-card :style="{ height }">
+  <v-card height="100%">
     <v-toolbar flat>
       <v-btn
         v-if="calType === 'day'"
@@ -32,10 +32,12 @@
       <v-spacer/>
       <ExportDialog/>
     </v-toolbar>
+
     <v-divider/>
+
     <v-calendar
       class="my-calendar"
-      :height="calendarHeight + 'px'"
+      :style="{ height: calendarHeight }"
       ref="calendar"
       v-model="currDate"
       color="primary"
@@ -60,6 +62,7 @@ import EventInfoDialog from './EventInfoDialog.vue';
 import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
+import { debounce } from 'lodash';
 
 @Component({
   components: {
@@ -69,11 +72,9 @@ import moment, { Moment } from 'moment';
 })
 export default class AgendaCalendar extends Vue {
   @Prop() private display!: any;
-  @Prop() private height!: number;
   @Prop() private calType!: string;
 
   public currDate = '';
-  public calendarHeight = 300;
   public intervalHeight = 10;
   public focusedEvent: Event | null = null;
 
@@ -93,19 +94,14 @@ export default class AgendaCalendar extends Vue {
 
   public mounted() {
     this.updateComputedHeights();
-  }
-
-  public beforeUpdate() {
-    this.updateComputedHeights();
+    window.addEventListener('resize', debounce(this.updateComputedHeights, 250));
   }
 
   private updateComputedHeights() {
-    // @ts-ignore
-    const toolbarHeight = this.$el.querySelector('div#app div header.v-sheet').offsetHeight;
-    this.calendarHeight = this.height - toolbarHeight;
-    // @ts-ignore
-    const headerHeight = this.$el.querySelector('div.v-calendar-daily__head')!.offsetHeight;
-    const computedIntervalHeight = ((this.calendarHeight - headerHeight) - 1) / 24;
+    const calendarEl = (this.$refs.calendar as Vue).$el;
+    const calendarHeight = calendarEl.getBoundingClientRect().height;
+    const headerHeight = calendarEl.querySelector('div.v-calendar-daily__head')!.getBoundingClientRect().height;
+    const computedIntervalHeight = ((calendarHeight - headerHeight) - 1) / 24;
     this.intervalHeight = Math.max(computedIntervalHeight, 10);
   }
 
@@ -217,6 +213,10 @@ export default class AgendaCalendar extends Vue {
     return !this.$vuetify.breakpoint.smAndDown;
   }
 
+  get calendarHeight(): string {
+    return `calc(100% - ${this.$vuetify.application.top}px)`;
+  }
+
   public formatDayHeader(dayObj: any): string {
     const weekdayStr = this.weekdayStrMap[dayObj.weekday];
     const day = dayObj.day;
@@ -260,6 +260,10 @@ export default class AgendaCalendar extends Vue {
 
 div.v-calendar.v-calendar-daily.my-calendar {
   border-top: none;
+
+  .v-calendar-daily__scroll-area {
+    overflow-y: auto;
+  }
 }
 
 div.v-calendar-daily__day-container > div.v-calendar-daily__day:last-child,
