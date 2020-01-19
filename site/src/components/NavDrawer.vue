@@ -46,5 +46,10 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component
 export default class NavDrawer extends Vue {
   @Prop() private value!: boolean;
+
+  private toggleDarkMode(): void {
+    this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    localStorage.darkMode = this.$vuetify.theme.dark;
+  }
 }
 </script>
