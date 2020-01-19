@@ -33,7 +33,7 @@
           class="mt-0 pt-0"
           label="Dark Mode"
           hide-details
-          v-model="$vuetify.theme.dark"
+          v-model="darkMode"
         />
       </v-list-item>
     </v-list>
@@ -47,9 +47,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class NavDrawer extends Vue {
   @Prop() private value!: boolean;
 
-  private toggleDarkMode(): void {
-    this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-    localStorage.darkMode = this.$vuetify.theme.dark;
+  get darkMode(): boolean {
+    return this.$vuetify.theme.dark;
+  }
+
+  set darkMode(dark) {
+    this.$vuetify.theme.dark = dark;
+    localStorage.darkMode = dark;
   }
 }
 </script>
