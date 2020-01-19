@@ -77,6 +77,7 @@ export default class AgendaCalendar extends Vue {
   public currDate = '';
   public intervalHeight = 10;
   public focusedEvent: Event | null = null;
+  private resizeListener: any;
 
   private weekdayStrMap: string[] = [
     'Sun',
@@ -94,7 +95,12 @@ export default class AgendaCalendar extends Vue {
 
   public mounted() {
     this.updateComputedHeights();
-    window.addEventListener('resize', debounce(this.updateComputedHeights, 250));
+    this.resizeListener = debounce(this.updateComputedHeights, 250);
+    window.addEventListener('resize', this.resizeListener);
+  }
+
+  public beforeDestroy(): void {
+    window.removeEventListener('resize', this.resizeListener);
   }
 
   private updateComputedHeights() {
