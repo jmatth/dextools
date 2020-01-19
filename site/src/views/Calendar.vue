@@ -1,7 +1,7 @@
 <template>
   <v-container fluid :style="{ height: containerHeight }">
     <v-row dense style="height: 100%">
-      <v-col cols="12">
+      <v-col cols="12" style="height: 100%">
         <v-skeleton-loader
           type="table-tbody"
           transition="scale-transition"
