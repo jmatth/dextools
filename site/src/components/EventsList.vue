@@ -343,7 +343,7 @@ export default class EventsList extends Vue {
   }
 
   public toggleEvent(event: Event) {
-    this.$store.state.agenda.toggleEvent(event);
+    this.$store.commit('toggleEvent', event.code);
   }
 }
 </script>

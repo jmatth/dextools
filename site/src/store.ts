@@ -29,10 +29,23 @@ const store = new Vuex.Store({
   },
   mutations: {
     addEventToAgenda(state: any, code: string): void {
+      const event = state.schedule[code];
+      if (!event) {
+        log.error(`Trying to add event ${code} which does not exist in schedule.`);
+        return;
+      }
       state.agenda.addEvent(state.schedule[code]);
     },
     removeEventFromAgenda(state: any, code: string) {
       state.agenda.removeEvent(code);
+    },
+    toggleEvent(state: any, code: string) {
+      const event = state.schedule[code];
+      if (!event) {
+        log.error(`Trying to toggle event ${code} which does not exist in schedule.`);
+        return;
+      }
+      state.agenda.toggleEvent(state.schedule[code]);
     },
     setSchedule(state: any, schedule: Schedule) {
       state.schedule = schedule;
