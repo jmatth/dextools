@@ -28,12 +28,14 @@ export default class Calendar extends Vue {
   public workspaceHeight = 700;
 
   get loading(): boolean {
-    return Object.keys(this.$store.state.schedule).length < 1;
+    return this.$store.getters.loading;
   }
 
   @Watch('loading')
-  public triggerResize(): void {
-    setTimeout(() => window.dispatchEvent(new Event('resize')), 500);
+  public triggerResize(loading: boolean): void {
+    if (!loading) {
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 1500);
+    }
   }
 
   get containerHeight(): string {

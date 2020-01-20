@@ -27,6 +27,11 @@ const store = new Vuex.Store({
     stitchClient: null,
     visitId: '',
   },
+  getters: {
+    loading(state: any): boolean {
+      return Object.keys(store.state.schedule).length < 1;
+    },
+  },
   mutations: {
     addEventToAgenda(state: any, code: string): void {
       const event = state.schedule[code];
