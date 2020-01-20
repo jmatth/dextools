@@ -1,83 +1,61 @@
 <template>
-  <v-dialog
-    v-model="exportDialog"
-    width="500"
-  >
-    <template v-slot:activator="{ on }">
+  <v-card>
+    <v-card-title primary-title>
+      Export
+    </v-card-title>
+    <v-divider/>
+    <v-card-text>
+      <v-text-field
+          label="Enter your name"
+          :value="userName"
+          @input="updateUserName"
+      />
+      <p>
+        Use the buttons below to export to ICS (for importing into calendar applications)
+        or email (to register for events). For email, you can also copy the text below.
+      </p>
+      <span v-if="!disableEmail">To: <a :href="'mailto:' + conEmail">{{ conEmail }}</a></span>
+      <v-divider style="margin-bottom:5px; margin-top: 2px;"/>
+      <pre ref="emailText" class="email-text">{{ emailText }}</pre>
+    </v-card-text>
+    <v-divider/>
+    <v-card-actions>
+      <v-spacer/>
       <v-btn
-        depressed
-        small
-        color="primary"
-        v-on="on"
+        class="mr-2"
+        @click="$store.state.agenda.exportIcs($store.state.conName)"
       >
-        Export
+        ICS
       </v-btn>
-    </template>
-    <v-card>
-      <v-card-title primary-title>
-        Export
-      </v-card-title>
-      <v-card-text>
-        <v-text-field
-            label="Enter your name"
-            single-line
-            :value="userName"
-            @input="updateUserName"
-        />
-        <p>
-          Use the buttons below to export to ICS (for importing into calendar applications)
-          or email (to register for events). For email, you can also copy the text below.
-        </p>
-        <span v-if="!disableEmail">To: <a :href="'mailto:' + conEmail">{{ conEmail }}</a></span>
-        <v-divider style="margin-bottom:5px; margin-top: 2px;"/>
-        <pre ref="emailText">{{ emailText }}</pre>
-      </v-card-text>
-      <v-divider/>
-      <v-card-actions>
-        <v-btn
-          @click="exportDialog = false"
-        >
-          Close
-        </v-btn>
-        <v-spacer/>
-        <v-btn
-          class="mr-2"
-          @click="$store.state.agenda.exportIcs($store.state.conName)"
-        >
-          ICS
-        </v-btn>
-        <v-tooltip top :disabled="!disableEmail">
-          <template v-slot:activator="{ on }">
-            <a :href="mailtoLink" v-on="on">
-              <v-btn
-                class="mr-2"
-                @click="exportDialog = false"
-                :disabled="disableEmail"
-              >
-                Email
-              </v-btn>
-            </a>
-          </template>
-          <span>{{ this.$store.state.conName }} is not accepting event registrations at this time.</span>
-        </v-tooltip>
-        <v-tooltip top v-model="shouldShowCopyMessage">
-          <template v-slot:activator="{ on }">
-            <v-btn v-on="{ on }" @click="copyEmailText">
-              Copy
+      <v-tooltip top :disabled="!disableEmail">
+        <template v-slot:activator="{ on }">
+          <a :href="mailtoLink" v-on="on">
+            <v-btn
+              class="mr-2"
+              @click="exportDialog = false"
+              :disabled="disableEmail"
+            >
+              Email
             </v-btn>
-          </template>
-          <span>{{ this.copyMessage }}</span>
-        </v-tooltip>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+          </a>
+        </template>
+        <span>{{ this.$store.state.conName }} is not accepting event registrations at this time.</span>
+      </v-tooltip>
+      <v-tooltip top v-model="shouldShowCopyMessage">
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="{ on }" @click="copyEmailText">
+            Copy
+          </v-btn>
+        </template>
+        <span>{{ this.copyMessage }}</span>
+      </v-tooltip>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import Agenda from '../models/agenda';
-import Event from '../models/event';
-import moment, { Moment } from 'moment';
+import { Component, Vue } from 'vue-property-decorator';
+import Event from '@/models/event';
 import { debounce } from 'lodash';
 import log from 'loglevel';
 
@@ -90,6 +68,7 @@ export default class ExportDialog extends Vue {
 
   constructor() {
     super();
+    log.info('constructing ExportDialog');
     this.updateUserNameStore = debounce(this.updateUserNameStore, 3000);
   }
 
@@ -149,5 +128,9 @@ export default class ExportDialog extends Vue {
   }
 }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
+.email-text {
+  max-height: 200px;
+  overflow: auto;
+}
 </style>

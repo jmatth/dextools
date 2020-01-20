@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Schedule from '@/views/Schedule.vue';
 import Calendar from '@/views/Calendar.vue';
+import Export from '@/views/Export.vue';
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/calendar',
     name: 'calendar',
     component: Calendar,
+  },
+  {
+    path: '/export',
+    name: 'export',
+    component: Export,
   },
   // {
   //   path: '/about',

@@ -8,7 +8,7 @@
           :loading="loading"
           style="height: 100%"
         >
-          <AgendaCalendar calType="custom-daily" :height="workspaceHeight"/>
+          <AgendaCalendar/>
         </v-skeleton-loader>
       </v-col>
     </v-row>
@@ -25,8 +25,6 @@ import { Component, Watch, Vue } from 'vue-property-decorator';
   },
 })
 export default class Calendar extends Vue {
-  public workspaceHeight = 700;
-
   get loading(): boolean {
     return this.$store.getters.loading;
   }

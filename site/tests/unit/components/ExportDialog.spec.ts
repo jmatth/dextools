@@ -50,59 +50,37 @@ describe('components/ExportDialog.vue', () => {
       expect(wrapper.vm.userName).to.equal('');
     });
 
-    it('has the dialog closed', () => {
-      expect(wrapper.find('.v-dialog').isVisible()).to.be.false;
+    it('has the the expected placeholder text', () => {
+      const label = wrapper.find('.v-input.v-text-field label.v-label');
+      expect(label).to.exist;
+      expect(label.text()).to.equal('Enter your name');
     });
 
-    it('renders the export button', () => {
-      const button = wrapper.find('button.v-btn');
-      expect(button.isVisible()).to.be.true;
-      expect(button.text()).to.equal('Export');
+    it('has the expected registration text', () => {
+      const pre = wrapper.find('.v-card__text pre');
+      expect(pre).to.exist;
+      expect(pre.text()).to.equal('Name: <YOUR NAME>\n\nEvents:');
     });
 
-    describe('open dialog', () => {
+    it('has the expected action buttons', () => {
+      const buttons = wrapper.findAll('div.v-card__actions button.v-btn');
+      expect(buttons.length).to.equal(3);
+      expect(buttons.wrappers[0].text()).to.equal('ICS');
+      expect(buttons.wrappers[1].text()).to.equal('Email');
+      expect(buttons.wrappers[2].text()).to.equal('Copy');
+    });
+
+    describe('the ICS export button is pushed', () => {
+      let exportIcs: SinonSpy;
       beforeEach(() => {
-        wrapper.find('button.v-btn').trigger('click');
-        return wrapper.vm.$nextTick();
+        exportIcs = spy();
+        store.state.agenda.exportIcs = exportIcs;
+        const icsButton = wrapper.findAll('div.v-card__actions button.v-btn').wrappers[0];
+        icsButton.trigger('click');
       });
 
-      it('renders the dialog', () => {
-        expect(wrapper.find('.v-dialog').isVisible()).to.be.true;
-      });
-
-      it('has the the expected placeholder text', () => {
-        const label = wrapper.find('.v-input.v-text-field label.v-label');
-        expect(label).to.exist;
-        expect(label.text()).to.equal('Enter your name');
-      });
-
-      it('has the expected registration text', () => {
-        const pre = wrapper.find('.v-card__text pre');
-        expect(pre).to.exist;
-        expect(pre.text()).to.equal('Name: <YOUR NAME>\n\nEvents:');
-      });
-
-      it('has the expected action buttons', () => {
-        const buttons = wrapper.findAll('div.v-card__actions button.v-btn');
-        expect(buttons.length).to.equal(4);
-        expect(buttons.wrappers[0].text()).to.equal('Close');
-        expect(buttons.wrappers[1].text()).to.equal('ICS');
-        expect(buttons.wrappers[2].text()).to.equal('Email');
-        expect(buttons.wrappers[3].text()).to.equal('Copy');
-      });
-
-      describe('the ICS export button is pushed', () => {
-        let exportIcs: SinonSpy;
-        beforeEach(() => {
-          exportIcs = spy();
-          store.state.agenda.exportIcs = exportIcs;
-          const icsButton = wrapper.findAll('div.v-card__actions button.v-btn').wrappers[1];
-          icsButton.trigger('click');
-        });
-
-        it('calls the exportIcs method on the agenda', () => {
-          expect(exportIcs.called).to.be.true;
-        });
+      it('calls the exportIcs method on the agenda', () => {
+        expect(exportIcs.called).to.be.true;
       });
     });
   });

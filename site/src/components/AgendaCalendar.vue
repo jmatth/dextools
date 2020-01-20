@@ -30,7 +30,10 @@
         </v-icon>
       </v-btn>
       <v-spacer/>
-      <ExportDialog/>
+      <v-btn-toggle mandatory dense v-model="calTypeIndex">
+        <v-btn small depressed>Day</v-btn>
+        <v-btn small depressed>Week</v-btn>
+      </v-btn-toggle>
     </v-toolbar>
 
     <v-divider/>
@@ -57,26 +60,23 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import ExportDialog from './ExportDialog.vue';
 import EventInfoDialog from './EventInfoDialog.vue';
 import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
 import { debounce } from 'lodash';
+import log from 'loglevel';
 
 @Component({
   components: {
-    ExportDialog,
     EventInfoDialog,
   },
 })
 export default class AgendaCalendar extends Vue {
-  @Prop() private display!: any;
-  @Prop() private calType!: string;
-
   public currDate = '';
   public intervalHeight = 10;
   public focusedEvent: Event | null = null;
+  public calTypeIndex: number = 0;
   private resizeListener: any;
 
   private weekdayStrMap: string[] = [
@@ -109,6 +109,15 @@ export default class AgendaCalendar extends Vue {
     const headerHeight = calendarEl.querySelector('div.v-calendar-daily__head')!.getBoundingClientRect().height;
     const computedIntervalHeight = ((calendarHeight - headerHeight) - 1) / 24;
     this.intervalHeight = Math.max(computedIntervalHeight, 10);
+  }
+
+  get calType(): string {
+    const types = ['day', 'custom-daily'];
+    if (this.calTypeIndex > types.length) {
+      log.error(`Invalid calTypeIndex (${this.calTypeIndex}), resetting to 0`);
+      this.calTypeIndex = 0;
+    }
+    return types[this.calTypeIndex];
   }
 
   get scheduleEvents(): Event[] {
@@ -234,6 +243,7 @@ export default class AgendaCalendar extends Vue {
   }
 }
 </script>
+
 <style lang="scss">
 @import '~vuetify/src/styles/styles.sass';
 
