@@ -19,6 +19,7 @@
             fab
             depressed
             text
+            aria-label="Feedback"
             v-on="on"
           >
             <v-icon>
@@ -52,6 +53,7 @@
             depressed
             text
             v-on="on"
+            aria-label="Help"
           >
             <v-icon>
               help_outline
@@ -92,7 +94,9 @@
                 Events that contain that string in any of their fields will be included in the results.
               </li>
             </ul>
-            By clicking the eye icon, you can view advanced search options:
+              By clicking the
+              <v-icon dense aria-label="Advanced filters">filter_list</v-icon>
+              icon, you can view advanced search options:
             <ul>
               <li>
                 <b>Days</b> can be used to restrict your search to events that take place on a particular day.

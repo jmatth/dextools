@@ -5,8 +5,8 @@
     @input="e => !e && dialogClosed()"
   >
     <template v-slot:activator="{ on }">
-      <v-btn icon small v-on="on" class="float-right">
-        <v-icon>remove_red_eye</v-icon>
+      <v-btn icon small v-on="on" class="float-right" aria-label="Advanced filters">
+        <v-icon>filter_list</v-icon>
       </v-btn>
     </template>
     <v-card>
