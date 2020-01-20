@@ -258,6 +258,10 @@ div.v-calendar.v-calendar-daily.my-calendar {
   .v-calendar-daily__interval:last-child:after {
     border-top: none;
   }
+
+  div.v-calendar-daily__head div.v-calendar-daily_head-day div.v-calendar-daily_head-weekday {
+    color: inherit;
+  }
 }
 
 div.v-calendar-daily__day-container > div.v-calendar-daily__day:last-child,
