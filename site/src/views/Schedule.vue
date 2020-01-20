@@ -27,7 +27,7 @@
           :loading="loading"
           style="height: 100%"
         >
-          <AgendaCalendar calType='day'/>
+          <AgendaCalendar initialView='day'/>
         </v-skeleton-loader>
       </v-col>
     </v-row>

@@ -73,6 +73,8 @@ import log from 'loglevel';
   },
 })
 export default class AgendaCalendar extends Vue {
+  @Prop() private initialView?: string;
+
   public currDate = '';
   public intervalHeight = 10;
   public focusedEvent: Event | null = null;
@@ -91,6 +93,18 @@ export default class AgendaCalendar extends Vue {
 
   public created() {
     this.currDate = this.startCal;
+    if (this.initialView) {
+      switch (this.initialView) {
+        case 'day':
+          this.calTypeIndex = 0;
+          break;
+        case 'custom-daily':
+          this.calTypeIndex = 1;
+          break;
+        default:
+          log.warn(`Unrecognized initial calendar view: ${this.initialView}`);
+      }
+    }
   }
 
   public mounted() {

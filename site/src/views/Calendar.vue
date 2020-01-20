@@ -8,7 +8,7 @@
           :loading="loading"
           style="height: 100%"
         >
-          <AgendaCalendar/>
+          <AgendaCalendar initialView="custom-daily"/>
         </v-skeleton-loader>
       </v-col>
     </v-row>
