@@ -9,7 +9,7 @@
       <v-col cols="12" md="8" style="height: 100%">
         <v-skeleton-loader
           type="table"
-          transition="scale-transition"
+          transition="fade-transition"
           :loading="loading"
           style="height: 100%"
         >
@@ -23,7 +23,7 @@
       >
         <v-skeleton-loader
           type="table"
-          transition="scale-transition"
+          transition="fade-transition"
           :loading="loading"
           style="height: 100%"
         >
