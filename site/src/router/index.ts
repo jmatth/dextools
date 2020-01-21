@@ -10,17 +10,17 @@ const routes = [
   {
     path: '/',
     name: 'schedule',
-    component: Schedule,
+    component: () => import(/* webpackChunkName: "Schedule" */ '@/views/Schedule.vue'),
   },
   {
     path: '/calendar',
     name: 'calendar',
-    component: Calendar,
+    component: () => import(/* webpackChunkName: "Calendar" */ '@/views/Calendar.vue'),
   },
   {
     path: '/export',
     name: 'export',
-    component: Export,
+    component: () => import(/* webpackChunkName: "Export" */ '@/views/Export.vue'),
   },
   // {
   //   path: '/about',
