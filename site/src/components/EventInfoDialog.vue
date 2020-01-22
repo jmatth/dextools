@@ -47,7 +47,6 @@
         <v-btn
           min-width="80px"
           :color="toggleBtnColor"
-          dark
           @click="toggleEvent"
         >
           {{ toggleBtnText }}
@@ -118,8 +117,8 @@ export default class EventInfoDialog extends Vue {
 
   get toggleBtnColor(): string {
     return this.$store.state.agenda.contains(this.event.code)
-      ? 'red'
-      : 'green';
+      ? 'error'
+      : 'success';
   }
 
   private formatTime(m: Moment): string {

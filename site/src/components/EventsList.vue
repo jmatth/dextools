@@ -338,8 +338,8 @@ export default class EventsList extends Vue {
 
   public itemActionColor(event: Event) {
     return this.$store.state.agenda.contains(event.code)
-      ? 'red'
-      : 'green';
+      ? 'error'
+      : 'success';
   }
 
   public toggleEvent(event: Event) {
