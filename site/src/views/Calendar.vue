@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import AgendaCalendar from '@/components/AgendaCalendar.vue';
-import { Component, Watch, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
@@ -27,13 +27,6 @@ import { Component, Watch, Vue } from 'vue-property-decorator';
 export default class Calendar extends Vue {
   get loading(): boolean {
     return this.$store.getters.loading;
-  }
-
-  @Watch('loading')
-  public triggerResize(loading: boolean): void {
-    if (!loading) {
-      setTimeout(() => window.dispatchEvent(new Event('resize')), 1500);
-    }
   }
 
   get containerHeight(): string {

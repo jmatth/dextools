@@ -51,6 +51,7 @@
       :weekday-format="formatDayHeader"
       :events="calEvents"
       @click:event="eventClicked"
+      v-resize="updateComputedHeights"
     >
     </v-calendar>
     </div>
@@ -64,7 +65,6 @@ import EventInfoDialog from './EventInfoDialog.vue';
 import Agenda from '../models/agenda';
 import Event from '../models/event';
 import moment, { Moment } from 'moment';
-import { debounce } from 'lodash';
 import log from 'loglevel';
 
 @Component({
@@ -105,16 +105,6 @@ export default class AgendaCalendar extends Vue {
           log.warn(`Unrecognized initial calendar view: ${this.initialView}`);
       }
     }
-  }
-
-  public mounted() {
-    this.updateComputedHeights();
-    this.resizeListener = debounce(this.updateComputedHeights, 250);
-    window.addEventListener('resize', this.resizeListener);
-  }
-
-  public beforeDestroy(): void {
-    window.removeEventListener('resize', this.resizeListener);
   }
 
   private updateComputedHeights() {
