@@ -46,7 +46,12 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="about" scrollable eager width="500">
+      <v-dialog
+        v-model="about"
+        scrollable
+        eager
+        width="500"
+      >
         <template v-slot:activator="{ on }">
           <v-btn
             fab

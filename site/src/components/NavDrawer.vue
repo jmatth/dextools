@@ -5,10 +5,10 @@
     app
     clipped
     bottom
-    disable-resize-watcher
-    :mobile-break-point="$vuetify.breakpoint.thresholds.sm"
+    :temporary="$vuetify.breakpoint.mdAndDown"
+    :mobile-break-point="$vuetify.breakpoint.thresholds.xs"
   >
-    <v-list dense>
+    <v-list nav :dense="$vuetify.breakpoint.mdAndDown">
       <v-list-item link to="/">
         <v-list-item-action>
           <v-icon>list_alt</v-icon>

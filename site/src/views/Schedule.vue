@@ -18,7 +18,7 @@
       </v-col>
       <v-col
         style="height: 100%"
-        v-show="$vuetify.breakpoint.mdAndUp"
+        v-if="$vuetify.breakpoint.mdAndUp"
         cols="4"
       >
         <v-skeleton-loader
