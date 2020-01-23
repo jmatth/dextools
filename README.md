@@ -12,7 +12,7 @@ schedules from Double Exposure. It currently consists of two components:
    export options for producing an ics file or email text to sign up for your
    selected events.
 
-Dextools is currently hosted at [dextools.jmatth.com](https://dextools.jmatth.com).
+Dextools is currently hosted at [dextools.app](https://dextools.app).
 
 ## Technology
 The scraper is written in Rust with various crates for parsing HTML and working
