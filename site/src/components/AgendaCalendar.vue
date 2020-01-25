@@ -53,6 +53,13 @@
       @click:event="eventClicked"
       v-resize="updateComputedHeights"
     >
+      <template v-slot:event="{ event }">
+        <div class="pl-1">
+          <strong>{{ event.name }}</strong>
+          <br v-if="event.multiLine"/>
+          {{ event.rangeDisplay }}
+        </div>
+      </template>
     </v-calendar>
     </div>
     <EventInfoDialog v-model="focusedEvent"/>
@@ -61,9 +68,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import EventInfoDialog from './EventInfoDialog.vue';
-import Agenda from '../models/agenda';
-import Event from '../models/event';
+import EventInfoDialog from '@/components/EventInfoDialog.vue';
+import Agenda from '@/models/agenda';
+import Event from '@/models/event';
 import moment, { Moment } from 'moment';
 import log from 'loglevel';
 
@@ -205,12 +212,33 @@ export default class AgendaCalendar extends Vue {
 
   get calEvents() {
     const calEventFormat = 'YYYY-M-D H:m';
+    const hourOnlyFormat = 'h A';
+    const hourAndMinuteFormat = 'h:m A';
     return this.$store.state.agenda.events.map((e: Event) => {
+      const startTime = e.startTime;
+      const endTime = moment(e.endTime);
+      const startDisplay = startTime.format(
+        startTime.minutes() === 0
+          ? hourOnlyFormat
+          : hourAndMinuteFormat);
+      const endDisplay = endTime.format(
+        endTime.minutes() === 0
+          ? hourOnlyFormat
+          : hourAndMinuteFormat);
+      const rangeDisplay = `${startDisplay} - ${endDisplay}`;
+      const multiLine = endTime.isAfter(moment(startTime).add(1, 'hour'));
+      // If an event ends at midnight, roll it back one second to prevent
+      // formatting weirdness in vuetify.
+      if (endTime.hour() === 0) {
+        endTime.subtract(1, 'second');
+      }
       return {
         code: e.code,
         name: `${e.code}: ${e.title}`,
-        start: e.startTime.format(calEventFormat),
-        end: e.endTime.format(calEventFormat),
+        start: startTime.format(calEventFormat),
+        end: endTime.format(calEventFormat),
+        rangeDisplay,
+        multiLine,
       };
     });
   }
