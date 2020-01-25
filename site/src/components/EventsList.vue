@@ -1,7 +1,7 @@
 <template>
   <v-card height="100%">
     <v-toolbar flat>
-      <v-container class="toolbar-container">
+      <v-container fluid class="toolbar-container">
         <v-row dense align="center" justify="space-between">
           <v-col cols="5">
             <v-text-field
@@ -368,7 +368,6 @@ export default class EventsList extends Vue {
 
 .container.toolbar-container {
   padding: 0px;
-  max-width: none;
 }
 
 button.toolbar-btn {
