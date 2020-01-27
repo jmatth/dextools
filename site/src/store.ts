@@ -33,13 +33,16 @@ const store = new Vuex.Store({
     },
   },
   mutations: {
-    addEventToAgenda(state: any, code: string): void {
-      const event = state.schedule[code];
+    addEventToAgenda(
+      state: any,
+      payload: { code: string, skipLastAdded: boolean },
+    ): void {
+      const event = state.schedule[payload.code];
       if (!event) {
-        log.error(`Trying to add event ${code} which does not exist in schedule.`);
+        log.error(`Trying to add event ${payload.code} which does not exist in schedule.`);
         return;
       }
-      state.agenda.addEvent(state.schedule[code]);
+      state.agenda.addEvent(event, payload.skipLastAdded);
     },
     removeEventFromAgenda(state: any, code: string) {
       state.agenda.removeEvent(code);

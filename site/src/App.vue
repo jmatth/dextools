@@ -226,7 +226,8 @@ export default class App extends Vue {
       // Reload the saved agenda if it exists.
       // TODO: use a library to do this automatically.
       if (localStorage.agendaEventCodes) {
-        JSON.parse(localStorage.agendaEventCodes).forEach((c: string) => this.$store.commit('addEventToAgenda', c));
+        JSON.parse(localStorage.agendaEventCodes)
+          .forEach((c: string) => this.$store.commit('addEventToAgenda', { code: c, skipLastAdded: true }));
       }
     });
   }

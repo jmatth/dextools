@@ -25,7 +25,7 @@ export default class Agenda {
     }
   }
 
-  public addEvent(event: Event): void {
+  public addEvent(event: Event, skipLastAdded: boolean = false): void {
     // Already added
     log.info(`Adding ${event.code} to agenda`);
     const existingEvent = this.events.find((e: Event) => e.code === event.code);
@@ -35,7 +35,9 @@ export default class Agenda {
       return;
     }
     this.events.push(event);
-    this._lastAdded = event;
+    if (!skipLastAdded) {
+      this._lastAdded = event;
+    }
     this.events.sort((first, second) => {
       if (first.startTime.isSame(second.startTime)) {
         if (first.endTime.isSame(second.endTime)) {
