@@ -39,20 +39,16 @@
               cols="12" order="2"
               sm="7" order-sm="3"
             >
-              <v-menu
-                ref="startTimeMenu"
+              <v-dialog
+                ref="startTimeDialog"
                 v-model="filterStartTimeMenu"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                :return-value.sync="advancedFilterIndex.filterStartTime"
-                transition="scale-transition"
-                offset-y
-                max-width="290px"
-                min-width="290px"
+                :return-value.sync="advancedFilterIndex.filterStatTime"
+                persistent
+                width="290px"
                 >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="advancedFilterIndex.filterStartTime"
+                    v-model="filterStartTime12H"
                     label="Start at"
                     readonly
                     clearable
@@ -66,11 +62,24 @@
                 <v-time-picker
                   v-if="filterStartTimeMenu"
                   v-model="advancedFilterIndex.filterStartTime"
-                  format="24hr"
-                  :allowed-minutes="timePickerStep"
-                  @click:hour="$refs.startTimeMenu.save($event + ':00')"
-                />
-              </v-menu>
+                  format="ampm"
+                  full-width
+                  no-title
+                  :allowed-minutes="allowedMinutes"
+                  :allowed-hours="allowedHours"
+                  @click:hour="handleHourClicked"
+                >
+                  <v-btn text @click="filterStartTimeMenu = false">Cancel</v-btn>
+                  <v-spacer/>
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="$refs.startTimeDialog.save(advancedFilterIndex.filterStartTime)"
+                  >
+                    Ok
+                  </v-btn>
+                </v-time-picker>
+              </v-dialog>
             </v-col>
             <v-col
               cols="6" order="3"
@@ -147,7 +156,7 @@
 
 <script lang="ts">
 import Event from '../models/event';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { AdvancedFilter, emptyAdvancedFilter } from './EventsList.vue';
 
@@ -172,8 +181,47 @@ export default class AdvancedFilterDialog extends Vue {
     this.advancedFilterIndex = Object.assign({}, this.parentFilter);
   }
 
-  private timePickerStep(minutes: number): boolean {
-    return minutes % 30 === 0;
+  private allowedMinutes(minutes: number): boolean {
+    return this.eventMinutesStart.has(minutes);
+  }
+
+  private allowedHours(minutes: number): boolean {
+    return this.eventHoursStart.has(minutes);
+  }
+
+  get filterStartTime12H(): string | null {
+    return this.advancedFilterIndex.filterStartTime
+      ? moment(this.advancedFilterIndex.filterStartTime, 'HH:mm').format('h:mmA')
+      : null;
+  }
+
+  set filterStartTime12H(val: string | null) {
+    this.advancedFilterIndex.filterStartTime = val
+      ? moment(val, 'h:mmA').format('HH:mm')
+      : null;
+  }
+
+  get eventMinutesStart(): Set<number> {
+    return Object.values(this.$store.state.schedule)
+      .reduce(
+        (acc: any, e: any) => acc.add(e.startTime.minutes()),
+        new Set<number>(),
+      ) as Set<number>;
+  }
+
+  get eventHoursStart(): Set<number> {
+    return Object.values(this.$store.state.schedule)
+      .reduce(
+        (acc: any, e: any) => acc.add(e.startTime.hours()),
+        new Set<number>(),
+      ) as Set<number>;
+  }
+
+  private handleHourClicked(hour: number): void {
+    if (this.eventMinutesStart.size > 1) {
+      return;
+    }
+    this.advancedFilterIndex.filterStartTime = `${hour}:00`;
   }
 
   private closeAdvancedFilter(): void {

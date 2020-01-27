@@ -90,7 +90,7 @@
                   </span>
                 </v-col>
                 <v-col cols="12" sm="5">
-                  {{ item.startTime.format('ddd, HH:mm') }} - {{ item.endTime.format('HH:mm') }}
+                  {{ item.startTime.format('ddd, h:mmA') }} - {{ item.endTime.format('h:mmA') }}
                 </v-col>
                 <v-col cols="12" sm="5">
                   {{ item.presenters }}
