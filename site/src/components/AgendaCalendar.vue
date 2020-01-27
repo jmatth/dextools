@@ -50,6 +50,7 @@
       :end='endCal'
       :weekday-format="formatDayHeader"
       :events="calEvents"
+      :event-color="eventColor"
       @click:event="eventClicked"
       v-resize="updateComputedHeights"
     >
@@ -214,7 +215,9 @@ export default class AgendaCalendar extends Vue {
     const calEventFormat = 'YYYY-M-D H:m';
     const hourOnlyFormat = 'h A';
     const hourAndMinuteFormat = 'h:m A';
-    return this.$store.state.agenda.events.map((e: Event) => {
+    const events = this.$store.state.agenda.events;
+    return events.map((e: Event) => {
+      const hasConflict = events.some((other: Event) => other.conflicts(e));
       const startTime = e.startTime;
       const endTime = moment(e.endTime);
       const startDisplay = startTime.format(
@@ -239,8 +242,13 @@ export default class AgendaCalendar extends Vue {
         end: endTime.format(calEventFormat),
         rangeDisplay,
         multiLine,
+        hasConflict,
       };
     });
+  }
+
+  private eventColor(e: any) {
+    return e.hasConflict ? 'warning' : 'primary';
   }
 
   get eventsByStartTime() {

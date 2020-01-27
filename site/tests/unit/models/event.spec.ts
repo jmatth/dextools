@@ -83,5 +83,33 @@ describe('models/event.ts', function() {
       });
       expect(event1.conflicts(event2)).to.be.false;
     });
+
+    it('returns false if event1 ends when event2 begins', function() {
+      const event1 = createEvent({
+        code: 'R001',
+        start_time: '2020-11-01 13:00',
+        end_time: '2020-11-01 15:00',
+      });
+      const event2 = createEvent({
+        code: 'R002',
+        start_time: '2020-11-01 15:00',
+        end_time: '2020-11-01 17:00',
+      });
+      expect(event1.conflicts(event2)).to.be.false;
+    });
+
+    it('returns false if event1 starts when event2 ends', function() {
+      const event1 = createEvent({
+        code: 'R001',
+        start_time: '2020-11-01 15:00',
+        end_time: '2020-11-01 17:00',
+      });
+      const event2 = createEvent({
+        code: 'R002',
+        start_time: '2020-11-01 13:00',
+        end_time: '2020-11-01 15:00',
+      });
+      expect(event1.conflicts(event2)).to.be.false;
+    });
   });
 });
