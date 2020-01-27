@@ -18,6 +18,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
+    loading: true,
     agenda: new Agenda(),
     schedule: {},
     userName: '',
@@ -27,12 +28,10 @@ const store = new Vuex.Store({
     stitchClient: null,
     visitId: '',
   },
-  getters: {
-    loading(state: any): boolean {
-      return Object.keys(store.state.schedule).length < 1;
-    },
-  },
   mutations: {
+    finishLoading(state: any) {
+      state.loading = false;
+    },
     addEventToAgenda(
       state: any,
       payload: { code: string, skipLastAdded: boolean },
@@ -94,17 +93,40 @@ const store = new Vuex.Store({
         return settings;
       }).then((settings: any) => {
         const stitchAppId = settings.stitchApp;
+        let stitchPromise;
         if (!stitchAppId) {
           log.warn('No stitch app configured, not sending analytics.');
-          return;
+          stitchPromise = Promise.resolve();
+        } else {
+          const client = Stitch.initializeDefaultAppClient(stitchAppId);
+          stitchPromise = client.auth.loginWithCredential(new AnonymousCredential())
+            .then((user: any) => {
+              context.commit('setClient', client);
+              return client.callFunction('startVisit', [{ referrer: document.referrer }]);
+            })
+            .then((result: any) => context.commit('setVisitId', result));
         }
-        const client = Stitch.initializeDefaultAppClient(stitchAppId);
-        return client.auth.loginWithCredential(new AnonymousCredential())
-          .then((user: any) => {
-            context.commit('setClient', client);
-            return client.callFunction('startVisit', [{ referrer: document.referrer }]);
-          })
-          .then((result: any) => context.commit('setVisitId', result));
+
+        // If the site has been updated for a new con, blow out the agenda cache.
+        if (localStorage.agendaConName !== context.state.conName) {
+          // tslint:disable-next-line
+          log.info(`Detected convention change from ${localStorage.agendaConName} to ${context.state.conName}, resetting agenda.`);
+          localStorage.agendaEventCodes = [];
+          localStorage.agendaConName = context.state.conName;
+        }
+        // Reload the user's name for email generation if it was set
+        if (localStorage.userName) {
+          context.commit('setUserName', localStorage.userName);
+        }
+        // Reload the saved agenda if it exists.
+        // TODO: use a library to do this automatically.
+        if (localStorage.agendaEventCodes) {
+          JSON.parse(localStorage.agendaEventCodes)
+            .forEach((c: string) => context.commit('addEventToAgenda', { code: c }));
+        }
+
+        context.commit('finishLoading');
+        return stitchPromise;
       });
     },
   },

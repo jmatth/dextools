@@ -210,26 +210,7 @@ export default class App extends Vue {
   }
 
   public mounted(): void {
-    // Start the request to load the schedule json file as soon as possible.
-    this.$store.dispatch('loadSettings').then(() => {
-      // If the site has been updated for a new con, blow out the agenda cache.
-      if (localStorage.agendaConName !== this.$store.state.conName) {
-        // tslint:disable-next-line
-        log.info(`Detected convention change from ${localStorage.agendaConName} to ${this.$store.state.conName}, resetting agenda.`);
-        localStorage.agendaEventCodes = [];
-        localStorage.agendaConName = this.$store.state.conName;
-      }
-      // Reload the user's name for email generation if it was set
-      if (localStorage.userName) {
-        this.$store.commit('setUserName', localStorage.userName);
-      }
-      // Reload the saved agenda if it exists.
-      // TODO: use a library to do this automatically.
-      if (localStorage.agendaEventCodes) {
-        JSON.parse(localStorage.agendaEventCodes)
-          .forEach((c: string) => this.$store.commit('addEventToAgenda', { code: c, skipLastAdded: true }));
-      }
-    });
+    this.$store.dispatch('loadSettings');
   }
 }
 </script>

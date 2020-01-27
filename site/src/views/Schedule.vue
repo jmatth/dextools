@@ -47,7 +47,7 @@ import { Component, Vue } from 'vue-property-decorator';
 })
 export default class Schedule extends Vue {
   get loading(): boolean {
-    return this.$store.getters.loading;
+    return this.$store.state.loading;
   }
 
   get containerHeight(): string {
