@@ -1,69 +1,61 @@
 <template>
-  <v-dialog
-    scrollable
-    max-width="700px"
+  <Dialog
     v-model="show"
+    v-if="!!event"
+    :title="`${event.code}: ${event.title}`"
   >
-    <v-card v-if="!!event">
-      <v-card-title>
-        {{ event.code }}: {{ event.title }}
-      </v-card-title>
-      <v-divider/>
-      <v-card-text>
-        <v-container fluid>
-          <v-row no-gutters>
-            <v-col cols="12" sm="9">
-              <template v-if="event.system">
-                {{ event.system }}
-              </template>
-              <template v-if="event.authors">
-                by {{ event.authors }};
-              </template>
-              <template v-if="event.presenters">
-                presented by {{ event.presenters }}
-              </template>
-            </v-col>
-            <v-col cols="12" sm="3">
-              <span class="float-sm-right">
-                {{ weekday }}, {{ from }} - {{ to }}
-              </span>
-            </v-col>
-          </v-row no-gutters>
-          <v-row class="">
-            <v-col class="pb-0">
-              <p align="justify" class="mb-0">
-                {{ event.description }}
-              </p>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card-text>
-      <v-divider/>
-      <v-card-actions>
-        <v-btn @click="show = false">
-          Close
-        </v-btn>
-        <v-spacer/>
-        <v-btn
-          min-width="80px"
-          :color="toggleBtnColor"
-          @click="toggleEvent"
+    <v-container fluid class="pa-0">
+      <v-row no-gutters>
+        <v-col cols="12" sm="9">
+          <template v-if="event.system">
+            {{ event.system }}
+          </template>
+          <template v-if="event.authors">
+            by {{ event.authors }};
+          </template>
+          <template v-if="event.presenters">
+            presented by {{ event.presenters }}
+          </template>
+        </v-col>
+        <v-col cols="12" sm="3">
+          <span class="float-sm-right">
+            {{ weekday }}, {{ from }} - {{ to }}
+          </span>
+        </v-col>
+      </v-row no-gutters>
+      <v-row class="">
+        <v-col class="pb-0">
+          <p align="justify" class="mb-0">
+          {{ event.description }}
+          </p>
+        </v-col>
+      </v-row>
+    </v-container>
+    <template v-slot:actions>
+      <v-btn
+        min-width="80px"
+        :color="toggleBtnColor"
+        @click="toggleEvent"
         >
-          {{ toggleBtnText }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+        {{ toggleBtnText }}
+      </v-btn>
+    </template>
+  </Dialog>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
-import Agenda from '../models/agenda';
-import Event from '../models/event';
+import Dialog from '@/components/Dialog.vue';
+import Agenda from '@/models/agenda';
+import Event from '@/models/event';
 import moment, { Moment } from 'moment';
 import log from 'loglevel';
 
-@Component
+@Component({
+  components: {
+    Dialog,
+  },
+})
 export default class EventInfoDialog extends Vue {
   @Prop() private value!: Event;
 
