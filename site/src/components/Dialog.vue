@@ -37,6 +37,6 @@ export default class Dialog extends Vue {
   @Prop() private value!: boolean;
   @Prop() private title!: string;
   @Prop({ default: '700px' }) private maxWidth!: string;
-  @Prop({ default: false }) private eager!: boolean;
+  @Prop({ type: Boolean, default: false }) private eager!: boolean;
 }
 </script>
