@@ -37,7 +37,7 @@
           <v-dialog
             ref="startTimeDialog"
             v-model="filterStartTimeMenu"
-            :return-value.sync="advancedFilterIndex.filterStatTime"
+            :return-value.sync="advancedFilterIndex.filterStartTime"
             persistent
             width="290px"
             >
@@ -56,7 +56,7 @@
             </template>
             <v-time-picker
               v-if="filterStartTimeMenu"
-              v-model="advancedFilterIndex.filterStartTime"
+              v-model="filterStartTimeIndex"
               format="ampm"
               full-width
               no-title
@@ -69,7 +69,7 @@
               <v-btn
                 text
                 color="primary"
-                @click="$refs.startTimeDialog.save(advancedFilterIndex.filterStartTime)"
+                @click="$refs.startTimeDialog.save(filterStartTimeIndex)"
               >
                 Ok
               </v-btn>
@@ -168,6 +168,7 @@ export default class AdvancedFilterDialog extends Vue {
 
   private showAdvancedFilter: boolean = false;
   private filterStartTimeMenu: boolean = false;
+  private filterStartTimeIndex: string = '';
   private advancedFilterIndex: AdvancedFilter = Object.assign({}, this.parentFilter);
 
   @Watch('parentFilter')
@@ -215,7 +216,7 @@ export default class AdvancedFilterDialog extends Vue {
     if (this.eventMinutesStart.size > 1) {
       return;
     }
-    this.advancedFilterIndex.filterStartTime = `${hour}:00`;
+    this.filterStartTimeIndex = `${hour}:00`;
   }
 
   private closeAdvancedFilter(): void {
