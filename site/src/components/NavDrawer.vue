@@ -34,17 +34,20 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <v-divider/>
-    <v-list>
-      <v-list-item>
-        <v-switch
-          class="mt-0 pt-0"
-          label="Dark Mode"
-          hide-details
-          v-model="darkMode"
-        />
-      </v-list-item>
-    </v-list>
+    <template v-slot:append>
+      <v-divider/>
+      <v-list subheader>
+        <v-subheader>Settings</v-subheader>
+        <v-list-item>
+          <v-switch
+            class="mt-0 pt-0"
+            label="Dark Mode"
+            hide-details
+            v-model="darkMode"
+            />
+        </v-list-item>
+      </v-list>
+    </template>
   </v-navigation-drawer>
 </template>
 
