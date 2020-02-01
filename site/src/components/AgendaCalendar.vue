@@ -54,6 +54,13 @@
       @click:event="eventClicked"
       v-resize="updateComputedHeights"
     >
+      <template v-slot:event="{ event }">
+        <div class="pl-1">
+          <strong>{{ event.name }}</strong>
+          <br v-if="event.multiLine"/>
+          {{ event.rangeDisplay }}
+        </div>
+      </template>
     </v-calendar>
     </div>
     <EventInfoDialog v-model="focusedEvent"/>
@@ -209,6 +216,24 @@ export default class AgendaCalendar extends Vue {
     const hourOnlyFormat = 'h A';
     const hourAndMinuteFormat = 'h:m A';
     const events = this.$store.state.agenda.events;
+
+    // This is to work around a weird bug where the calendar view won't update
+    // if you are using the event slot AND events is empty on initial render.
+    // Adding a dummy event that is not visible to the user if the real events
+    // array is empty fixes the problem. This should be removed whenever the
+    // problem is fixed upstream.
+    if (events.length < 1) {
+      const start = moment(this.startCal, 'YYYY-MM-DD')
+        .subtract(1, 'day')
+        .format(calEventFormat);
+      return [{
+        code: 'Z000',
+        name: 'Z000: FAKE EVENT',
+        start,
+        rangeDisplay: '',
+        multiLine: false,
+      }];
+    }
     return events.map((e: Event) => {
       const hasConflict = events.some((other: Event) => other.conflicts(e));
       const startTime = e.startTime;
@@ -225,9 +250,9 @@ export default class AgendaCalendar extends Vue {
       const multiLine = endTime.isAfter(moment(startTime).add(1, 'hour'));
       // If an event ends at midnight, roll it back one second to prevent
       // formatting weirdness in vuetify.
-      // if (endTime.hour() === 0) {
-      //   endTime.subtract(1, 'second');
-      // }
+      if (endTime.hour() === 0) {
+        endTime.subtract(1, 'second');
+      }
       return {
         code: e.code,
         name: `${e.code}: ${e.title}`,
