@@ -21,22 +21,6 @@ const actions: ActionTree<RootState, RootState> = {
         return acc;
       }, {});
       context.commit('setSchedule', schedule);
-      return settings;
-    }).then((settings: any) => {
-      const stitchAppId = settings.stitchApp;
-      let stitchPromise;
-      if (!stitchAppId) {
-        log.warn('No stitch app configured, not sending analytics.');
-        stitchPromise = Promise.resolve();
-      } else {
-        const client = Stitch.initializeDefaultAppClient(stitchAppId);
-        stitchPromise = client.auth.loginWithCredential(new AnonymousCredential())
-          .then((user: any) => {
-            context.commit('setClient', client);
-            return client.callFunction('startVisit', [{ referrer: document.referrer }]);
-          })
-          .then((result: any) => context.commit('setVisitId', result));
-      }
 
       // If the site has been updated for a new con, blow out the agenda cache.
       if (localStorage.agendaConName !== context.state.conName) {
@@ -57,7 +41,20 @@ const actions: ActionTree<RootState, RootState> = {
       }
 
       context.commit('finishLoading');
-      return stitchPromise;
+      return settings;
+    }).then((settings: any) => {
+      const stitchAppId = settings.stitchApp;
+      if (!stitchAppId) {
+        log.warn('No stitch app configured, not sending analytics.');
+        return Promise.resolve();
+      }
+      const client = Stitch.initializeDefaultAppClient(stitchAppId);
+      return client.auth.loginWithCredential(new AnonymousCredential())
+        .then((user: any) => {
+          context.commit('setClient', client);
+          return client.callFunction('startVisit', [{ referrer: document.referrer }]);
+        })
+        .then((result: any) => context.commit('setVisitId', result));
     });
   },
 };
