@@ -54,13 +54,6 @@
       @click:event="eventClicked"
       v-resize="updateComputedHeights"
     >
-      <template v-slot:event="{ event }">
-        <div class="pl-1">
-          <strong>{{ event.name }}</strong>
-          <br v-if="event.multiLine"/>
-          {{ event.rangeDisplay }}
-        </div>
-      </template>
     </v-calendar>
     </div>
     <EventInfoDialog v-model="focusedEvent"/>
@@ -232,9 +225,9 @@ export default class AgendaCalendar extends Vue {
       const multiLine = endTime.isAfter(moment(startTime).add(1, 'hour'));
       // If an event ends at midnight, roll it back one second to prevent
       // formatting weirdness in vuetify.
-      if (endTime.hour() === 0) {
-        endTime.subtract(1, 'second');
-      }
+      // if (endTime.hour() === 0) {
+      //   endTime.subtract(1, 'second');
+      // }
       return {
         code: e.code,
         name: `${e.code}: ${e.title}`,
