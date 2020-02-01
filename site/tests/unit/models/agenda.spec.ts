@@ -17,8 +17,8 @@ describe('models/agenda.ts', function() {
     expect(agenda.events).to.be.empty;
   });
 
-  it('starts with lastAdded empty', function() {
-    expect(agenda.lastAdded).to.be.undefined;
+  it('starts with lastAdded set to null', function() {
+    expect(agenda.lastAdded).to.be.null;
   });
 
   describe('add one event', function() {
