@@ -20,7 +20,7 @@
     <template>
       <h2>What's this?</h2>
       <p class="text-justify">
-      This is a site to help with building your schedule for the excellent conventions run by Double Exposure Inc.
+      This is a site to help you build your schedule for the excellent conventions run by Double Exposure Inc.
       It uses data scraped from the Double Exposure website so may be innacurrate or out of date.
       </p>
       <h2>How can I build my convention schedule?</h2>
@@ -36,7 +36,7 @@
       <b>
         Simply adding events to your schedule will not register you for those
         events, you must still send email to the appropriate email address for
-        the convention (see next the "How do I use the export page?" section).
+        the convention (see the "How do I use the export page?" section).
       </b>
       <h2>How do I use the search features?</h2>
       <p class="text-justify">
