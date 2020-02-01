@@ -7,7 +7,7 @@ import log from 'loglevel';
 export default class Agenda {
   public readonly events: Event[] = [];
 
-  private _lastAdded?: Event = undefined;
+  private _lastAdded: Event | null = null;
 
   get lastAdded() {
     return this._lastAdded;
@@ -61,7 +61,7 @@ export default class Agenda {
       log.warn(`Event code ${code} not found in agenda`);
     }
     this.events.splice(eventIndex, 1);
-    this._lastAdded = undefined;
+    this._lastAdded = null;
     this.updateLocalStorage();
   }
 
