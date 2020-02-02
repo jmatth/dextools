@@ -1,5 +1,7 @@
 use indexmap::IndexMap;
 
+use chrono::DateTime;
+use chrono_tz::Tz;
 use lazy_static::lazy_static;
 use regex::Regex;
 use select::node::Node;
@@ -24,6 +26,21 @@ pub struct EventDebug {
 	raw: String,
 }
 
+mod serde_date {
+	use chrono::DateTime;
+	use chrono_tz::Tz;
+	use serde::ser;
+
+	pub fn serialize<S>(dt: &Option<DateTime<Tz>>, serializer: S) -> Result<S::Ok, S::Error>
+	where
+		S: ser::Serializer,
+	{
+		// TODO: return a serialization error here instead.
+		let dt_str = dt.unwrap().to_rfc2822();
+		serializer.serialize_str(&dt_str)
+	}
+}
+
 #[derive(Default, Debug, Serialize)]
 pub struct Event {
 	code: String,
@@ -32,8 +49,10 @@ pub struct Event {
 	description: String,
 	presenters: String,
 	authors: String,
-	start_time: String,
-	end_time: String,
+	#[serde(with = "serde_date")]
+	start_time: Option<DateTime<Tz>>,
+	#[serde(with = "serde_date")]
+	end_time: Option<DateTime<Tz>>,
 	filled: bool,
 	advancement: bool,
 	tags: String,

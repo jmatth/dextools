@@ -3,6 +3,7 @@ use std::convert::TryInto;
 use regex::Regex;
 
 use chrono::naive::NaiveDate;
+use chrono::DateTime;
 use chrono::Datelike;
 use chrono::Duration;
 use chrono::LocalResult;
@@ -34,7 +35,7 @@ impl DateParser {
 		}
 	}
 
-	pub fn parse_time_slot(&self, slot: &String) -> Option<(String, String)> {
+	pub fn parse_time_slot(&self, slot: &String) -> Option<(DateTime<Tz>, DateTime<Tz>)> {
 		lazy_static! {
 			static ref RE: Regex = Regex::new(TIME_REGEX).unwrap();
 		}
@@ -106,7 +107,7 @@ impl DateParser {
 			LocalResult::Single(only) => only,
 		};
 
-		Some((start_time.to_rfc2822(), end_time.to_rfc2822()))
+		Some((start_time, end_time))
 	}
 
 	fn get_day_offset(&self, day: &Weekday) -> u32 {
@@ -140,8 +141,8 @@ mod tests {
 		let parsed = get_parser().parse_time_slot(&slot.to_string());
 		assert!(parsed.is_some(), "Parser returned None");
 		let (start, end) = parsed.unwrap();
-		assert_eq!(expected_start, start);
-		assert_eq!(expected_end, end);
+		assert_eq!(expected_start, start.to_rfc2822());
+		assert_eq!(expected_end, end.to_rfc2822());
 	}
 
 	#[test]
@@ -232,22 +233,22 @@ mod tests {
 			let parsed = parser.parse_time_slot(&"Sunday, 1:00AM - 3:00AM".to_string());
 			assert!(parsed.is_some(), "Parser returned None");
 			let (start, end) = parsed.unwrap();
-			assert_eq!("Sun, 03 Nov 2019 01:00:00 -0400", start);
-			assert_eq!("Sun, 03 Nov 2019 03:00:00 -0500", end);
+			assert_eq!("Sun, 03 Nov 2019 01:00:00 -0400", start.to_rfc2822());
+			assert_eq!("Sun, 03 Nov 2019 03:00:00 -0500", end.to_rfc2822());
 		}
 		{
 			let parsed = parser.parse_time_slot(&"Saturday, 12:00AM - 1:00AM".to_string());
 			assert!(parsed.is_some(), "Parser returned None");
 			let (start, end) = parsed.unwrap();
-			assert_eq!("Sun, 03 Nov 2019 00:00:00 -0400", start);
-			assert_eq!("Sun, 03 Nov 2019 01:00:00 -0500", end);
+			assert_eq!("Sun, 03 Nov 2019 00:00:00 -0400", start.to_rfc2822());
+			assert_eq!("Sun, 03 Nov 2019 01:00:00 -0500", end.to_rfc2822());
 		}
 		{
 			let parsed = parser.parse_time_slot(&"Sunday, 1:00AM - 1:00AM".to_string());
 			assert!(parsed.is_some(), "Parser returned None");
 			let (start, end) = parsed.unwrap();
-			assert_eq!("Sun, 03 Nov 2019 01:00:00 -0400", start);
-			assert_eq!("Sun, 03 Nov 2019 01:00:00 -0500", end);
+			assert_eq!("Sun, 03 Nov 2019 01:00:00 -0400", start.to_rfc2822());
+			assert_eq!("Sun, 03 Nov 2019 01:00:00 -0500", end.to_rfc2822());
 		}
 	}
 }
