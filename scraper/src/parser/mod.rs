@@ -229,6 +229,7 @@ where
 		let mut e_iter = events_vec.iter();
 		let mut prev_event: &Event = e_iter.next().unwrap();
 		while let Some(curr_event) = e_iter.next() {
+			// Check that the numbers in the event codes increase by one with each event.
 			let curr_num: usize = match curr_event.code[1..].parse() {
 				Err(_) => {
 					println!("WARNING: invalid event code: {}", curr_event.code);
@@ -247,6 +248,24 @@ where
 					prev_event.code, curr_event.code
 				);
 			}
+
+			// Check that events are ordered by start time.
+			if let Some(curr_start_time) = curr_event.start_time {
+				if let Some(prev_start_time) = prev_event.start_time {
+					if curr_start_time.timestamp() < prev_start_time.timestamp() {
+						println!(
+							"WARNING: possible event misordering: {} starts at {}, {} starts at {}",
+							prev_event.code,
+							prev_start_time.to_rfc2822(),
+							curr_event.code,
+							curr_start_time.to_rfc2822(),
+						);
+					}
+				}
+			} else {
+				println!("ERROR: Event {} missing start_time", curr_event.code);
+			}
+
 			prev_event = curr_event;
 		}
 	}
