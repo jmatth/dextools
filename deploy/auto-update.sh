@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 
 panic() {
   if ! test -e ./PANIC && test -n "${ALERT_NUMBER}"; then
-    ./send-sms.sh '${ALERT_NUMBER}' 'Dextools deploy broken!'
+    ./send-sms.sh "$ALERT_NUMBER" 'Dextools deploy broken!'
     touch ./PANIC
   fi
 }
