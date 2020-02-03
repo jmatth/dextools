@@ -11,6 +11,7 @@ cd "$(dirname "$0")"
 
 panic() {
   if ! test -e ./PANIC && test -n "${ALERT_NUMBER}"; then
+    echo 'Error detected, setting flag and sending sms'
     ./send-sms.sh "$ALERT_NUMBER" 'Dextools deploy broken!'
     touch ./PANIC
   fi
@@ -26,7 +27,7 @@ fi
 echo '=================================='
 
 ./scraper -c ./cache.json -i "$1" -t settings_primary.json -o settings.json &> /dev/null || \
-./scraper -c ./cache.json -i "$2" -t settings_backup.json  -o settings.json &> /dev/null
+./scraper -c ./cache.json -i "$2" -t settings_backup.json  -o settings.json &> /dev/null || true
 
 if /usr/bin/diff -q settings.json $WORKTREE_DIR/settings.json; then
   echo "No changes detected at $(date)."
