@@ -2,8 +2,8 @@
 
 WORKTREE_DIR="gh-pages"
 
-if [ "$#" -ne 3 ]; then
-  echo "Usage: $0 URL BACKUP_URL YYYY-mm-dd"
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 URL BACKUP_URL"
   exit 1
 fi
 
@@ -25,8 +25,8 @@ fi
 
 echo '=================================='
 
-dexposure-scraper -d "$3" -i "$1" -t settings_primary.json -o settings.json &> /dev/null || \
-dexposure-scraper -d "$3" -i "$2" -t settings_backup.json  -o settings.json &> /dev/null
+dexposure-scraper -c ./cache.json -i "$1" -t settings_primary.json -o settings.json &> /dev/null || \
+dexposure-scraper -c ./cache.json -i "$2" -t settings_backup.json  -o settings.json &> /dev/null
 
 if /usr/bin/diff -q settings.json $WORKTREE_DIR/settings.json; then
   echo "No changes detected at $(date)."
