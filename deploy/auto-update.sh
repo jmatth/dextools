@@ -25,8 +25,8 @@ fi
 
 echo '=================================='
 
-dexposure-scraper -c ./cache.json -i "$1" -t settings_primary.json -o settings.json &> /dev/null || \
-dexposure-scraper -c ./cache.json -i "$2" -t settings_backup.json  -o settings.json &> /dev/null
+./scraper -c ./cache.json -i "$1" -t settings_primary.json -o settings.json &> /dev/null || \
+./scraper -c ./cache.json -i "$2" -t settings_backup.json  -o settings.json &> /dev/null
 
 if /usr/bin/diff -q settings.json $WORKTREE_DIR/settings.json; then
   echo "No changes detected at $(date)."
