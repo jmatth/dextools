@@ -79,7 +79,7 @@
                 <v-col cols="12" sm="1">
                   <v-icon
                     v-if="item.testType === 'FOCUS GROUP'"
-                    size="20"
+                    dense
                   >
                     group
                   </v-icon>
@@ -102,7 +102,7 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-icon
-                        size="20"
+                        dense
                         v-on="on"
                       >
                         lock
@@ -116,7 +116,7 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-icon
-                        size="20"
+                        dense
                         v-on="on"
                       >
                         error_outline
@@ -129,23 +129,23 @@
             </v-col>
             <v-col cols="1">
               <v-layout row wrap>
-                <v-col cols="12" order="2" sm="6" order-sm="1">
+                <v-col cols="12" order="2" sm="6">
                   <v-btn
                     text
                     icon
                     depressed
                   >
-                    <v-icon size="20">{{ isExpanded(item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+                    <v-icon dense>{{ isExpanded(item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
                   </v-btn>
                 </v-col>
-                <v-col cols="12" order="1" sm="6" order-sm="2">
+                <v-col cols="12" order="1" sm="6">
                   <v-btn
                     text
                     icon
                     @click.stop="toggleEvent(item)"
                   >
                     <v-icon
-                      size="20"
+                      dense
                       :color="itemActionColor(item)"
                     >
                       {{ itemActionIcon(item) }}
