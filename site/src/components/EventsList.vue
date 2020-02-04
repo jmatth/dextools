@@ -45,23 +45,92 @@
 
     <v-divider/>
 
-    <DynamicScroller
-      class="scroller"
-      :items="filteredItems"
-      :min-item-size="78"
-      key-field="code"
-      :style="{ height: dynamicScrollerHeight }"
-    >
-      <template v-slot="{ item, index, active }">
-        <EventsListItem
-          :event="item"
-          :index="index"
-          :active="active"
-          :expanded="item.code === expandedCode"
-          @expand="toggleExpanded"
-        />
-      </template>
-    </DynamicScroller>
+    <v-expansion-panels accordion :style="{ height: dynamicScrollerHeight, overflowY: 'auto' }">
+      <v-expansion-panel v-for="item in items" :key="item.code">
+        <v-expansion-panel-header>
+          <v-container fluid class="event-item-row-header">
+            <v-row no-gutters>
+              <v-col cols="11">
+                <v-row no-gutters>
+                  <v-col cols="12" sm="5">
+                    <span>{{ item.code }}: {{ item.title }}</span>
+                  </v-col>
+                  <v-col cols="12" sm="5">
+                    {{ item.system }}
+                  </v-col>
+                  <v-col cols="12" sm="1">
+                    <v-icon
+                      v-if="item.testType === 'FOCUS GROUP'"
+                      size="20"
+                    >
+                      group
+                    </v-icon>
+                    <span
+                      v-else
+                    >
+                      {{ testTypeText(item.testType) }}
+                    </span>
+                  </v-col>
+                  <v-col cols="12" sm="5">
+                    {{ item.startTime.format('ddd, h:mmA') }} - {{ item.endTime.format('h:mmA') }}
+                  </v-col>
+                  <v-col cols="12" sm="5">
+                    {{ item.presenters }}
+                  </v-col>
+                  <v-col cols="12" sm="1">
+                    <v-tooltip
+                      bottom
+                      v-if="item.filled"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-icon
+                          size="20"
+                          v-on="on"
+                        >
+                          lock
+                        </v-icon>
+                      </template>
+                      <span>This event has been filled, you may sign up as an alternate at the convention.</span>
+                    </v-tooltip>
+                    <v-tooltip
+                      bottom
+                      v-if="item.hiTest"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-icon
+                          size="20"
+                          v-on="on"
+                        >
+                          error_outline
+                        </v-icon>
+                      </template>
+                      <span>This is a HI-TEST session.</span>
+                    </v-tooltip>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col cols="1">
+                <v-btn
+                  text
+                  icon
+                  @click.stop="toggleEvent(item)"
+                >
+                  <v-icon
+                    size="20"
+                    :color="success"
+                  >
+                    add_circle
+                  </v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          {{ item.description }}
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </v-card>
 </template>
 
@@ -100,9 +169,9 @@ export const emptyAdvancedFilter: AdvancedFilter = {
   },
 })
 export default class EventsList extends Vue {
-  public categories: string[] = [];
+  public categories: string[] = undefined;
   public filter: string = '';
-  public items?: Event[] = undefined;
+  public items?: any[] = undefined;
   public advancedFilter: AdvancedFilter = Object.assign({}, emptyAdvancedFilter);
   public hiTestFilterOptions: any = [
     { text: 'Hide HI-Tests', value: false },
@@ -128,6 +197,7 @@ export default class EventsList extends Vue {
     this.items = this.scheduleEvents.map((e: Event) => {
       return Object.assign({}, e);
     });
+    this.categories = [];
   }
 
   public toggleExpanded(code: string): void {
@@ -174,10 +244,6 @@ export default class EventsList extends Vue {
 
   get includeMetatopiaFilters(): boolean {
     return !!this.$store.state.isMetatopia;
-  }
-
-  get filteredItems(): Event[] {
-    return this.items ? this.items.filter((e: Event) => this.shouldShow(e)) : [];
   }
 
   get dynamicScrollerHeight(): string {
