@@ -13,6 +13,30 @@
     <v-container fluid class="pa-0">
       <v-row dense align="center">
         <v-col
+          cols="6" order="3"
+          sm="4" order-sm="2"
+        >
+          <v-switch
+            class="mt-0 pl-sm-1"
+            label="Hide filled"
+            v-model="advancedFilterIndex.hideFilled"
+            dense
+            hide-details
+          />
+        </v-col>
+        <v-col
+          cols="6" order="4"
+          sm="4" order-sm="4"
+        >
+          <v-switch
+            class="mt-0 pl-sm-1"
+            label="Hide conflicting"
+            v-model="advancedFilterIndex.hideConflicting"
+            dense
+            hide-details
+          />
+        </v-col>
+        <v-col
           cols="12" order="1"
           sm="7" order-sm="1"
         >
@@ -75,30 +99,6 @@
               </v-btn>
             </v-time-picker>
           </v-dialog>
-        </v-col>
-        <v-col
-          cols="6" order="3"
-          sm="4" order-sm="2"
-        >
-          <v-switch
-            class="mt-0 pl-sm-1"
-            label="Hide filled"
-            v-model="advancedFilterIndex.hideFilled"
-            dense
-            hide-details
-          />
-        </v-col>
-        <v-col
-          cols="6" order="4"
-          sm="4" order-sm="4"
-        >
-          <v-switch
-            class="mt-0 pl-sm-1"
-            label="Hide conflicting"
-            v-model="advancedFilterIndex.hideConflicting"
-            dense
-            hide-details
-          />
         </v-col>
       </v-row>
       <v-row dense align="center" v-if="includeMetatopiaFilters">
