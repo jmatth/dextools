@@ -32,7 +32,7 @@
           Have feedback about the site? I would love it if you could take a minute (literally a minute, I promise) to fill out <a :href="this.$store.state.feedbackUrl" target="_blank">this anonymous form</a>.
         </p>
       </Dialog>
-      <AboutDialog/>
+      <HelpDialog/>
     </v-app-bar>
     <v-snackbar
       color="warning"
@@ -54,14 +54,14 @@
 import { Component, Vue } from 'vue-property-decorator';
 import NavDrawer from '@/components/NavDrawer.vue';
 import Dialog from '@/components/Dialog.vue';
-import AboutDialog from '@/components/AboutDialog.vue';
+import HelpDialog from '@/components/HelpDialog.vue';
 import log from 'loglevel';
 
 @Component({
   components: {
     NavDrawer,
     Dialog,
-    AboutDialog,
+    HelpDialog,
   },
 })
 export default class App extends Vue {

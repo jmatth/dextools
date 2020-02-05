@@ -1,7 +1,7 @@
 <template>
   <Dialog
     v-model="show"
-    title="About"
+    title="Help"
     eager
   >
     <template v-slot:activator="{ on }">
@@ -9,7 +9,7 @@
         fab
         depressed
         text
-        aria-label="Feedback"
+        aria-label="Help"
         v-on="on"
       >
         <v-icon>
