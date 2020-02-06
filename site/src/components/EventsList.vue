@@ -53,116 +53,13 @@
       :style="{ height: dynamicScrollerHeight }"
     >
       <template v-slot="{ item, index, active }">
-        <DynamicScrollerItem
-          :item="item"
+        <EventsListItem
+          :event="item"
+          :index="index"
           :active="active"
-          :data-index="index"
-          :size-dependencies="[ expandedCode ]"
-          :class="{ 'event-item-row': true, 'event-item-row-expanded': isExpanded(item) }"
-        >
-        <v-container
-          fluid
-          class="event-item-row-header"
-          @click="toggleExpanded(item)"
-        >
-          <v-row no-gutters>
-            <v-col cols="11">
-              <v-row no-gutters>
-                <v-col cols="12" sm="5">
-                  <!-- <v&#45;avatar color="red" size="20" class="mr&#45;1"> -->
-                  <!--   <span class="white&#45;&#45;text">{{ item.code[0] }}</span> -->
-                  <!-- </v&#45;avatar> -->
-                  <span>{{ item.code }}: {{ item.title }}</span>
-                </v-col>
-                <v-col cols="12" sm="5">
-                  {{ item.system }}
-                </v-col>
-                <v-col cols="12" sm="1">
-                  <v-icon
-                    v-if="item.testType === 'FOCUS GROUP'"
-                    dense
-                  >
-                    group
-                  </v-icon>
-                  <span
-                    v-else
-                  >
-                    {{ testTypeText(item.testType) }}
-                  </span>
-                </v-col>
-                <v-col cols="12" sm="5">
-                  {{ item.startTime.format('ddd, h:mmA') }} - {{ item.endTime.format('h:mmA') }}
-                </v-col>
-                <v-col cols="12" sm="5">
-                  {{ item.presenters }}
-                </v-col>
-                <v-col cols="12" sm="1">
-                  <v-tooltip
-                    bottom
-                    v-if="item.filled"
-                  >
-                    <template v-slot:activator="{ on }">
-                      <v-icon
-                        dense
-                        v-on="on"
-                      >
-                        lock
-                      </v-icon>
-                    </template>
-                    <span>This event has been filled, you may sign up as an alternate at the convention.</span>
-                  </v-tooltip>
-                  <v-tooltip
-                    bottom
-                    v-if="item.hiTest"
-                  >
-                    <template v-slot:activator="{ on }">
-                      <v-icon
-                        dense
-                        v-on="on"
-                      >
-                        error_outline
-                      </v-icon>
-                    </template>
-                    <span>This is a HI-TEST session.</span>
-                  </v-tooltip>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="1">
-              <v-layout row wrap>
-                <v-col cols="12" order="2" sm="6">
-                  <v-btn
-                    text
-                    icon
-                    depressed
-                    :aria-label="expandButtonLabel(item)"
-                  >
-                    <v-icon dense>{{ isExpanded(item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
-                  </v-btn>
-                </v-col>
-                <v-col cols="12" order="1" sm="6">
-                  <v-btn
-                    text
-                    icon
-                    :aria-label="addButtonLabel(item)"
-                    @click.stop="toggleEvent(item)"
-                  >
-                    <v-icon
-                      dense
-                      :color="itemActionColor(item)"
-                    >
-                      {{ itemActionIcon(item) }}
-                    </v-icon>
-                  </v-btn>
-                </v-col>
-              </v-layout>
-            </v-col>
-          </v-row>
-        </v-container>
-        <div v-show="expandedCode === item.code" class="event-item-row-body">
-          {{ item.description }}
-        </div>
-        </DynamicScrollerItem>
+          :expanded="item.code === expandedCode"
+          @expand="toggleExpanded"
+        />
       </template>
     </DynamicScroller>
   </v-card>
@@ -171,6 +68,7 @@
 <script lang="ts">
 import Agenda from '../models/agenda';
 import Event from '../models/event';
+import EventsListItem from './EventsListItem.vue';
 import AdvancedFilterDialog from './AdvancedFilterDialog.vue';
 import { Moment } from 'moment';
 import { Component, Prop, Vue } from 'vue-property-decorator';
@@ -198,6 +96,7 @@ export const emptyAdvancedFilter: AdvancedFilter = {
 @Component({
   components: {
     AdvancedFilterDialog,
+    EventsListItem,
   },
 })
 export default class EventsList extends Vue {
@@ -210,6 +109,7 @@ export default class EventsList extends Vue {
     { text: 'Only HI-Tests', value: true },
   ];
   public expandedCode: string = '';
+  public resizeTicker: boolean = false;
 
   constructor() {
     super();
@@ -230,8 +130,8 @@ export default class EventsList extends Vue {
     });
   }
 
-  public toggleExpanded(event: Event): void {
-    this.expandedCode = this.expandedCode === event.code ? '' : event.code;
+  public toggleExpanded(code: string): void {
+    this.expandedCode = this.expandedCode === code ? '' : code;
   }
 
   public isExpanded(event: Event): boolean {
@@ -314,49 +214,6 @@ export default class EventsList extends Vue {
     );
   }
 
-  public testTypeText(type?: string): string {
-    switch (type) {
-      case 'ALPHA TEST': {
-        return 'α';
-      }
-      case 'BETA TEST': {
-        return 'β';
-      }
-      case '': {
-        return '';
-      }
-      case undefined: {
-        return '';
-      }
-    }
-    log.error(`Found unknown test type ${type}`);
-    return '';
-  }
-
-  public itemActionIcon(event: Event) {
-    return this.$store.state.agenda.contains(event.code)
-      ? 'remove_circle'
-      : 'add_circle';
-  }
-
-  public itemActionColor(event: Event) {
-    return this.$store.state.agenda.contains(event.code)
-      ? 'error'
-      : 'success';
-  }
-
-  public addButtonLabel(event: Event): string {
-    return this.$store.state.agenda.contains(event.code)
-      ? 'Remove from schedule'
-      : 'Add to schedule';
-  }
-
-  public expandButtonLabel(event: Event): string {
-    return this.isExpanded(event)
-      ? 'Collapse'
-      : 'Expand';
-  }
-
   public toggleEvent(event: Event) {
     this.$store.commit('toggleEvent', event.code);
   }
@@ -364,23 +221,6 @@ export default class EventsList extends Vue {
 </script>
 
 <style scoped lang="scss">
-.event-item-row {
-  border-bottom: 1px solid rgba(0,0,0,0.12);
-
-  &-expanded {
-    margin-bottom: 10px;
-  }
-
-  &-header {
-    padding: 12px 24px 12px 24px;
-    cursor: pointer;
-  }
-
-  &-body {
-    padding: 0px 24px 12px 24px;
-  }
-}
-
 .container.toolbar-container {
   padding: 0px;
 }
