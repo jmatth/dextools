@@ -134,6 +134,7 @@
                     text
                     icon
                     depressed
+                    :aria-label="expandButtonLabel(item)"
                   >
                     <v-icon dense>{{ isExpanded(item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
                   </v-btn>
@@ -142,6 +143,7 @@
                   <v-btn
                     text
                     icon
+                    :aria-label="addButtonLabel(item)"
                     @click.stop="toggleEvent(item)"
                   >
                     <v-icon
@@ -340,6 +342,18 @@ export default class EventsList extends Vue {
     return this.$store.state.agenda.contains(event.code)
       ? 'error'
       : 'success';
+  }
+
+  public addButtonLabel(event: Event): string {
+    return this.$store.state.agenda.contains(event.code)
+      ? 'Remove from schedule'
+      : 'Add to schedule';
+  }
+
+  public expandButtonLabel(event: Event): string {
+    return this.isExpanded(event)
+      ? 'Collapse'
+      : 'Expand';
   }
 
   public toggleEvent(event: Event) {
