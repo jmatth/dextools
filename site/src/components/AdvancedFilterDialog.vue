@@ -52,6 +52,7 @@
             clearable
             hide-details
             single-line
+            menu-props="below, offsetY"
           />
         </v-col>
         <v-col
@@ -115,6 +116,7 @@
             clearable
             hide-details
             single-line
+            menu-props="below, offsetY"
           />
         </v-col>
         <v-col cols="12" sm="4">
@@ -127,6 +129,7 @@
             clearable
             single-line
             hide-details
+            menu-props="below, offsetY"
           />
         </v-col>
       </v-row>

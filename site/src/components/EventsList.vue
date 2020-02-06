@@ -27,6 +27,7 @@
               clearable
               hide-details
               single-line
+              menu-props="below, offsetY"
             />
           </v-col>
           <v-col cols="1">
