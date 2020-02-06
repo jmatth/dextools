@@ -9,6 +9,7 @@
         left
         color="primary"
         class="mr-1"
+        aria-label="Previous day"
         @click="prevDay()"
       >
         <v-icon>
@@ -23,6 +24,7 @@
         left
         color="primary"
         class="mr-2"
+        aria-label="Next day"
         @click="nextDay()"
       >
         <v-icon>
