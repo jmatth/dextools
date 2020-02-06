@@ -73,19 +73,7 @@
         </v-col>
         <v-col cols="1">
           <v-layout row wrap>
-            <v-col cols="12" order="2" sm="6">
-              <v-btn
-                text
-                icon
-                depressed
-                :aria-label="expandButtonLabel(event)"
-              >
-                <v-icon class="event-item-row-header-expand-icon">
-                  keyboard_arrow_down
-                </v-icon>
-              </v-btn>
-            </v-col>
-            <v-col cols="12" order="1" sm="6">
+            <v-col cols="12" sm="6">
               <v-btn
                 text
                 icon
@@ -97,6 +85,18 @@
                   :color="itemActionColor(event)"
                 >
                   {{ itemActionIcon(event) }}
+                </v-icon>
+              </v-btn>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-btn
+                text
+                icon
+                depressed
+                :aria-label="expandButtonLabel(event)"
+              >
+                <v-icon class="event-item-row-header-expand-icon">
+                  keyboard_arrow_down
                 </v-icon>
               </v-btn>
             </v-col>
@@ -131,7 +131,11 @@ export default class EventsListItem extends Vue {
   public resizeTicker: boolean = false;
 
   public triggerResize(): void {
-    setTimeout(() => this.resizeTicker = !this.resizeTicker, 0);
+    this.resizeTicker = !this.resizeTicker;
+  }
+
+  public toggleEvent(event: Event) {
+    this.$store.commit('toggleEvent', event.code);
   }
 
   public testTypeText(type?: string): string {

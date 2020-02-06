@@ -213,19 +213,11 @@ export default class EventsList extends Vue {
         ].some((field) => (event[field] as string).toLowerCase().includes(this.filter.toLowerCase())))
     );
   }
-
-  public toggleEvent(event: Event) {
-    this.$store.commit('toggleEvent', event.code);
-  }
 }
 </script>
 
 <style scoped lang="scss">
 .container.toolbar-container {
   padding: 0px;
-}
-
-button.toolbar-btn {
-  margin-top: 6px;
 }
 </style>
