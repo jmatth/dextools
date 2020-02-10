@@ -1,4 +1,9 @@
 {
+  "test": "unused field, testing auto deploy script",
+  "conName": "Dreamation 2020",
+  "conEmail": "d2020@dexposure.com",
+  "feedbackUrl": "https://forms.gle/33xshmjG7znkhWct9",
+  "stitchApp": "dextools-crjjz",
   "schedule": [
     {
       "code": "L001",
