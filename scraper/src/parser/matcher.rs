@@ -63,7 +63,7 @@ impl Matcher<'_> {
 					.unwrap_or("".to_string());
 				let description = captures
 					.name("description")
-					.map(as_string)
+					.map(|m: Match| m.as_str().trim().to_string())
 					.unwrap_or("".to_string());
 				let raw_time = captures
 					.name("time")
