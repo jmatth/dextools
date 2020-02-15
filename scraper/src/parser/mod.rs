@@ -75,8 +75,8 @@ const RPG_REGEX: &str = "^\
                          (?P<code>[A-Z][0-9]+): \
                          ((?P<system>.*); )?\
                          \"(?P<title>.*?)\"\
-                         ( by (?P<authors>(([^ .;]\\.)+ |([^ .;]+)(,? )?)+))?\
-                         (( written and|;)? presented by (?P<presenters>(([^ .]\\.)+ |([^ .]+)(,? )?)+))?\\.+ \
+                         ( by (?P<authors>(([^ .;]\\.)+ |([^ .;]+)(\\.?, |\\.| )?)+))?\
+                         (( written and|;)? presented by (?P<presenters>(([^ .]\\.)+ |([^ .]+)(\\.?, |\\.| )?)+))?\\. \
                          (?P<description>.*) ?\
                          (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM)); \
                          (?P<round>[^;\\.]+)\
