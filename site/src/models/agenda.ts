@@ -59,6 +59,7 @@ export default class Agenda {
     // Couldn't find it
     if (eventIndex < 0) {
       log.warn(`Event code ${code} not found in agenda`);
+      return;
     }
     this.events.splice(eventIndex, 1);
     this._lastAdded = null;

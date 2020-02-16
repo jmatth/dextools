@@ -57,7 +57,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 import Event from '@/models/event';
 import { debounce } from 'lodash';
-import log from 'loglevel';
 
 @Component
 export default class ExportDialog extends Vue {
@@ -68,7 +67,6 @@ export default class ExportDialog extends Vue {
 
   constructor() {
     super();
-    log.info('constructing ExportDialog');
     this.updateUserNameStore = debounce(this.updateUserNameStore, 3000);
   }
 
@@ -78,7 +76,6 @@ export default class ExportDialog extends Vue {
   }
 
   public updateUserNameStore(name: string): void {
-    log.info(`Updating userName to ${name}`);
     this.$store.commit('setUserName', name);
   }
 
