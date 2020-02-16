@@ -45,23 +45,24 @@
 
     <v-divider/>
 
-    <v-expansion-panels accordion :style="{ height: dynamicScrollerHeight, overflowY: 'auto' }">
-      <EventsListItem
-        v-for="item in limitedItems"
-        :item="item"
-        :key="item.code"
-      />
-      <v-expansion-panel>
-        <v-expansion-panel-header
+    <v-list :style="{ height: dynamicScrollerHeight, overflowY: 'auto' }">
+      <template v-for="item in limitedItems">
+        <EventsListItem
+          :item="item"
+          :key="item.code"
+        />
+        <v-divider :key="item.code + '-divider'"/>
+      </template>
+      <v-list-item link v-show="haveMore">
+        <v-list-item-content
           hide-actions
-          v-if="haveMore"
           @click="showMore(true)"
           v-observe-visibility="showMore"
         >
           Show more
-        </v-expansion-panel-header>
-      </v-expansion-panel>
-    </v-expansion-panels>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
   </v-card>
 </template>
 

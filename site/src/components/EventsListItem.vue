@@ -1,6 +1,6 @@
 <template>
-  <v-expansion-panel>
-    <v-expansion-panel-header>
+  <v-list-item link>
+    <v-list-item-content @click="showEventDialog">
       <v-container fluid class="event-item-row-header">
         <v-row no-gutters>
           <v-col v-once>
@@ -64,27 +64,27 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-expansion-panel-header>
-    <v-expansion-panel-content>
-      {{ item.description }}
-      <br/>
-      <v-btn style="float: right;" :color="itemActionColor(item)" :loading="processing" @click="toggleEvent(item)">
-        {{ itemActionText(item) }}
-      </v-btn>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+    </v-list-item-content>
+    <EventInfoDialog v-model="focusedEvent"/>
+  </v-list-item>
 </template>
 
 <script lang="ts">
 import Event from '@/models/event';
+import EventInfoDialog from '@/components/EventInfoDialog.vue';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import log from 'loglevel';
 
-@Component
+@Component({
+  components: {
+    EventInfoDialog,
+  },
+})
 export default class EventsListItem extends Vue {
   @Prop({ type: Object }) private item!: Event;
 
   private processing: boolean = false;
+  private focusedEvent: Event | null = null;
 
   public testTypeText(type?: string): string {
     switch (type) {
@@ -105,24 +105,8 @@ export default class EventsListItem extends Vue {
     return '';
   }
 
-  public toggleEvent(event: Event) {
-    this.processing = true;
-    this.$nextTick(() => {
-      this.$store.commit('toggleEvent', event.code);
-      this.processing = false;
-    });
-  }
-
-  public itemActionColor(event: Event) {
-    return this.$store.state.agenda.contains(event.code)
-      ? 'error'
-      : 'success';
-  }
-
-  public itemActionText(event: Event) {
-    return this.$store.state.agenda.contains(event.code)
-      ? 'Remove'
-      : 'Add';
+  public showEventDialog(): void {
+    this.focusedEvent = this.item;
   }
 }
 </script>
