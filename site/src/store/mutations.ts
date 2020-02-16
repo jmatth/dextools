@@ -22,6 +22,7 @@ const mutations: MutationTree<RootState> = {
     state.agenda.removeEvent(code);
   },
   toggleEvent(state: RootState, code: string) {
+    log.debug(`Toggling event ${code}`);
     const event = state.schedule[code];
     if (!event) {
       log.error(`Trying to toggle event ${code} which does not exist in schedule.`);

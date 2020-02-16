@@ -35,6 +35,7 @@
       <v-btn
         min-width="80px"
         :color="toggleBtnColor"
+        :loading="processing"
         @click="toggleEvent"
         >
         {{ toggleBtnText }}
@@ -58,6 +59,8 @@ import log from 'loglevel';
 })
 export default class EventInfoDialog extends Vue {
   @Prop() private value!: Event;
+
+  private processing: boolean = false;
 
   private event: Event = new Event({
     code: '',
@@ -118,8 +121,12 @@ export default class EventInfoDialog extends Vue {
   }
 
   private toggleEvent(): void {
-    this.$store.commit('toggleEvent', this.event.code);
-    this.show = false;
+    this.processing = true;
+    this.$nextTick(() => {
+      this.show = false;
+      this.$store.commit('toggleEvent', this.event.code);
+      this.processing = false;
+    });
   }
 }
 </script>

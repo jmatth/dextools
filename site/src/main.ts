@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import './plugins/vuetify';
-import './plugins/virtual-scroller';
-import './plugins/clipboard2';
+import '@/plugins/virtual-scroller';
+import '@/plugins/clipboard2';
+import '@/plugins/observe-visibility';
 import Event from './models/event';
 import App from './App.vue';
 import moment from 'moment';
@@ -14,7 +14,7 @@ import router from '@/router';
 
 moment.tz.setDefault('America/New_York');
 
-log.setLevel(log.levels.INFO, false);
+log.setLevel(process.env.NODE_ENV === 'production' ? log.levels.INFO : log.levels.DEBUG, false);
 
 Vue.config.productionTip = false;
 

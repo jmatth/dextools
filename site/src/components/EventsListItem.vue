@@ -1,9 +1,9 @@
 <template>
-  <v-expansion-panel v-show="show">
+  <v-expansion-panel>
     <v-expansion-panel-header>
       <v-container fluid class="event-item-row-header">
         <v-row no-gutters>
-          <v-col cols="11" v-once>
+          <v-col v-once>
             <v-row no-gutters>
               <v-col cols="12" sm="5">
                 <span>{{ item.code }}: {{ item.title }}</span>
@@ -62,25 +62,15 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="1">
-            <v-btn
-              text
-              icon
-              @click.stop="toggleEvent(item)"
-            >
-              <v-icon
-                size="20"
-                :color="itemActionColor(item)"
-              >
-                {{ itemActionIcon(item) }}
-              </v-icon>
-            </v-btn>
-          </v-col>
         </v-row>
       </v-container>
     </v-expansion-panel-header>
-    <v-expansion-panel-content v-once>
+    <v-expansion-panel-content>
       {{ item.description }}
+      <br/>
+      <v-btn style="float: right;" :color="itemActionColor(item)" :loading="processing" @click="toggleEvent(item)">
+        {{ itemActionText(item) }}
+      </v-btn>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
@@ -92,8 +82,9 @@ import log from 'loglevel';
 
 @Component
 export default class EventsListItem extends Vue {
-  @Prop({ type: Boolean }) private show!: boolean;
   @Prop({ type: Object }) private item!: Event;
+
+  private processing: boolean = false;
 
   public testTypeText(type?: string): string {
     switch (type) {
@@ -115,7 +106,11 @@ export default class EventsListItem extends Vue {
   }
 
   public toggleEvent(event: Event) {
-    Promise.resolve(() => this.$store.commit('toggleEvent', event.code));
+    this.processing = true;
+    this.$nextTick(() => {
+      this.$store.commit('toggleEvent', event.code);
+      this.processing = false;
+    });
   }
 
   public itemActionColor(event: Event) {
@@ -124,10 +119,10 @@ export default class EventsListItem extends Vue {
       : 'success';
   }
 
-  public itemActionIcon(event: Event) {
+  public itemActionText(event: Event) {
     return this.$store.state.agenda.contains(event.code)
-      ? 'remove_circle'
-      : 'add_circle';
+      ? 'Remove'
+      : 'Add';
   }
 }
 </script>

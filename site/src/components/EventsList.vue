@@ -47,11 +47,20 @@
 
     <v-expansion-panels accordion :style="{ height: dynamicScrollerHeight, overflowY: 'auto' }">
       <EventsListItem
-        v-for="item in items"
-        :show="shouldShow(item)"
+        v-for="item in limitedItems"
         :item="item"
         :key="item.code"
       />
+      <v-expansion-panel>
+        <v-expansion-panel-header
+          hide-actions
+          v-if="haveMore"
+          @click="showMore(true)"
+          v-observe-visibility="showMore"
+        >
+          Show more
+        </v-expansion-panel-header>
+      </v-expansion-panel>
     </v-expansion-panels>
   </v-card>
 </template>
@@ -62,7 +71,7 @@ import Event from '../models/event';
 import EventsListItem from './EventsListItem.vue';
 import AdvancedFilterDialog from './AdvancedFilterDialog.vue';
 import { Moment } from 'moment';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Watch, Vue } from 'vue-property-decorator';
 import { debounce } from 'lodash';
 import log from 'loglevel';
 
@@ -101,6 +110,7 @@ export default class EventsList extends Vue {
   ];
   public expandedCode: string = '';
   public resizeTicker: boolean = false;
+  public maxItems = 25;
 
   constructor() {
     super();
@@ -121,8 +131,35 @@ export default class EventsList extends Vue {
     });
   }
 
-  public toggleExpanded(code: string): void {
-    this.expandedCode = this.expandedCode === code ? '' : code;
+  @Watch('categories')
+  @Watch('filter')
+  @Watch('advancedFilter')
+  public resetMaxItems(): void {
+    log.debug('Filters changed, reseting maxItems');
+    this.maxItems = 25;
+  }
+
+  get limitedItems(): any[] {
+    return this.filteredItems.slice(0, this.maxItems);
+  }
+
+  get filteredItems(): any[] {
+    return this.items.filter((e: Event) => this.shouldShow(e));
+  }
+
+  get haveMore(): boolean {
+    return this.maxItems < this.filteredItems.length;
+  }
+
+  public showMore(needMore: boolean): void {
+    if (!needMore) {
+      return;
+    }
+    this.maxItems = this.maxItems * 2;
+  }
+
+  public toggleExpanded(event: Event): void {
+    this.expandedCode = this.expandedCode === event.code ? '' : event.code;
   }
 
   public isExpanded(event: Event): boolean {
