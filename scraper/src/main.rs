@@ -2,6 +2,7 @@
 
 use std::fs::File;
 use std::io::Read;
+use std::io::Write;
 
 use chrono::naive::NaiveDate;
 use chrono::Datelike;
@@ -160,11 +161,9 @@ fn parse_events<R: Read>(
 	};
 	let config: &mut Map<String, Value> = config_val.as_object_mut()?;
 	config.insert(SCHEDULE_KEY.to_string(), json!(schedule));
-	let output = File::create(output_path)?;
-	match serde_json::to_writer_pretty(output, &config) {
-		Ok(_) => Ok(()),
-		Err(err) => Err(Error::JsonError(err)),
-	}
+	let mut output = File::create(output_path)?;
+	serde_json::to_writer_pretty(&output, &config)?;
+	output.write(b"\n").map(|_| ()).map_err(|e| Error::from(e))
 }
 
 fn get_start_date<'a>(container: &'a Node) -> Result<(i32, u32, u32), Error> {
