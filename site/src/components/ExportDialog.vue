@@ -65,8 +65,8 @@ export default class ExportDialog extends Vue {
   public copyMessage: string = '';
   public userName: string = '';
 
-  constructor() {
-    super();
+  public created() {
+    this.userName = this.$store.state.userName;
     this.updateUserNameStore = debounce(this.updateUserNameStore, 3000);
   }
 
