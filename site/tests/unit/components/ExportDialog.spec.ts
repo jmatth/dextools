@@ -27,6 +27,7 @@ describe('components/ExportDialog.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify();
     state = {
+      userName: '',
       agenda: new Agenda(),
     };
     store = new Vuex.Store({
