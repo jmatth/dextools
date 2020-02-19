@@ -76,6 +76,7 @@ import { debounce } from 'lodash';
 import log from 'loglevel';
 
 export interface AdvancedFilter {
+  sortBy: string;
   days: string[];
   filterStartTime?: any;
   hideFilled: boolean;
@@ -85,12 +86,13 @@ export interface AdvancedFilter {
 }
 
 export const emptyAdvancedFilter: AdvancedFilter = {
+  sortBy: 'time',
   days: [],
-    filterStartTime: undefined,
-    hideFilled: false,
-    hideConflicting: false,
-    hiTestFilter: null,
-    testTypes: [],
+  filterStartTime: undefined,
+  hideFilled: false,
+  hideConflicting: false,
+  hiTestFilter: null,
+  testTypes: [],
 };
 
 @Component({
@@ -102,7 +104,6 @@ export const emptyAdvancedFilter: AdvancedFilter = {
 export default class EventsList extends Vue {
   public categories: string[] = [];
   public filter: string = '';
-  public items?: Event[] = undefined;
   public advancedFilter: AdvancedFilter = Object.assign({}, emptyAdvancedFilter);
   public hiTestFilterOptions: any = [
     { text: 'Hide HI-Tests', value: false },
@@ -117,17 +118,25 @@ export default class EventsList extends Vue {
   }
 
   get scheduleEvents(): Event[] {
-    return Object.values(this.$store.state.schedule);
+    let sortFunc: (e1: Event, e2: Event) => number;
+    const sortByTime = (e1: Event, e2: Event) => e1.compare(e2);
+    const sortByCode = (e1: Event, e2: Event) => e1.compareCode(e2);
+    switch (this.advancedFilter.sortBy) {
+      case 'time':
+        sortFunc = sortByTime;
+        break;
+      case 'code':
+        sortFunc = sortByCode;
+        break;
+      default:
+        log.error(`Unrecognized sortBy value ${this.advancedFilter.sortBy}, defaulting to "time"`);
+        sortFunc = sortByTime;
+    }
+    return (Object.values(this.$store.state.schedule) as Event[]).sort(sortFunc);
   }
 
   public updateSearch(input: string|null): void {
     this.filter = input === null ? '' : input.trim();
-  }
-
-  public created(): void {
-    this.items = this.scheduleEvents.map((e: Event) => {
-      return Object.assign({}, e);
-    });
   }
 
   public toggleExpanded(code: string): void {
@@ -177,7 +186,7 @@ export default class EventsList extends Vue {
   }
 
   get filteredItems(): Event[] {
-    return this.items ? this.items.filter((e: Event) => this.shouldShow(e)) : [];
+    return this.scheduleEvents.filter((e: Event) => this.shouldShow(e));
   }
 
   get dynamicScrollerHeight(): string {

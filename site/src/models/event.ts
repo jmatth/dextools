@@ -3,6 +3,7 @@ import moment, { Moment } from 'moment';
 export default class Event {
   [key: string]: any;
   public code: string;
+  public codeNum: number;
   public title: string;
   public description: string;
   public system: string;
@@ -43,6 +44,7 @@ export default class Event {
     },
   ) {
     this.code = code;
+    this.codeNum = parseInt(code.substring(1), 10);
     this.title = title;
     this.description = description;
     this.system = system;
@@ -59,5 +61,22 @@ export default class Event {
     // Let's just say events don't conflict with themselves
     if (this.code === that.code) { return false; }
     return this.startTime.isBefore(that.endTime) && this.endTime.isAfter(that.startTime);
+  }
+
+  public compare(that: Event): number {
+    if (this.code === that.code) {
+      return 0;
+    }
+    if (this.startTime.isBefore(that.startTime)) {
+      return -1;
+    }
+    if (this.startTime.isAfter(that.startTime)) {
+      return 1;
+    }
+    return this.compareCode(that);
+  }
+
+  public compareCode(that: Event): number {
+    return this.codeNum < that.codeNum ? -1 : 1;
   }
 }

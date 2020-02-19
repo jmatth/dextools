@@ -112,4 +112,35 @@ describe('models/event.ts', function() {
       expect(event1.conflicts(event2)).to.be.false;
     });
   });
+
+  describe('compare', function() {
+    it('considers events with the same code to be equal', function() {
+      const event1 = createEvent({ code: 'R001' });
+      const event2 = createEvent({ code: 'R001' });
+      expect(event1.compare(event2)).to.equal(0);
+      expect(event2.compare(event1)).to.equal(0);
+    });
+
+    it('sorts earlier events before later events', function() {
+      const event1 = createEvent({
+        code: 'R001',
+        start_time: '2020-02-19 09:00',
+        end_time: '2020-02-19 13:00',
+      });
+      const event2 = createEvent({
+        code: 'R002',
+        start_time: '2020-02-19 10:00',
+        end_time: '2020-02-19 12:00',
+      });
+      expect(event1.compare(event2)).to.be.below(0);
+      expect(event2.compare(event1)).to.be.above(0);
+    });
+
+    it('sorts events with the same start time by code number', function() {
+      const event1 = createEvent({ code: 'R001' });
+      const event2 = createEvent({ code: 'R002' });
+      expect(event1.compare(event2)).to.be.below(0);
+      expect(event2.compare(event1)).to.be.above(0);
+    });
+  });
 });

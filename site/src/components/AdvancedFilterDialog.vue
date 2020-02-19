@@ -13,8 +13,23 @@
     <v-container fluid class="pa-0">
       <v-row dense align="center">
         <v-col
-          cols="6" order="3"
-          sm="4" order-sm="2"
+          cols="12" order="1"
+          sm="7" order-sm="1"
+        >
+          <v-select
+            v-model="advancedFilterIndex.sortBy"
+            :items="availableSorts"
+            label="Sort"
+            outlined
+            dense
+            hide-details
+            single-line
+            menu-props="below, offsetY"
+          />
+        </v-col>
+        <v-col
+          cols="6" order="4"
+          sm="4" order-sm="3"
         >
           <v-switch
             class="mt-0 pl-sm-1"
@@ -25,8 +40,8 @@
           />
         </v-col>
         <v-col
-          cols="6" order="4"
-          sm="4" order-sm="4"
+          cols="6" order="5"
+          sm="4" order-sm="5"
         >
           <v-switch
             class="mt-0 pl-sm-1"
@@ -37,8 +52,8 @@
           />
         </v-col>
         <v-col
-          cols="12" order="1"
-          sm="7" order-sm="1"
+          cols="12" order="2"
+          sm="7" order-sm="2"
         >
           <v-select
             v-model.lazy="advancedFilterIndex.days"
@@ -56,8 +71,8 @@
           />
         </v-col>
         <v-col
-          cols="12" order="2"
-          sm="7" order-sm="3"
+          cols="12" order="3"
+          sm="7" order-sm="4"
         >
           <v-dialog
             ref="startTimeDialog"
@@ -169,6 +184,16 @@ export default class AdvancedFilterDialog extends Vue {
   @Prop() private includeMetatopiaFilters!: boolean;
   @Prop() private parentFilter!: AdvancedFilter;
 
+  private availableSorts: object[] = [
+    {
+      text: 'Sort by time',
+      value: 'time',
+    },
+    {
+      text: 'Sort by code',
+      value: 'code',
+    },
+  ];
   private showAdvancedFilter: boolean = false;
   private filterStartTimeMenu: boolean = false;
   private filterStartTimeIndex: string = '';
