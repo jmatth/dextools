@@ -43,10 +43,17 @@ const actions: ActionTree<RootState, RootState> = {
       context.commit('finishLoading');
       return settings;
     }).then((settings: any) => {
+      if (process.env.NODE_ENV !== 'production') {
+        // If you want to run with analytics locally, be sure to disable vuex
+        // strict mode. Committing the stitch client to the store in strict
+        // mode causes infinite recursion errors.
+        log.warn('Not in production, ignoring analytics settings.');
+        return;
+      }
       const stitchAppId = settings.stitchApp;
       if (!stitchAppId) {
         log.warn('No stitch app configured, not sending analytics.');
-        return Promise.resolve();
+        return;
       }
       const client = Stitch.initializeDefaultAppClient(stitchAppId);
       return client.auth.loginWithCredential(new AnonymousCredential())
