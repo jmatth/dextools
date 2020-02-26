@@ -74,16 +74,7 @@ fn parse_events<R: Read>(
 	let mut bg3_nodes = doc.find(pred::And(pred::Name("td"), pred::Class("bg3")));
 	let container = bg3_nodes.next().unwrap();
 	// Bail if there's more than one possible container
-	// html body table tbody tr td.bg1 table tbody tr td table tbody tr td table tbody tr td.bg3 center h2
 	assert_eq!(None, bg3_nodes.next());
-
-	// assert_eq!(
-	//     NUM_RULES,
-	//     container
-	//         .children()
-	//         .filter(|n| n.is(pred::Name("hr")))
-	//         .count()
-	// );
 
 	let (start_year, start_month, start_day) = get_start_date(&container)?;
 	let date_parser = DateParser::new(start_year, start_month, start_day, CON_TIMEZONE);
