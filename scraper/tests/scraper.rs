@@ -3,7 +3,7 @@ use tempfile::NamedTempFile;
 
 fn verify_output(input_path: &str, expected_path: &str) {
 	let output = NamedTempFile::new().unwrap();
-	let mut scrape_cmd = Command::cargo_bin("dexposure-scraper").unwrap();
+	let mut scrape_cmd = Command::cargo_bin("dextools-scraper").unwrap();
 	scrape_cmd
 		.arg("-i")
 		.arg(input_path)

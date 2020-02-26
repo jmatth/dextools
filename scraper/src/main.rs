@@ -6,7 +6,7 @@ use std::io::Write;
 
 use chrono::naive::NaiveDate;
 use chrono::Datelike;
-use clap::{App, Arg};
+use clap::{crate_authors, crate_name, crate_version, load_yaml, App};
 use lazy_static::lazy_static;
 use regex::Regex;
 use select::document::Document;
@@ -33,81 +33,20 @@ const DATE_REGEX: &str = "^(?P<weekday>Monday|Tuesday|Wednesday|Thursday|Friday|
 						  (?P<year>[0-9]{4})";
 
 fn main() -> Result<(), Error> {
-	let matches = App::new("Dextools scraper")
-		.version("1.0")
-		.author("Joshua Matthews <josh@jmatth.com>")
-		.about("Scrapes the schedule for conventions by Double Exposure into JSON format")
-		.arg(
-			Arg::with_name("input")
-				.short("i")
-				.long("input")
-				.value_name("INPUT")
-				.help("Where to read the input from, either file or url")
-				.required(true)
-				.takes_value(true),
-		)
-		.arg(
-			Arg::with_name("output")
-				.short("o")
-				.long("output")
-				.value_name("OUTPUT")
-				.help("File to write resulting JSON to")
-				.required(false)
-				.takes_value(true),
-		)
-		.arg(
-			Arg::with_name("cache")
-				.short("c")
-				.long("cache")
-				.value_name("CACHE")
-				.help("File to store HTTP cache headers")
-				.required(false)
-				.takes_value(true),
-		)
-		// .arg(
-		// 	Arg::with_name("start_date")
-		// 		.short("d")
-		// 		.long("startDate")
-		// 		.value_name("START_DATE")
-		// 		.help("First day of the convention in the format YYYY-mm-dd")
-		// 		.required(true)
-		// 		.takes_value(true),
-		// )
-		.arg(
-			Arg::with_name("template_config")
-				.short("t")
-				.long("templateConfig")
-				.value_name("TEMPLATE_CONFIG_FILE")
-				.help("The base json config to insert the events array into")
-				.required(false)
-				.takes_value(true),
-		)
+	let app_yaml = load_yaml!("cli.yml");
+	let matches = App::from_yaml(app_yaml)
+		.name(crate_name!())
+		.version(crate_version!())
+		.author(crate_authors!())
 		.get_matches();
 	let input = matches
 		.value_of("input")
 		.ok_or("Missing required flag 'input'")?;
-	let output = matches.value_of("output").unwrap_or("./schedule.json");
+	let output = matches
+		.value_of("output")
+		.ok_or("Missing required flag 'output'")?;
 	let config_template_path = matches.value_of("template_config").unwrap_or("");
 	let cache = matches.value_of("cache").unwrap_or("/dev/null");
-	// let mut start_date_strs = matches
-	// 	.value_of("start_date")
-	// 	.ok_or("Missing required flag 'start_date'")?
-	// 	.splitn(3, "-");
-	// let start_date_year = start_date_strs
-	// 	.next()
-	// 	.ok_or("Provided start_date is invalid: could not parse year")?
-	// 	.parse::<i32>()
-	// 	.unwrap();
-	// let start_date_month = start_date_strs
-	// 	.next()
-	// 	.ok_or("Provided start_date is invalid: could not parse month")?
-	// 	.parse::<u32>()
-	// 	.unwrap();
-	// let start_date_day = start_date_strs
-	// 	.next()
-	// 	.ok_or("Provided start_date is invalid: could not parse day")?
-	// 	.parse::<u32>()
-	// 	.unwrap();
 	let client = client::CachingClient::new(cache)?;
 	if input.starts_with("http://") || input.starts_with("https://") {
 		let scrape_result = client.scrape_site(input)?;

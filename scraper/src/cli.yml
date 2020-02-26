@@ -1,0 +1,31 @@
+name: dextools-scraper
+about: Scrapes the schedule for conventions by Double Exposure into JSON format
+args:
+    - input:
+        short: i
+        long: input
+        value_name: INPUT
+        help: Where to read the input from, either file or url
+        takes_value: true
+        required: true
+    - output:
+        short: o
+        long: output
+        value_name: OUTPUT
+        help: File to write resulting JSON to
+        takes_value: true
+        required: true
+    - cache:
+        short: c
+        long: cache
+        value_name: CACHE
+        help: File to store HTTP cache headers
+        takes_value: true
+        required: false
+    - template_config:
+        short: t
+        long: templateConfig
+        value_name: TEMPLATE_CONFIG_FILE
+        help: The base json config to insert the events array into
+        takes_value: true
+        required: false
