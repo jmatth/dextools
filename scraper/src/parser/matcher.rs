@@ -142,6 +142,9 @@ impl Matcher<'_> {
 				let advancement = remaining
 					.to_lowercase()
 					.contains("this is an advancement session and cannot be selected.");
+				let hi_test = remaining
+					.to_lowercase()
+					.contains("this is a hi-test session");
 				let (start_time, end_time) = self.date_parser.parse_time_slot(&raw_time)?;
 				Some(Event {
 					code,
@@ -163,6 +166,7 @@ impl Matcher<'_> {
 					previous_rounds,
 					see_also,
 					test_type,
+					hi_test,
 					#[cfg(feature = "debug-json")]
 					debug: EventDebug {
 						matched_by: self.id.to_string(),
