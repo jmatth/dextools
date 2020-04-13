@@ -49,10 +49,18 @@ impl Matcher<'_> {
 					.name("system")
 					.map(as_string)
 					.unwrap_or("".to_string());
-				let title = captures
+				let mut title = captures
 					.name("title")
 					.map(as_string)
 					.unwrap_or("".to_string());
+				let title_trailing_dots = captures
+					.name("titleTrailingDots")
+					.map(as_string)
+					.unwrap_or(".".to_string());
+				if title_trailing_dots.len() > 1 {
+					title.push_str(&title_trailing_dots[1..]);
+				}
+				let title = title;
 				let authors = captures
 					.name("authors")
 					.map(as_string)

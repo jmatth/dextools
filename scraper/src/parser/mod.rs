@@ -93,9 +93,10 @@ const RPG_REGEX: &str = "^\
                          (?P<remaining>.*)?\
 						 $";
 
+// FIXME: The elipsis special case in title is a bit of a hack, maybe circle back to improve it.
 const GAME_REGEX: &str = "^\
                           (?P<code>[A-Z][0-9]+): \
-                          (?P<title>.*?)\\. \
+                          (?P<title>((([^ .]\\.){2,}|(\\.{3})?[^ .]+(\\.{3})?) ?)+)(?P<titleTrailingDots>(\\.+)) \
                           (?P<description>.*) \
                           (?P<time>(Wednesday|Thursday|Friday|Saturday|Sunday), [0-9]{1,2}:[0-9]{2}(AM|PM) - [0-9]{1,2}:[0-9]{2}(AM|PM)); \
                           (?P<round>[^;\\.]+)\
@@ -124,7 +125,7 @@ const CANCELLED_REGEX: &str = "^\
 const METATOPIA_REGEX: &str = "^\
                                ((?P<filled>\\[FILLED\\]) )?\
                                (?P<code>[A-Z][0-9]+): \
-                               (\\[(?P<test_type>.*)\\] )?\
+                               \\[(?P<test_type>.*)\\] \
                                \"(?P<title>.*?)\"\
                                ( by (?P<authors>.*?))?\
                                (( written and|;)? presented by (?P<presenters>(.*?(, )?)+))?\\. \
@@ -141,10 +142,10 @@ where
 		static ref CODE_RE: Regex = Regex::new(CODE_REGEX).unwrap();
 	}
 	let matchers = [
+		matcher::Matcher::new("metatopia", METATOPIA_REGEX, date_parser),
 		matcher::Matcher::new("rpg", RPG_REGEX, date_parser),
 		matcher::Matcher::new("game", GAME_REGEX, date_parser),
 		matcher::Matcher::new("cancelled", CANCELLED_REGEX, date_parser),
-		matcher::Matcher::new("metatopia", METATOPIA_REGEX, date_parser),
 	];
 
 	let mut events_map: IndexMap<String, Event> = IndexMap::with_capacity(1024);
