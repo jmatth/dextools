@@ -45,6 +45,10 @@ impl Matcher<'_> {
 					.name("code")
 					.map(as_string)
 					.unwrap_or("".to_string());
+				let test_type = captures
+					.name("test_type")
+					.map(as_string)
+					.unwrap_or("".to_string());
 				let system = captures
 					.name("system")
 					.map(as_string)
@@ -158,6 +162,7 @@ impl Matcher<'_> {
 					next_rounds,
 					previous_rounds,
 					see_also,
+					test_type,
 					#[cfg(feature = "debug-json")]
 					debug: EventDebug {
 						matched_by: self.id.to_string(),
