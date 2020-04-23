@@ -1,5 +1,11 @@
 <template>
   <v-app id="app">
+    <Dialog
+      v-model="notice"
+      title="Notice"
+    >
+      <p class="text-justify" v-html="$store.state.notice"/>
+    </Dialog>
     <NavDrawer v-model="showNav"/>
     <v-app-bar
       color="indigo"
@@ -68,6 +74,7 @@ export default class App extends Vue {
   public showNav: boolean | null = null;
   public about = false;
   public feedback = false;
+  public notice = false;
 
   // These are specific to the SW update process.
   public updateExists = false;
@@ -107,7 +114,9 @@ export default class App extends Vue {
   }
 
   public mounted(): void {
-    this.$store.dispatch('loadSettings');
+    this.$store.dispatch('loadSettings').then(() => {
+      this.notice = !!this.$store.state.notice;
+    });
   }
 }
 </script>

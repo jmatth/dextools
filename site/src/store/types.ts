@@ -17,4 +17,5 @@ export interface RootState {
     stitchClient: StitchAppClient | null;
     visitId: string;
     feedbackUrl: string;
+    notice: string;
 }

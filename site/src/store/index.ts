@@ -24,6 +24,7 @@ const store: StoreOptions<RootState> = {
     stitchClient: null,
     visitId: '',
     feedbackUrl: '',
+    notice: '',
   },
   mutations,
   actions,

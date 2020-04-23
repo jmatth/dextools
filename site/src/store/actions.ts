@@ -16,6 +16,7 @@ const actions: ActionTree<RootState, RootState> = {
       context.commit('setConEmail', settings.conEmail);
       context.commit('setFeedbackUrl', settings.feedbackUrl);
       context.commit('setIsMetatopia', settings.isMetatopia);
+      context.commit('setNotice', settings.notice);
       const schedule = settings.schedule.reduce((acc: any, event: any) => {
         acc[event.code] = new Event(event);
         return acc;

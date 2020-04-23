@@ -51,6 +51,9 @@ const mutations: MutationTree<RootState> = {
   setFeedbackUrl(state: RootState, newUrl: string) {
     state.feedbackUrl = newUrl;
   },
+  setNotice(state: RootState, newNotice: string) {
+    state.notice = newNotice;
+  },
   setIsMetatopia(state: RootState, isMetatopia: boolean) {
     state.isMetatopia = isMetatopia;
   },
