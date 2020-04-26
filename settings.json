@@ -3,7 +3,7 @@
   "conEmail": "",
   "feedbackUrl": "https://forms.gle/33xshmjG7znkhWct9",
   "stitchApp": "dextools-crjjz",
-  "notice": "Due to the ongoing COVID-19 pandemic, Double Exposure is currently evaluating whether to run Dexcon 23. They expect to make a decision by May 15th. Please check <a target=\"_blank\" href=\"https://www.dexposure.com/dexcon23.html\">the official site</a> for the latest updates. If Dexcon 23 does happen then Dextools will be updated with the schedule whenever that is released.",
+  "notice": "Due to the ongoing COVID-19 pandemic, Double Exposure is currently evaluating whether to run Dexcon 23. They expect to make a decision by May 15th. Please check <a target=\"_blank\" href=\"https://www.dexposure.com/dexcon23.html\">the official site</a> for the latest updates. If Dexcon 23 does happen then Dextools will be updated whenver the schedule is released.",
   "schedule": [
     {
       "code": "L001",
