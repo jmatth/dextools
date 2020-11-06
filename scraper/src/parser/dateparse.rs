@@ -78,14 +78,6 @@ impl DateParser {
 
 		// Construct date objects from the extracted values
 		let parsed_day: Weekday = day.parse().unwrap();
-		// If it starts at midnight, roll it forward a day. They treat midnight
-		// like it's the last moment of the day, while computers consider it the
-		// first moment of the day.
-		let parsed_day = if start_hrs == 0 {
-			parsed_day.succ()
-		} else {
-			parsed_day
-		};
 		let start_offset: i64 = self.get_day_offset(&parsed_day).try_into().unwrap();
 		let end_offset = start_offset + if start_is_pm && !end_is_pm { 1 } else { 0 };
 		let start_time_naive =
@@ -202,7 +194,7 @@ mod tests {
 	#[test]
 	fn test_start_at_midnight() {
 		test_parser(
-			&"Thursday, 12:00AM - 4:00AM",
+			&"Friday, 12:00AM - 4:00AM",
 			&"Fri, 23 Feb 2018 00:00:00 -0500",
 			&"Fri, 23 Feb 2018 04:00:00 -0500",
 		);
@@ -237,7 +229,7 @@ mod tests {
 			assert_eq!("Sun, 03 Nov 2019 03:00:00 -0500", end.to_rfc2822());
 		}
 		{
-			let parsed = parser.parse_time_slot(&"Saturday, 12:00AM - 1:00AM".to_string());
+			let parsed = parser.parse_time_slot(&"Sunday, 12:00AM - 1:00AM".to_string());
 			assert!(parsed.is_some(), "Parser returned None");
 			let (start, end) = parsed.unwrap();
 			assert_eq!("Sun, 03 Nov 2019 00:00:00 -0400", start.to_rfc2822());
