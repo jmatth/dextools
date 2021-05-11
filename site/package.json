@@ -13,7 +13,7 @@
     "core-js": "^3.6.2",
     "file-saver": "^2.0.1",
     "ics": "^2.18.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "loglevel": "^1.6.6",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
